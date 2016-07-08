@@ -4,7 +4,7 @@ module.exports = {
 
   save: function(req, res) {
     if (req.body) {
-      City.saveData(req.body, res.callback);
+      Config.saveData(req.body, res.callback);
     } else {
       res.json({
         value: false,
@@ -16,7 +16,7 @@ module.exports = {
   getOne: function(req, res) {
 
     if (req.body) {
-      City.getOne(req.body, res.callback);
+      Config.getOne(req.body, res.callback);
     } else {
       res.json({
         value: false,
@@ -27,7 +27,7 @@ module.exports = {
 
   delete: function(req, res) {
     if (req.body) {
-      City.deleteData(req.body, res.callback);
+      Config.deleteData(req.body, res.callback);
     } else {
       res.json({
         value: false,
@@ -41,7 +41,7 @@ module.exports = {
       Global.response(err, data, res);
     }
     if (req.body) {
-      City.getAll(req.body, res.callback);
+      Config.getAll(req.body, res.callback);
     } else {
       res.json({
         value: false,
@@ -53,7 +53,7 @@ module.exports = {
   findLimited: function(req, res) {
     if (req.body) {
       if (req.body.pagenumber && req.body.pagenumber !== "" && req.body.pagesize && req.body.pagesize !== "") {
-        City.findLimited(req.body, res.callback);
+        Config.findLimited(req.body, res.callback);
       } else {
         res.json({
           value: false,

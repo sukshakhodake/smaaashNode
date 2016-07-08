@@ -7,8 +7,9 @@ var schema = new Schema({
     default: ""
   },
   city: {
-    type: String,
-    default: ""
+    type: Schema.Types.ObjectId,
+    ref: 'City',
+    index: true
   }
 
 });
