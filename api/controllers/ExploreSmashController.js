@@ -2,7 +2,7 @@ module.exports = {
 
   save: function(req, res) {
     if (req.body) {
-      Event.saveData(req.body, res.callback);
+      ExploreSmash.saveData(req.body, res.callback);
     } else {
       res.json({
         value: false,
@@ -14,7 +14,7 @@ module.exports = {
   getOne: function(req, res) {
 
     if (req.body) {
-      Event.getOne(req.body, res.callback);
+      ExploreSmash.getOne(req.body, res.callback);
     } else {
       res.json({
         value: false,
@@ -25,7 +25,7 @@ module.exports = {
 
   delete: function(req, res) {
     if (req.body) {
-      Event.deleteData(req.body, res.callback);
+      ExploreSmash.deleteData(req.body, res.callback);
     } else {
       res.json({
         value: false,
@@ -39,7 +39,7 @@ module.exports = {
       Global.response(err, data, res);
     }
     if (req.body) {
-      Event.getAll(req.body, res.callback);
+      ExploreSmash.getAll(req.body, res.callback);
     } else {
       res.json({
         value: false,
@@ -51,7 +51,7 @@ module.exports = {
   findLimited: function(req, res) {
     if (req.body) {
       if (req.body.pagenumber && req.body.pagenumber !== "" && req.body.pagesize && req.body.pagesize !== "") {
-        Event.findLimited(req.body, res.callback);
+        ExploreSmash.findLimited(req.body, res.callback);
       } else {
         res.json({
           value: false,

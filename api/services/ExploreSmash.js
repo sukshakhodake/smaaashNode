@@ -158,7 +158,7 @@ var models = {
     async.parallel([
         function(callback) {
           ExploreSmash.count({
-            name: {
+            title: {
               '$regex': check
             }
           }).exec(function(err, number) {
@@ -176,10 +176,11 @@ var models = {
         },
         function(callback) {
           ExploreSmash.find({
-            name: {
+            title: {
               '$regex': check
             }
           }).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).exec(function(err, data2) {
+            console.log(data2);
             if (err) {
               console.log(err);
               callback(err, null);
