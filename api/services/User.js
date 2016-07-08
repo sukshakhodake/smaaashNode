@@ -23,6 +23,12 @@ var schema = new Schema({
     default: ""
   },
   profilePic: {
+    type:{
+      image: String
+        }
+  },
+
+  plan: {
     type: String,
     default: ""
   },
@@ -30,7 +36,12 @@ var schema = new Schema({
     type: String,
     default: ""
   },
-  designation: {
+  email: {
+    type: String,
+    default: ""
+  },
+  status: Boolean,
+  accesslevel: {
     type: String,
     default: ""
   }

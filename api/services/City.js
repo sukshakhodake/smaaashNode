@@ -11,8 +11,9 @@ var schema = new Schema({
     default: ""
   },
   image: {
-    type: String,
-    default: ""
+    type:{
+      image: String
+        }
   },
   instagram: {
     type: String,
