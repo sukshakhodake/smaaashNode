@@ -1,10 +1,8 @@
-var request = require('request');
-var redirect = "http://jaipurpinkpanthers.com/pantherworld/#/panther-army/level1";
 module.exports = {
 
   save: function(req, res) {
     if (req.body) {
-      City.saveData(req.body, res.callback);
+      Slider.saveData(req.body, res.callback);
     } else {
       res.json({
         value: false,
@@ -16,7 +14,7 @@ module.exports = {
   getOne: function(req, res) {
 
     if (req.body) {
-      City.getOne(req.body, res.callback);
+      Slider.getOne(req.body, res.callback);
     } else {
       res.json({
         value: false,
@@ -27,7 +25,7 @@ module.exports = {
 
   delete: function(req, res) {
     if (req.body) {
-      City.deleteData(req.body, res.callback);
+      Slider.deleteData(req.body, res.callback);
     } else {
       res.json({
         value: false,
@@ -41,7 +39,7 @@ module.exports = {
       Global.response(err, data, res);
     }
     if (req.body) {
-      City.getAll(req.body, res.callback);
+      Slider.getAll(req.body, res.callback);
     } else {
       res.json({
         value: false,
@@ -53,7 +51,7 @@ module.exports = {
   findLimited: function(req, res) {
     if (req.body) {
       if (req.body.pagenumber && req.body.pagenumber !== "" && req.body.pagesize && req.body.pagesize !== "") {
-        City.findLimited(req.body, res.callback);
+        Slider.findLimited(req.body, res.callback);
       } else {
         res.json({
           value: false,

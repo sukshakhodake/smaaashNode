@@ -2,10 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var schema = new Schema({
-  name: {
-    type: String,
-    default: ""
-  },
+
   order: {
     type: String,
     default: ""
@@ -14,26 +11,18 @@ var schema = new Schema({
     type: String,
     default: ""
   },
-  instagram: {
+  city: {
     type: String,
     default: ""
-  },
-  facebook: {
-    type: String,
-    default: ""
-  },
-  twitter: {
-    type: String,
-    default: ""
-  },
+  }
 
 });
 
-module.exports = mongoose.model('City', schema);
+module.exports = mongoose.model('Slider', schema);
 var models = {
   saveData: function(data, callback) {
-    var city = this(data);
-    city.timestamp = new Date();
+    var slider = this(data);
+    slider.timestamp = new Date();
     if (data._id) {
       this.findOneAndUpdate({
         _id: data._id
@@ -48,7 +37,7 @@ var models = {
         }
       });
     } else {
-      city.save(function(err, created) {
+      slider.save(function(err, created) {
         if (err) {
           callback(err, null);
         } else if (created) {
@@ -106,7 +95,7 @@ var models = {
     data.pagesize = parseInt(data.pagesize);
     async.parallel([
         function(callback) {
-          City.count({
+          Slider.count({
             name: {
               '$regex': check
             }
@@ -124,7 +113,7 @@ var models = {
           });
         },
         function(callback) {
-          City.find({
+          Slider.find({
             name: {
               '$regex': check
             }

@@ -2,38 +2,22 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var schema = new Schema({
-  name: {
+  url: {
     type: String,
     default: ""
   },
-  order: {
+  city: {
     type: String,
     default: ""
-  },
-  image: {
-    type: String,
-    default: ""
-  },
-  instagram: {
-    type: String,
-    default: ""
-  },
-  facebook: {
-    type: String,
-    default: ""
-  },
-  twitter: {
-    type: String,
-    default: ""
-  },
+  }
 
 });
 
-module.exports = mongoose.model('City', schema);
+module.exports = mongoose.model('Config', schema);
 var models = {
   saveData: function(data, callback) {
-    var city = this(data);
-    city.timestamp = new Date();
+    var config = this(data);
+    config.timestamp = new Date();
     if (data._id) {
       this.findOneAndUpdate({
         _id: data._id
@@ -48,7 +32,7 @@ var models = {
         }
       });
     } else {
-      city.save(function(err, created) {
+      config.save(function(err, created) {
         if (err) {
           callback(err, null);
         } else if (created) {
@@ -106,7 +90,7 @@ var models = {
     data.pagesize = parseInt(data.pagesize);
     async.parallel([
         function(callback) {
-          City.count({
+          Config.count({
             name: {
               '$regex': check
             }
@@ -124,7 +108,7 @@ var models = {
           });
         },
         function(callback) {
-          City.find({
+          Config.find({
             name: {
               '$regex': check
             }
