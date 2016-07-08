@@ -127,7 +127,11 @@ var models = {
             name: {
               '$regex': check
             }
-          }).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).exec(function(err, data2) {
+          }).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).populate("city", "_id  name", null, {
+            sort: {}
+          }).populate("user", "_id  name", null, {
+            sort: {}
+          }).lean().exec(function(err, data2) {
             if (err) {
               console.log(err);
               callback(err, null);

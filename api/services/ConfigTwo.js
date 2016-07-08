@@ -92,7 +92,7 @@ var models = {
     async.parallel([
         function(callback) {
           ConfigTwo.count({
-            name: {
+            url: {
               '$regex': check
             }
           }).exec(function(err, number) {
@@ -110,10 +110,12 @@ var models = {
         },
         function(callback) {
           ConfigTwo.find({
-            name: {
+            url: {
               '$regex': check
             }
-          }).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).exec(function(err, data2) {
+          }).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).populate("city", "_id  name", null, {
+            sort: {}
+          }).lean().exec(function(err, data2) {
             if (err) {
               console.log(err);
               callback(err, null);
