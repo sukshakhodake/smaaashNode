@@ -2,7 +2,16 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var schema = new Schema({
-  url: {
+
+  number: {
+    type: String,
+    default: ""
+  },
+  amount: {
+    type: String,
+    default: ""
+  },
+  name: {
     type: String,
     default: ""
   },
@@ -10,15 +19,20 @@ var schema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'City',
     index: true
+  },
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    index: true
   }
 
 });
 
-module.exports = mongoose.model('Config', schema);
+module.exports = mongoose.model('Promotion', schema);
 var models = {
   saveData: function(data, callback) {
-    var config = this(data);
-    config.timestamp = new Date();
+    var promotion = this(data);
+    promotion.timestamp = new Date();
     if (data._id) {
       this.findOneAndUpdate({
         _id: data._id
@@ -33,7 +47,7 @@ var models = {
         }
       });
     } else {
-      config.save(function(err, created) {
+      promotion.save(function(err, created) {
         if (err) {
           callback(err, null);
         } else if (created) {
@@ -91,7 +105,7 @@ var models = {
     data.pagesize = parseInt(data.pagesize);
     async.parallel([
         function(callback) {
-          Config.count({
+          Promotion.count({
             name: {
               '$regex': check
             }
@@ -109,7 +123,7 @@ var models = {
           });
         },
         function(callback) {
-          Config.find({
+          Promotion.find({
             name: {
               '$regex': check
             }
