@@ -8,8 +8,9 @@ var schema = new Schema({
     default: ""
   },
   image: {
-    type: String,
-    default: ""
+    type:{
+      image: String
+        }
   },
   city: {
     type: Schema.Types.ObjectId,
@@ -109,7 +110,9 @@ var models = {
           });
         },
         function(callback) {
-          Slider.find().skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).exec(function(err, data2) {
+          Slider.find().skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).populate("city", "_id  name", null, {
+            sort: {}
+          }).lean().exec(function(err, data2) {
             if (err) {
               console.log(err);
               callback(err, null);
