@@ -80,11 +80,11 @@ var schema = new Schema({
   images: [],
 });
 
-module.exports = mongoose.model('Event', schema);
+module.exports = mongoose.model('ExploreSmash', schema);
 var models = {
   saveData: function(data, callback) {
-    var event = this(data);
-    event.timestamp = new Date();
+    var exploresmash = this(data);
+    exploresmash.timestamp = new Date();
     if (data._id) {
       this.findOneAndUpdate({
         _id: data._id
@@ -99,7 +99,7 @@ var models = {
         }
       });
     } else {
-      event.save(function(err, created) {
+      exploresmash.save(function(err, created) {
         if (err) {
           callback(err, null);
         } else if (created) {
@@ -157,7 +157,7 @@ var models = {
     data.pagesize = parseInt(data.pagesize);
     async.parallel([
         function(callback) {
-          Event.count({
+          ExploreSmash.count({
             name: {
               '$regex': check
             }
@@ -175,7 +175,7 @@ var models = {
           });
         },
         function(callback) {
-          Event.find({
+          ExploreSmash.find({
             name: {
               '$regex': check
             }

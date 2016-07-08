@@ -91,16 +91,11 @@ var models = {
   findLimited: function(data, callback) {
     var newreturns = {};
     newreturns.data = [];
-    var check = new RegExp(data.search, "i");
     data.pagenumber = parseInt(data.pagenumber);
     data.pagesize = parseInt(data.pagesize);
     async.parallel([
         function(callback) {
-          Slider.count({
-            name: {
-              '$regex': check
-            }
-          }).exec(function(err, number) {
+          Slider.count().exec(function(err, number) {
             if (err) {
               console.log(err);
               callback(err, null);
@@ -114,11 +109,7 @@ var models = {
           });
         },
         function(callback) {
-          Slider.find({
-            name: {
-              '$regex': check
-            }
-          }).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).exec(function(err, data2) {
+          Slider.find().skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).exec(function(err, data2) {
             if (err) {
               console.log(err);
               callback(err, null);
