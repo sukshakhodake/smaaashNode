@@ -2,7 +2,7 @@ module.exports = {
 
   save: function(req, res) {
     if (req.body) {
-      Recharge.saveData(req.body, res.callback);
+      Promotion.saveData(req.body, res.callback);
     } else {
       res.json({
         value: false,
@@ -14,7 +14,7 @@ module.exports = {
   getOne: function(req, res) {
 
     if (req.body) {
-      Recharge.getOne(req.body, res.callback);
+      Promotion.getOne(req.body, res.callback);
     } else {
       res.json({
         value: false,
@@ -25,7 +25,7 @@ module.exports = {
 
   delete: function(req, res) {
     if (req.body) {
-      Recharge.deleteData(req.body, res.callback);
+      Promotion.deleteData(req.body, res.callback);
     } else {
       res.json({
         value: false,
@@ -39,7 +39,7 @@ module.exports = {
       Global.response(err, data, res);
     }
     if (req.body) {
-      Recharge.getAll(req.body, res.callback);
+      Promotion.getAll(req.body, res.callback);
     } else {
       res.json({
         value: false,
@@ -51,7 +51,7 @@ module.exports = {
   findLimited: function(req, res) {
     if (req.body) {
       if (req.body.pagenumber && req.body.pagenumber !== "" && req.body.pagesize && req.body.pagesize !== "") {
-        Recharge.findLimited(req.body, res.callback);
+        Promotion.findLimited(req.body, res.callback);
       } else {
         res.json({
           value: false,

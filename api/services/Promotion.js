@@ -3,27 +3,17 @@ var Schema = mongoose.Schema;
 
 var schema = new Schema({
 
-  number: {
+  banner: {
     type: String,
     default: ""
   },
-  amount: {
+  link: {
     type: String,
     default: ""
   },
-  name: {
+  order: {
     type: String,
     default: ""
-  },
-  city: {
-    type: Schema.Types.ObjectId,
-    ref: 'City',
-    index: true
-  },
-  user: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-    index: true
   }
 
 });
