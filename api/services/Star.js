@@ -4,8 +4,9 @@ var Schema = mongoose.Schema;
 var schema = new Schema({
 
   image: {
-    type: String,
-    default: ""
+    type: {
+      image: String
+    }
   },
   order: {
     type: String,
@@ -96,7 +97,7 @@ var models = {
     async.parallel([
         function(callback) {
           Star.count({
-            name: {
+            title: {
               '$regex': check
             }
           }).exec(function(err, number) {
@@ -114,7 +115,7 @@ var models = {
         },
         function(callback) {
           Star.find({
-            name: {
+            title: {
               '$regex': check
             }
           }).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).exec(function(err, data2) {
