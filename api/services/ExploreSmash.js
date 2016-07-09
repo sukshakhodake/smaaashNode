@@ -140,6 +140,110 @@ var models = {
       }
     });
   },
+
+  //side menu
+
+  getTiming: function(data, callback) {
+         var newreturns = {};
+         newreturns.data = [];
+         var check = new RegExp(data.search, "i");
+         data.pagenumber = parseInt(data.pagenumber);
+         data.pagesize = parseInt(data.pagesize);
+         var skip = parseInt(data.pagesize * (data.pagenumber - 1));
+         async.parallel([
+                 function(callback) {
+                     User.aggregate([{
+                         $match: {
+                             _id: objectid(data._id)
+                         }
+                     }, {
+                         $unwind: "$cart"
+                     }, {
+                         $match: {
+                             "cart.size": {
+                                 '$regex': check
+                             }
+                         }
+                     }, {
+                         $group: {
+                             _id: null,
+                             count: {
+                                 $sum: 1
+                             }
+                         }
+                     }, {
+                         $project: {
+                             count: 1
+                         }
+                     }]).exec(function(err, result) {
+                         console.log(result);
+                         if (result && result[0]) {
+                             newreturns.total = result[0].count;
+                             newreturns.totalpages = Math.ceil(result[0].count / data.pagesize);
+                             callback(null, newreturns);
+                         } else if (err) {
+                             console.log(err);
+                             callback(err, null);
+                         } else {
+                             callback({
+                                 message: "Count of null"
+                             }, null);
+                         }
+                     });
+                 },
+                 function(callback) {
+                     User.aggregate([{
+                         $match: {
+                             _id: objectid(data._id)
+                         }
+                     }, {
+                         $unwind: "$cart"
+                     }, {
+                         $match: {
+                             "cart.size": {
+                                 $regex: check
+                             }
+                         }
+                     }, {
+                         $group: {
+                             _id: "_id",
+                             cart: {
+                                 $addToSet: "$cart"
+                             }
+                         }
+                     }, {
+                         $project: {
+                             _id: 0,
+                             cart: { $slice: ["$cart", skip, data.pagesize] }
+                         }
+                     }]).exec(function(err, found) {
+                         console.log(found);
+                         if (found && found.length > 0) {
+                             newreturns.data = found[0].cart;
+                             callback(null, newreturns);
+                         } else if (err) {
+                             console.log(err);
+                             callback(err, null);
+                         } else {
+                             callback({
+                                 message: "Count of null"
+                             }, null);
+                         }
+                     });
+                 }
+             ],
+             function(err, data4) {
+                 if (err) {
+                     console.log(err);
+                     callback(err, null);
+                 } else if (data4) {
+                     callback(null, newreturns);
+                 } else {
+                     callback(null, newreturns);
+                 }
+             });
+     },
+
   getOne: function(data, callback) {
     this.findOne({
       "_id": data._id
