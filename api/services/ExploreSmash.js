@@ -8,8 +8,9 @@ var schema = new Schema({
     default: ""
   },
   city: {
-    type: String,
-    default: ""
+    type: Schema.Types.ObjectId,
+    ref: 'City',
+    index: true
   },
   order: {
     type: String,
@@ -39,20 +40,20 @@ var schema = new Schema({
     type: String,
     default: ""
   },
-  timing:[{
-    type:{
+  timing: [{
+    type: {
       type: String,
       default: ""
     },
-    weekendPrice:{
+    weekendPrice: {
       type: String,
       default: ""
     },
-    weekdayPrice:{
+    weekdayPrice: {
       type: String,
       default: ""
     },
-    description:{
+    description: {
       type: String,
       default: ""
     }
@@ -77,10 +78,10 @@ var schema = new Schema({
     type: String,
     default: ""
   },
-  images: [
-    type:{
-      image:String
+  images: [{
+      image: String
     }
+
   ],
 });
 
@@ -156,16 +157,11 @@ var models = {
   findLimited: function(data, callback) {
     var newreturns = {};
     newreturns.data = [];
-    var check = new RegExp(data.search, "i");
     data.pagenumber = parseInt(data.pagenumber);
     data.pagesize = parseInt(data.pagesize);
     async.parallel([
         function(callback) {
-          ExploreSmash.count({
-            title: {
-              '$regex': check
-            }
-          }).exec(function(err, number) {
+          ExploreSmash.count().exec(function(err, number) {
             if (err) {
               console.log(err);
               callback(err, null);
@@ -179,11 +175,7 @@ var models = {
           });
         },
         function(callback) {
-          ExploreSmash.find({
-            title: {
-              '$regex': check
-            }
-          }).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).exec(function(err, data2) {
+          ExploreSmash.find().skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).populate("city", "_id  name", null, {}).lean().exec(function(err, data2) {
             console.log(data2);
             if (err) {
               console.log(err);
