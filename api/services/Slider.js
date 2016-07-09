@@ -8,9 +8,11 @@ var schema = new Schema({
     default: ""
   },
   image: {
-    type: {
-      image: String
-    }
+    type: String,
+    default: ""
+    // type: {
+    //   image: String
+    // }
   },
   city: {
     type: Schema.Types.ObjectId,
