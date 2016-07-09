@@ -88,79 +88,99 @@ module.exports = {
       });
     }
   },
-  findTiming: function (req, res) {
-  if (req.body) {
-    ExploreSmash.getAllTiming(req.body, res.callback);
-  } else {
-    res.json({
-      value: false,
-      data: "Invalid Request"
-    });
-  }
-},
-findOneTiming: function (req, res) {
-  if (req.body) {
-    ExploreSmash.getOneTiming(req.body, res.callback);
-  } else {
-    res.json({
-      value: false,
-      data: "Invalid Request"
-    });
-  }
-},
-
-deleteTiming: function(req, res) {
+  findTiming: function(req, res) {
     if (req.body) {
-        if (req.body._id && req.body._id !== "") {
-            //	console.log("not valid");
-            ExploreSmash.deleteTiming(req.body, function(err, respo) {
-                if (err) {
-                    res.json({
-                        value: false,
-                        data: err
-                    });
-                } else {
-                    res.json({
-                        value: true,
-                        data: respo
-                    });
-                }
-            });
-        } else {
-            res.json({
-                value: false,
-                data: "Invalid Id"
-            });
-        }
-    } else {
-        res.json({
+      ExploreSmash.getAllTiming(req.body, function(err, respo) {
+        if (err) {
+          res.json({
             value: false,
-            data: "Invalid call"
-        });
+            data: err
+          });
+        } else {
+          res.json({
+            value: true,
+            data: respo
+          });
+        }
+      });
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid call"
+      });
     }
-},
-saveTiming: function(req, res) {
-   if (req.body) {
-       ExploreSmash.saveTiming(req.body, function(err, respo) {
-           if (err) {
-               res.json({
-                   value: false,
-                   data: err
-               });
-           } else {
-               res.json({
-                   value: true,
-                   data: respo
-               });
-           }
-       });
-   } else {
-       res.json({
-           value: false,
-           data: "Invalid call"
-       });
-   }
-},
+    // if (req.body) {
+    //   ExploreSmash.getAllTiming(req.body, res.callback);
+    // } else {
+    //   res.json({
+    //     value: false,
+    //     data: "Invalid Request"
+    //   });
+    // }
+  },
+  findOneTiming: function(req, res) {
+    if (req.body) {
+      ExploreSmash.getOneTiming(req.body, res.callback);
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
+
+  deleteTiming: function(req, res) {
+    if (req.body) {
+      if (req.body._id && req.body._id !== "") {
+        //	console.log("not valid");
+        ExploreSmash.deleteTiming(req.body, function(err, respo) {
+          if (err) {
+            res.json({
+              value: false,
+              data: err
+            });
+          } else {
+            res.json({
+              value: true,
+              data: respo
+            });
+          }
+        });
+      } else {
+        res.json({
+          value: false,
+          data: "Invalid Id"
+        });
+      }
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid call"
+      });
+    }
+  },
+  saveTiming: function(req, res) {
+    if (req.body) {
+      ExploreSmash.saveTiming(req.body, function(err, respo) {
+        if (err) {
+          res.json({
+            value: false,
+            data: err
+          });
+        } else {
+          res.json({
+            value: true,
+            data: respo
+          });
+        }
+      });
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid call"
+      });
+    }
+  },
 
   /* make the API call */
   // facebook:getFbData('1745055379070800', '/me/friends', function(data){

@@ -66,79 +66,99 @@ module.exports = {
     }
   },
 
-  findRegistration: function (req, res) {
-  if (req.body) {
-    Event.getAllRegistration(req.body, res.callback);
-  } else {
-    res.json({
-      value: false,
-      data: "Invalid Request"
-    });
-  }
-},
-findOneRegistration: function (req, res) {
-  if (req.body) {
-    Event.getOneRegistration(req.body, res.callback);
-  } else {
-    res.json({
-      value: false,
-      data: "Invalid Request"
-    });
-  }
-},
-
-deleteRegistration: function(req, res) {
+  findRegistration: function(req, res) {
     if (req.body) {
-        if (req.body._id && req.body._id !== "") {
-            //	console.log("not valid");
-            Event.deleteRegistration(req.body, function(err, respo) {
-                if (err) {
-                    res.json({
-                        value: false,
-                        data: err
-                    });
-                } else {
-                    res.json({
-                        value: true,
-                        data: respo
-                    });
-                }
-            });
-        } else {
-            res.json({
-                value: false,
-                data: "Invalid Id"
-            });
-        }
-    } else {
-        res.json({
+      Event.getAllRegistration(req.body, function(err, respo) {
+        if (err) {
+          res.json({
             value: false,
-            data: "Invalid call"
-        });
+            data: err
+          });
+        } else {
+          res.json({
+            value: true,
+            data: respo
+          });
+        }
+      });
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid call"
+      });
     }
-},
-saveRegistration: function(req, res) {
-   if (req.body) {
-       Event.saveRegistration(req.body, function(err, respo) {
-           if (err) {
-               res.json({
-                   value: false,
-                   data: err
-               });
-           } else {
-               res.json({
-                   value: true,
-                   data: respo
-               });
-           }
-       });
-   } else {
-       res.json({
-           value: false,
-           data: "Invalid call"
-       });
-   }
-},
+    // if (req.body) {
+    //   Event.getAllRegistration(req.body, res.callback);
+    // } else {
+    //   res.json({
+    //     value: false,
+    //     data: "Invalid Request"
+    //   });
+    // }
+  },
+  findOneRegistration: function(req, res) {
+    if (req.body) {
+      Event.getOneRegistration(req.body, res.callback);
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
+
+  deleteRegistration: function(req, res) {
+    if (req.body) {
+      if (req.body._id && req.body._id !== "") {
+        //	console.log("not valid");
+        Event.deleteRegistration(req.body, function(err, respo) {
+          if (err) {
+            res.json({
+              value: false,
+              data: err
+            });
+          } else {
+            res.json({
+              value: true,
+              data: respo
+            });
+          }
+        });
+      } else {
+        res.json({
+          value: false,
+          data: "Invalid Id"
+        });
+      }
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid call"
+      });
+    }
+  },
+  saveRegistration: function(req, res) {
+    if (req.body) {
+      Event.saveRegistration(req.body, function(err, respo) {
+        if (err) {
+          res.json({
+            value: false,
+            data: err
+          });
+        } else {
+          res.json({
+            value: true,
+            data: respo
+          });
+        }
+      });
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid call"
+      });
+    }
+  },
   /* make the API call */
   // facebook:getFbData('1745055379070800', '/me/friends', function(data){
   //     console.log(data);

@@ -145,40 +145,128 @@ var models = {
   //side menu
 
   getAllTiming: function(data, callback) {
-    this.findOne({
-      "_id": data._id
-    }, {
-      timing: 1
-    }).exec(function(err, found) {
-      if (err) {
-        console.log(err);
-        callback(err, null);
-      } else if (found && Object.keys(found).length > 0) {
-        callback(null, found);
-      } else {
-        callback(null, {});
-      }
-    });
+    var newreturns = {};
+    newreturns.data = [];
+    var check = new RegExp(data.search, "i");
+    data.pagenumber = parseInt(data.pagenumber);
+    data.pagesize = parseInt(data.pagesize);
+    async.parallel([
+        function(callback) {
+          ExploreSmash.aggregate([{
+            $match: {
+              _id: objectid(data._id)
+            }
+          }, {
+            $unwind: "$timing"
+          }, {
+            $match: {
+              "timing.description": {
+                '$regex': check
+              }
+            }
+          }, {
+            $group: {
+              _id: null,
+              count: {
+                $sum: 1
+              }
+            }
+          }, {
+            $project: {
+              count: 1
+            }
+          }]).exec(function(err, result) {
+            console.log(result);
+            if (result && result[0]) {
+              newreturns.total = result[0].count;
+              newreturns.totalpages = Math.ceil(result[0].count / data.pagesize);
+              callback(null, newreturns);
+            } else if (err) {
+              console.log(err);
+              callback(err, null);
+            } else {
+              callback({
+                message: "Count of null"
+              }, null);
+            }
+          });
+        },
+        function(callback) {
+          ExploreSmash.aggregate([{
+            $match: {
+              _id: objectid(data._id)
+            }
+          }, {
+            $unwind: "$timing"
+          }, {
+            $match: {
+              "timing.description": {
+                '$regex': check
+              }
+            }
+          }, {
+            $project: {
+              timing: 1
+            }
+          }]).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).exec(function(err, found) {
+            if (found && found.length > 0) {
+              newreturns.data.push(found[0].timing);
+              callback(null, newreturns);
+            } else if (err) {
+              console.log(err);
+              callback(err, null);
+            } else {
+              callback({
+                message: "Count of null"
+              }, null);
+            }
+          });
+        }
+      ],
+      function(err, data4) {
+        if (err) {
+          console.log(err);
+          callback(err, null);
+        } else if (data4) {
+          callback(null, newreturns);
+        } else {
+          callback(null, newreturns);
+        }
+      });
+    // this.findOne({
+    //   "_id": data._id
+    // }, {
+    //   timing: 1
+    // }).exec(function(err, found) {
+    //   if (err) {
+    //     console.log(err);
+    //     callback(err, null);
+    //   } else if (found && Object.keys(found).length > 0) {
+    //     callback(null, found);
+    //   } else {
+    //     callback(null, {});
+    //   }
+    // });
   },
 
   deleteTiming: function(data, callback) {
-      ExploreSmash.update({
-          "timing._id": data._id
-      }, {
-          $pull: {
-              "timing": {
-                  "_id": objectid(data._id)
-              }
-          }
-      }, function(err, updated) {
-          console.log(updated);
-          if (err) {
-              console.log(err);
-              callback(err, null);
-          } else {
-              callback(null, updated);
-          }
-      });
+    ExploreSmash.update({
+      "timing._id": data._id
+    }, {
+      $pull: {
+        "timing": {
+          "_id": objectid(data._id)
+        }
+      }
+    }, function(err, updated) {
+      console.log(updated);
+      if (err) {
+        console.log(err);
+        callback(err, null);
+      } else {
+        callback(null, updated);
+      }
+    });
 
   },
 
@@ -223,7 +311,7 @@ var models = {
   getOneTiming: function(data, callback) {
     // aggregate query
     ExploreSmash.aggregate([{
-      $unwind: "$cast"
+      $unwind: "$timing"
     }, {
       $match: {
         "timing._id": objectid(data._id)
@@ -236,8 +324,8 @@ var models = {
       if (err) {
         console.log(err);
         callback(err, null);
-      } else if (respo && respo.length > 0 && respo[0].cast) {
-        callback(null, respo[0].cast);
+      } else if (respo && respo.length > 0 && respo[0].timing) {
+        callback(null, respo[0].timing);
       } else {
         callback({
           message: "No data found"

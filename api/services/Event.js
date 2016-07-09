@@ -181,20 +181,108 @@ var models = {
   },
 
     getAllRegistration: function(data, callback) {
-      this.findOne({
-        "_id": data._id
-      }, {
-        registration: 1
-      }).exec(function(err, found) {
-        if (err) {
-          console.log(err);
-          callback(err, null);
-        } else if (found && Object.keys(found).length > 0) {
-          callback(null, found);
-        } else {
-          callback(null, {});
-        }
-      });
+      var newreturns = {};
+      newreturns.data = [];
+      var check = new RegExp(data.search, "i");
+      data.pagenumber = parseInt(data.pagenumber);
+      data.pagesize = parseInt(data.pagesize);
+      async.parallel([
+          function(callback) {
+            Event.aggregate([{
+              $match: {
+                _id: objectid(data._id)
+              }
+            }, {
+              $unwind: "$registration"
+            }, {
+              $match: {
+                "registration.name": {
+                  '$regex': check
+                }
+              }
+            }, {
+              $group: {
+                _id: null,
+                count: {
+                  $sum: 1
+                }
+              }
+            }, {
+              $project: {
+                count: 1
+              }
+            }]).exec(function(err, result) {
+              console.log(result);
+              if (result && result[0]) {
+                newreturns.total = result[0].count;
+                newreturns.totalpages = Math.ceil(result[0].count / data.pagesize);
+                callback(null, newreturns);
+              } else if (err) {
+                console.log(err);
+                callback(err, null);
+              } else {
+                callback({
+                  message: "Count of null"
+                }, null);
+              }
+            });
+          },
+          function(callback) {
+            Event.aggregate([{
+              $match: {
+                _id: objectid(data._id)
+              }
+            }, {
+              $unwind: "$registration"
+            }, {
+              $match: {
+                "registration.name": {
+                  '$regex': check
+                }
+              }
+            }, {
+              $project: {
+                registration: 1
+              }
+            }]).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).exec(function(err, found) {
+              if (found && found.length > 0) {
+                newreturns.data.push(found[0].registration);
+                callback(null, newreturns);
+              } else if (err) {
+                console.log(err);
+                callback(err, null);
+              } else {
+                callback({
+                  message: "Count of null"
+                }, null);
+              }
+            });
+          }
+        ],
+        function(err, data4) {
+          if (err) {
+            console.log(err);
+            callback(err, null);
+          } else if (data4) {
+            callback(null, newreturns);
+          } else {
+            callback(null, newreturns);
+          }
+        });
+      // this.findOne({
+      //   "_id": data._id
+      // }, {
+      //   registration: 1
+      // }).exec(function(err, found) {
+      //   if (err) {
+      //     console.log(err);
+      //     callback(err, null);
+      //   } else if (found && Object.keys(found).length > 0) {
+      //     callback(null, found);
+      //   } else {
+      //     callback(null, {});
+      //   }
+      // });
     },
 
     deleteRegistration: function(data, callback) {
