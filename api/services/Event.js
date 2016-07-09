@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-
+var objectid = require("mongodb").ObjectId;
 var schema = new Schema({
 
   title: {
@@ -178,7 +178,109 @@ var models = {
           callback(null, newreturns);
         }
       });
-  }
+  },
+
+    getAllRegistration: function(data, callback) {
+      this.findOne({
+        "_id": data._id
+      }, {
+        registration: 1
+      }).exec(function(err, found) {
+        if (err) {
+          console.log(err);
+          callback(err, null);
+        } else if (found && Object.keys(found).length > 0) {
+          callback(null, found);
+        } else {
+          callback(null, {});
+        }
+      });
+    },
+
+    deleteRegistration: function(data, callback) {
+        Event.update({
+            "registration._id": data._id
+        }, {
+            $pull: {
+                "registration": {
+                    "_id": objectid(data._id)
+                }
+            }
+        }, function(err, updated) {
+            console.log(updated);
+            if (err) {
+                console.log(err);
+                callback(err, null);
+            } else {
+                callback(null, updated);
+            }
+        });
+
+    },
+
+    saveRegistration: function(data, callback) {
+      var event = data.event;
+      if (!data._id) {
+        Event.update({
+          _id: event
+        }, {
+          $push: {
+            registration: data
+          }
+        }, function(err, updated) {
+          if (err) {
+            console.log(err);
+            callback(err, null);
+          } else {
+            callback(null, updated);
+          }
+        });
+      } else {
+        data._id = objectid(data._id);
+        tobechanged = {};
+        var attribute = "registration.$.";
+        _.forIn(data, function(value, key) {
+          tobechanged[attribute + key] = value;
+        });
+        Event.update({
+          "registration._id": data._id
+        }, {
+          $set: tobechanged
+        }, function(err, updated) {
+          if (err) {
+            console.log(err);
+            callback(err, null);
+          } else {
+            callback(null, updated);
+          }
+        });
+      }
+    },
+    getOneRegistration: function(data, callback) {
+      // aggregate query
+      Event.aggregate([{
+        $unwind: "$registration"
+      }, {
+        $match: {
+          "registration._id": objectid(data._id)
+        }
+      }, {
+        $project: {
+          registration: 1
+        }
+      }]).exec(function(err, respo) {
+        if (err) {
+          console.log(err);
+          callback(err, null);
+        } else if (respo && respo.length > 0 && respo[0].registration) {
+          callback(null, respo[0].registration);
+        } else {
+          callback({
+            message: "No data found"
+          }, null);
+        }
+      });
+    },
 };
 
 module.exports = _.assign(module.exports, models);

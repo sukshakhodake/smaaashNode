@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var objectid = require("mongodb").ObjectId;
 
 var schema = new Schema({
 
@@ -143,106 +144,107 @@ var models = {
 
   //side menu
 
-  getTiming: function(data, callback) {
-         var newreturns = {};
-         newreturns.data = [];
-         var check = new RegExp(data.search, "i");
-         data.pagenumber = parseInt(data.pagenumber);
-         data.pagesize = parseInt(data.pagesize);
-         var skip = parseInt(data.pagesize * (data.pagenumber - 1));
-         async.parallel([
-                 function(callback) {
-                     User.aggregate([{
-                         $match: {
-                             _id: objectid(data._id)
-                         }
-                     }, {
-                         $unwind: "$cart"
-                     }, {
-                         $match: {
-                             "cart.size": {
-                                 '$regex': check
-                             }
-                         }
-                     }, {
-                         $group: {
-                             _id: null,
-                             count: {
-                                 $sum: 1
-                             }
-                         }
-                     }, {
-                         $project: {
-                             count: 1
-                         }
-                     }]).exec(function(err, result) {
-                         console.log(result);
-                         if (result && result[0]) {
-                             newreturns.total = result[0].count;
-                             newreturns.totalpages = Math.ceil(result[0].count / data.pagesize);
-                             callback(null, newreturns);
-                         } else if (err) {
-                             console.log(err);
-                             callback(err, null);
-                         } else {
-                             callback({
-                                 message: "Count of null"
-                             }, null);
-                         }
-                     });
-                 },
-                 function(callback) {
-                     User.aggregate([{
-                         $match: {
-                             _id: objectid(data._id)
-                         }
-                     }, {
-                         $unwind: "$cart"
-                     }, {
-                         $match: {
-                             "cart.size": {
-                                 $regex: check
-                             }
-                         }
-                     }, {
-                         $group: {
-                             _id: "_id",
-                             cart: {
-                                 $addToSet: "$cart"
-                             }
-                         }
-                     }, {
-                         $project: {
-                             _id: 0,
-                             cart: { $slice: ["$cart", skip, data.pagesize] }
-                         }
-                     }]).exec(function(err, found) {
-                         console.log(found);
-                         if (found && found.length > 0) {
-                             newreturns.data = found[0].cart;
-                             callback(null, newreturns);
-                         } else if (err) {
-                             console.log(err);
-                             callback(err, null);
-                         } else {
-                             callback({
-                                 message: "Count of null"
-                             }, null);
-                         }
-                     });
-                 }
-             ],
-             function(err, data4) {
-                 if (err) {
-                     console.log(err);
-                     callback(err, null);
-                 } else if (data4) {
-                     callback(null, newreturns);
-                 } else {
-                     callback(null, newreturns);
-                 }
-             });
-     },
+  getAllTiming: function(data, callback) {
+    this.findOne({
+      "_id": data._id
+    }, {
+      timing: 1
+    }).exec(function(err, found) {
+      if (err) {
+        console.log(err);
+        callback(err, null);
+      } else if (found && Object.keys(found).length > 0) {
+        callback(null, found);
+      } else {
+        callback(null, {});
+      }
+    });
+  },
+
+  deleteTiming: function(data, callback) {
+      ExploreSmash.update({
+          "timing._id": data._id
+      }, {
+          $pull: {
+              "timing": {
+                  "_id": objectid(data._id)
+              }
+          }
+      }, function(err, updated) {
+          console.log(updated);
+          if (err) {
+              console.log(err);
+              callback(err, null);
+          } else {
+              callback(null, updated);
+          }
+      });
+
+  },
+
+  saveTiming: function(data, callback) {
+    var exploresmash = data.exploresmash;
+    if (!data._id) {
+      ExploreSmash.update({
+        _id: exploresmash
+      }, {
+        $push: {
+          timing: data
+        }
+      }, function(err, updated) {
+        if (err) {
+          console.log(err);
+          callback(err, null);
+        } else {
+          callback(null, updated);
+        }
+      });
+    } else {
+      data._id = objectid(data._id);
+      tobechanged = {};
+      var attribute = "timing.$.";
+      _.forIn(data, function(value, key) {
+        tobechanged[attribute + key] = value;
+      });
+      ExploreSmash.update({
+        "timing._id": data._id
+      }, {
+        $set: tobechanged
+      }, function(err, updated) {
+        if (err) {
+          console.log(err);
+          callback(err, null);
+        } else {
+          callback(null, updated);
+        }
+      });
+    }
+  },
+  getOneTiming: function(data, callback) {
+    // aggregate query
+    ExploreSmash.aggregate([{
+      $unwind: "$cast"
+    }, {
+      $match: {
+        "timing._id": objectid(data._id)
+      }
+    }, {
+      $project: {
+        timing: 1
+      }
+    }]).exec(function(err, respo) {
+      if (err) {
+        console.log(err);
+        callback(err, null);
+      } else if (respo && respo.length > 0 && respo[0].cast) {
+        callback(null, respo[0].cast);
+      } else {
+        callback({
+          message: "No data found"
+        }, null);
+      }
+    });
+  },
 
   getOne: function(data, callback) {
     this.findOne({
