@@ -77,7 +77,11 @@ var schema = new Schema({
     type: String,
     default: ""
   },
-  images: [],
+  images: [
+    type:{
+      image:String
+    }
+  ],
 });
 
 module.exports = mongoose.model('ExploreSmash', schema);
