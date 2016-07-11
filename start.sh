@@ -1,2 +1,2 @@
 sudo rm -rf .tmp
-sudo nodemon app.js --prod
+sudo nodemon app.js

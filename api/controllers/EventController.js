@@ -68,7 +68,7 @@ module.exports = {
 
   findRegistration: function(req, res) {
     if (req.body) {
-      Event.getAllRegistration(req.body, function(err, respo) {
+      Event.findRegistration(req.body, function(err, respo) {
         if (err) {
           res.json({
             value: false,
@@ -98,7 +98,7 @@ module.exports = {
   },
   findOneRegistration: function(req, res) {
     if (req.body) {
-      Event.getOneRegistration(req.body, res.callback);
+      Event.findOneRegistration(req.body, res.callback);
     } else {
       res.json({
         value: false,

@@ -35,20 +35,20 @@ var schema = new Schema({
     type: String,
     default: ""
   },
-  registration:[{
-    name:{
+  registration: [{
+    name: {
       type: String,
       default: ""
     },
-    email:{
+    email: {
       type: String,
       default: ""
     },
-    phone:{
+    phone: {
       type: String,
       default: ""
     },
-    dob:{
+    dob: {
       type: String,
       default: ""
     }
@@ -180,195 +180,181 @@ var models = {
       });
   },
 
-    getAllRegistration: function(data, callback) {
-      var newreturns = {};
-      newreturns.data = [];
-      var check = new RegExp(data.search, "i");
-      data.pagenumber = parseInt(data.pagenumber);
-      data.pagesize = parseInt(data.pagesize);
-      async.parallel([
-          function(callback) {
-            Event.aggregate([{
-              $match: {
-                _id: objectid(data._id)
-              }
-            }, {
-              $unwind: "$registration"
-            }, {
-              $match: {
-                "registration.name": {
-                  '$regex': check
-                }
-              }
-            }, {
-              $group: {
-                _id: null,
-                count: {
-                  $sum: 1
-                }
-              }
-            }, {
-              $project: {
-                count: 1
-              }
-            }]).exec(function(err, result) {
-              console.log(result);
-              if (result && result[0]) {
-                newreturns.total = result[0].count;
-                newreturns.totalpages = Math.ceil(result[0].count / data.pagesize);
-                callback(null, newreturns);
-              } else if (err) {
-                console.log(err);
-                callback(err, null);
-              } else {
-                callback({
-                  message: "Count of null"
-                }, null);
-              }
-            });
-          },
-          function(callback) {
-            Event.aggregate([{
-              $match: {
-                _id: objectid(data._id)
-              }
-            }, {
-              $unwind: "$registration"
-            }, {
-              $match: {
-                "registration.name": {
-                  '$regex': check
-                }
-              }
-            }, {
-              $project: {
-                registration: 1
-              }
-            }]).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).exec(function(err, found) {
-              if (found && found.length > 0) {
-                newreturns.data.push(found[0].registration);
-                callback(null, newreturns);
-              } else if (err) {
-                console.log(err);
-                callback(err, null);
-              } else {
-                callback({
-                  message: "Count of null"
-                }, null);
-              }
-            });
-          }
-        ],
-        function(err, data4) {
-          if (err) {
-            console.log(err);
-            callback(err, null);
-          } else if (data4) {
-            callback(null, newreturns);
-          } else {
-            callback(null, newreturns);
-          }
-        });
-      // this.findOne({
-      //   "_id": data._id
-      // }, {
-      //   registration: 1
-      // }).exec(function(err, found) {
-      //   if (err) {
-      //     console.log(err);
-      //     callback(err, null);
-      //   } else if (found && Object.keys(found).length > 0) {
-      //     callback(null, found);
-      //   } else {
-      //     callback(null, {});
-      //   }
-      // });
-    },
-
-    deleteRegistration: function(data, callback) {
-        Event.update({
-            "registration._id": data._id
-        }, {
-            $pull: {
-                "registration": {
-                    "_id": objectid(data._id)
-                }
+  findRegistration: function(data, callback) {
+    var newreturns = {};
+    newreturns.data = [];
+    var check = new RegExp(data.search, "i");
+    data.pagenumber = parseInt(data.pagenumber);
+    data.pagesize = parseInt(data.pagesize);
+    var skip = parseInt(data.pagesize * (data.pagenumber - 1));
+    async.parallel([
+        function(callback) {
+          Event.aggregate([{
+            $match: {
+              _id: objectid(data._id)
             }
-        }, function(err, updated) {
-            console.log(updated);
-            if (err) {
-                console.log(err);
-                callback(err, null);
+          }, {
+            $unwind: "$registration"
+          }, {
+            $group: {
+              _id: null,
+              count: {
+                $sum: 1
+              }
+            }
+          }, {
+            $project: {
+              count: 1
+            }
+          }]).exec(function(err, result) {
+            console.log(result);
+            if (result && result[0]) {
+              newreturns.total = result[0].count;
+              newreturns.totalpages = Math.ceil(result[0].count / data.pagesize);
+              callback(null, newreturns);
+            } else if (err) {
+              console.log(err);
+              callback(err, null);
             } else {
-                callback(null, updated);
+              callback({
+                message: "Count of null"
+              }, null);
             }
-        });
-
-    },
-
-    saveRegistration: function(data, callback) {
-      var event = data.event;
-      if (!data._id) {
-        Event.update({
-          _id: event
-        }, {
-          $push: {
-            registration: data
-          }
-        }, function(err, updated) {
-          if (err) {
-            console.log(err);
-            callback(err, null);
-          } else {
-            callback(null, updated);
-          }
-        });
-      } else {
-        data._id = objectid(data._id);
-        tobechanged = {};
-        var attribute = "registration.$.";
-        _.forIn(data, function(value, key) {
-          tobechanged[attribute + key] = value;
-        });
-        Event.update({
-          "registration._id": data._id
-        }, {
-          $set: tobechanged
-        }, function(err, updated) {
-          if (err) {
-            console.log(err);
-            callback(err, null);
-          } else {
-            callback(null, updated);
-          }
-        });
-      }
-    },
-    getOneRegistration: function(data, callback) {
-      // aggregate query
-      Event.aggregate([{
-        $unwind: "$registration"
-      }, {
-        $match: {
-          "registration._id": objectid(data._id)
+          });
+        },
+        function(callback) {
+          Event.aggregate([{
+            $match: {
+              _id: objectid(data._id)
+            }
+          }, {
+            $unwind: "$registration"
+          }, {
+            $group: {
+              _id: "_id",
+              registration: {
+                $push: "$registration"
+              }
+            }
+          }, {
+            $project: {
+              _id: 0,
+              registration: {
+                $slice: ["$registration", skip, data.pagesize]
+              }
+            }
+          }]).exec(function(err, found) {
+            console.log(found);
+            if (found && found.length > 0) {
+              newreturns.data = found[0].registration;
+              callback(null, newreturns);
+            } else if (err) {
+              console.log(err);
+              callback(err, null);
+            } else {
+              callback({
+                message: "Count of null"
+              }, null);
+            }
+          });
         }
-      }, {
-        $project: {
-          registration: 1
-        }
-      }]).exec(function(err, respo) {
+      ],
+      function(err, data4) {
         if (err) {
           console.log(err);
           callback(err, null);
-        } else if (respo && respo.length > 0 && respo[0].registration) {
-          callback(null, respo[0].registration);
+        } else if (data4) {
+          callback(null, newreturns);
         } else {
-          callback({
-            message: "No data found"
-          }, null);
+          callback(null, newreturns);
         }
       });
-    },
+  },
+
+  deleteRegistration: function(data, callback) {
+    Event.update({
+      "registration._id": data._id
+    }, {
+      $pull: {
+        "registration": {
+          "_id": objectid(data._id)
+        }
+      }
+    }, function(err, updated) {
+      console.log(updated);
+      if (err) {
+        console.log(err);
+        callback(err, null);
+      } else {
+        callback(null, updated);
+      }
+    });
+
+  },
+
+  saveRegistration: function(data, callback) {
+    var event = data.event;
+    if (!data._id) {
+      Event.update({
+        _id: event
+      }, {
+        $push: {
+          registration: data
+        }
+      }, function(err, updated) {
+        if (err) {
+          console.log(err);
+          callback(err, null);
+        } else {
+          callback(null, updated);
+        }
+      });
+    } else {
+      data._id = objectid(data._id);
+      tobechanged = {};
+      var attribute = "registration.$.";
+      _.forIn(data, function(value, key) {
+        tobechanged[attribute + key] = value;
+      });
+      Event.update({
+        "registration._id": data._id
+      }, {
+        $set: tobechanged
+      }, function(err, updated) {
+        if (err) {
+          console.log(err);
+          callback(err, null);
+        } else {
+          callback(null, updated);
+        }
+      });
+    }
+  },
+  findOneRegistration: function(data, callback) {
+    // aggregate query
+    Event.aggregate([{
+      $unwind: "$registration"
+    }, {
+      $match: {
+        "registration._id": objectid(data._id)
+      }
+    }, {
+      $project: {
+        registration: 1
+      }
+    }]).exec(function(err, respo) {
+      if (err) {
+        console.log(err);
+        callback(err, null);
+      } else if (respo && respo.length > 0 && respo[0].registration) {
+        callback(null, respo[0].registration);
+      } else {
+        callback({
+          message: "No data found"
+        }, null);
+      }
+    });
+  },
 };
 
 module.exports = _.assign(module.exports, models);

@@ -78,12 +78,7 @@ var schema = new Schema({
   pdf: {
     type: String,
     default: ""
-  },
-  images: [{
-      image: String
-    }
-
-  ],
+  }
 });
 
 module.exports = mongoose.model('ExploreSmash', schema);
