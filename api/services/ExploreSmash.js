@@ -145,6 +145,7 @@ var models = {
     var check = new RegExp(data.search, "i");
     data.pagenumber = parseInt(data.pagenumber);
     data.pagesize = parseInt(data.pagesize);
+    var skip = parseInt(data.pagesize * (data.pagenumber - 1));
     async.parallel([
         function(callback) {
           ExploreSmash.aggregate([{
@@ -153,12 +154,6 @@ var models = {
             }
           }, {
             $unwind: "$timing"
-          }, {
-            $match: {
-              "timing.description": {
-                '$regex': check
-              }
-            }
           }, {
             $group: {
               _id: null,
@@ -194,18 +189,23 @@ var models = {
           }, {
             $unwind: "$timing"
           }, {
-            $match: {
-              "timing.description": {
-                '$regex': check
+            $group: {
+              _id: "_id",
+              timing: {
+                $push: "$timing"
               }
             }
           }, {
             $project: {
-              timing: 1
+              _id: 0,
+              timing: {
+                $slice: ["$timing", skip, data.pagesize]
+              }
             }
-          }]).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).exec(function(err, found) {
+          }]).exec(function(err, found) {
+            console.log(found);
             if (found && found.length > 0) {
-              newreturns.data.push(found[0].timing);
+              newreturns.data = found[0].timing;
               callback(null, newreturns);
             } else if (err) {
               console.log(err);
@@ -228,21 +228,8 @@ var models = {
           callback(null, newreturns);
         }
       });
-    // this.findOne({
-    //   "_id": data._id
-    // }, {
-    //   timing: 1
-    // }).exec(function(err, found) {
-    //   if (err) {
-    //     console.log(err);
-    //     callback(err, null);
-    //   } else if (found && Object.keys(found).length > 0) {
-    //     callback(null, found);
-    //   } else {
-    //     callback(null, {});
-    //   }
-    // });
   },
+
 
   deleteTiming: function(data, callback) {
     ExploreSmash.update({
