@@ -11,9 +11,8 @@ var schema = new Schema({
     default: ""
   },
   image: {
-    type:{
-      image: String
-        }
+    type: String,
+    default: ""
   },
   instagram: {
     type: String,
@@ -75,6 +74,20 @@ var models = {
   },
   getAll: function(data, callback) {
     this.find({}).exec(function(err, found) {
+      if (err) {
+        console.log(err);
+        callback(err, null);
+      } else if (found && found.length > 0) {
+        callback(null, found);
+      } else {
+        callback(null, []);
+      }
+    });
+  },
+  getAllCityByOrder: function(data, callback) {
+    this.find({}).sort({
+      order: -1
+    }).exec(function(err, found) {
       if (err) {
         console.log(err);
         callback(err, null);

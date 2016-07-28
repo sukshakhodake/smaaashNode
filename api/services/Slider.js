@@ -10,9 +10,9 @@ var schema = new Schema({
   image: {
     type: String,
     default: ""
-    // type: {
-    //   image: String
-    // }
+      // type: {
+      //   image: String
+      // }
   },
   city: {
     type: Schema.Types.ObjectId,
@@ -77,6 +77,7 @@ var models = {
       }
     });
   },
+
   getOne: function(data, callback) {
     this.findOne({
       "_id": data._id
@@ -137,7 +138,23 @@ var models = {
           callback(null, newreturns);
         }
       });
-  }
+  },
+  getAllSliderByOrder: function(data, callback) {
+    this.find({
+      city: data._id
+    }).sort({
+      order: -1
+    }).exec(function(err, found) {
+      if (err) {
+        console.log(err);
+        callback(err, null);
+      } else if (found && found.length > 0) {
+        callback(null, found);
+      } else {
+        callback(null, []);
+      }
+    });
+  },
 };
 
 module.exports = _.assign(module.exports, models);

@@ -41,6 +41,10 @@ var schema = new Schema({
     type: String,
     default: ""
   },
+  isHome: {
+    type: Boolean,
+    default: "false"
+  },
   timing: [{
     type: {
       type: String,
@@ -55,6 +59,16 @@ var schema = new Schema({
       default: ""
     },
     description: {
+      type: String,
+      default: ""
+    }
+  }],
+  gallery: [{
+    image: {
+      type: String,
+      default: ""
+    },
+    order: {
       type: String,
       default: ""
     }
@@ -375,7 +389,190 @@ var models = {
           callback(null, newreturns);
         }
       });
-  }
+  },
+
+
+  //gallery
+
+  //SIDEMENU CAST
+
+  saveGallery: function(data, callback) {
+    console.log(data);
+    var explore = data.explore;
+    if (!data._id) {
+      ExploreSmash.update({
+        _id: explore
+      }, {
+        $push: {
+          gallery: data
+        }
+      }, function(err, updated) {
+        if (err) {
+          console.log(err);
+          callback(err, null);
+        } else {
+          callback(null, updated);
+        }
+      });
+    } else {
+      data._id = objectid(data._id);
+      tobechanged = {};
+      var attribute = "gallery.$.";
+      _.forIn(data, function(value, key) {
+        tobechanged[attribute + key] = value;
+      });
+      ExploreSmash.update({
+        "gallery._id": data._id
+      }, {
+        $set: tobechanged
+      }, function(err, updated) {
+        if (err) {
+          console.log(err);
+          callback(err, null);
+        } else {
+          callback(null, updated);
+        }
+      });
+    }
+  },
+
+  getAllGallery: function(data, callback) {
+    var newreturns = {};
+    newreturns.data = [];
+    var check = new RegExp(data.search, "i");
+    data.pagenumber = parseInt(data.pagenumber);
+    data.pagesize = parseInt(data.pagesize);
+    var skip = parseInt(data.pagesize * (data.pagenumber - 1));
+    async.parallel([
+        function(callback) {
+          ExploreSmash.aggregate([{
+            $match: {
+              _id: objectid(data._id)
+            }
+          }, {
+            $unwind: "$gallery"
+          }, {
+            $group: {
+              _id: null,
+              count: {
+                $sum: 1
+              }
+            }
+          }, {
+            $project: {
+              count: 1
+            }
+          }]).exec(function(err, result) {
+            console.log(result);
+            if (result && result[0]) {
+              newreturns.total = result[0].count;
+              newreturns.totalpages = Math.ceil(result[0].count / data.pagesize);
+              callback(null, newreturns);
+            } else if (err) {
+              console.log(err);
+              callback(err, null);
+            } else {
+              callback({
+                message: "Count of null"
+              }, null);
+            }
+          });
+        },
+        function(callback) {
+          ExploreSmash.aggregate([{
+            $match: {
+              _id: objectid(data._id)
+            }
+          }, {
+            $unwind: "$gallery"
+          }, {
+            $group: {
+              _id: "_id",
+              gallery: {
+                $push: "$gallery"
+              }
+            }
+          }, {
+            $project: {
+              _id: 0,
+              gallery: {
+                $slice: ["$gallery", skip, data.pagesize]
+              }
+            }
+          }]).exec(function(err, found) {
+            console.log(found);
+            if (found && found.length > 0) {
+              newreturns.data = found[0].gallery;
+              callback(null, newreturns);
+            } else if (err) {
+              console.log(err);
+              callback(err, null);
+            } else {
+              callback({
+                message: "Count of null"
+              }, null);
+            }
+          });
+        }
+      ],
+      function(err, data4) {
+        if (err) {
+          console.log(err);
+          callback(err, null);
+        } else if (data4) {
+          callback(null, newreturns);
+        } else {
+          callback(null, newreturns);
+        }
+      });
+  },
+
+
+  deleteGallery: function(data, callback) {
+    ExploreSmash.update({
+      "gallery._id": data._id
+    }, {
+      $pull: {
+        "gallery": {
+          "_id": objectid(data._id)
+        }
+      }
+    }, function(err, updated) {
+      console.log(updated);
+      if (err) {
+        console.log(err);
+        callback(err, null);
+      } else {
+        callback(null, updated);
+      }
+    });
+
+  },
+  getOneGallery: function(data, callback) {
+    // aggregate query
+    ExploreSmash.aggregate([{
+      $unwind: "$gallery"
+    }, {
+      $match: {
+        "gallery._id": objectid(data._id)
+      }
+    }, {
+      $project: {
+        gallery: 1
+      }
+    }]).exec(function(err, respo) {
+      if (err) {
+        console.log(err);
+        callback(err, null);
+      } else if (respo && respo.length > 0 && respo[0].gallery) {
+        callback(null, respo[0].gallery);
+      } else {
+        callback({
+          message: "No data found"
+        }, null);
+      }
+    });
+  },
 };
 
 module.exports = _.assign(module.exports, models);

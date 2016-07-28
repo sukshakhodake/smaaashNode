@@ -47,6 +47,19 @@ module.exports = {
       });
     }
   },
+  getAllSliderByOrder: function(req, res) {
+    function callback(err, data) {
+      Global.response(err, data, res);
+    }
+    if (req.body) {
+      Slider.getAllSliderByOrder(req.body, res.callback);
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
 
   findLimited: function(req, res) {
     if (req.body) {
