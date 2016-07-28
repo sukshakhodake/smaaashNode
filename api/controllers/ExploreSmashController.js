@@ -192,7 +192,7 @@ module.exports = {
 
   findGallery: function(req, res) {
     if (req.body.pagenumber && req.body.pagesize) {
-      Movie.getAllGallery(req.body, function(err, respo) {
+      ExploreSmash.getAllGallery(req.body, function(err, respo) {
         if (err) {
           res.json({
             value: false,
@@ -214,7 +214,7 @@ module.exports = {
   },
   findOneGallery: function(req, res) {
     if (req.body) {
-      Movie.getOneGallery(req.body, res.callback);
+      ExploreSmash.getOneGallery(req.body, res.callback);
     } else {
       res.json({
         value: false,
@@ -227,7 +227,7 @@ module.exports = {
     if (req.body) {
       if (req.body._id && req.body._id !== "") {
         //	console.log("not valid");
-        Movie.deleteGallery(req.body, function(err, respo) {
+        ExploreSmash.deleteGallery(req.body, function(err, respo) {
           if (err) {
             res.json({
               value: false,
@@ -256,7 +256,7 @@ module.exports = {
   saveGallery: function(req, res) {
     console.log(req.body);
     if (req.body) {
-      Movie.saveGallery(req.body, function(err, respo) {
+      ExploreSmash.saveGallery(req.body, function(err, respo) {
         if (err) {
           res.json({
             value: false,
