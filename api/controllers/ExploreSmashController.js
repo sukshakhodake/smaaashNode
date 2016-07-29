@@ -222,6 +222,16 @@ module.exports = {
       });
     }
   },
+  getHomeContent: function(req, res) {
+    if (req.body) {
+      ExploreSmash.getHomeContent(req.body, res.callback);
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
 
   deleteGallery: function(req, res) {
     if (req.body) {

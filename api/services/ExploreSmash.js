@@ -49,6 +49,26 @@ var schema = new Schema({
     type: Boolean,
     default: "false"
   },
+  technology: {
+    type: String,
+    default: ""
+  },
+  deal: {
+    type: String,
+    default: ""
+  },
+  promotion: {
+    type: String,
+    default: ""
+  },
+  currentEvent: {
+    type: String,
+    default: ""
+  },
+  pdf: {
+    type: String,
+    default: ""
+  },
   timing: [{
     type: {
       type: String,
@@ -77,26 +97,6 @@ var schema = new Schema({
       default: ""
     }
   }],
-  technology: {
-    type: String,
-    default: ""
-  },
-  deal: {
-    type: String,
-    default: ""
-  },
-  promotion: {
-    type: String,
-    default: ""
-  },
-  currentEvent: {
-    type: String,
-    default: ""
-  },
-  pdf: {
-    type: String,
-    default: ""
-  }
 });
 
 module.exports = mongoose.model('ExploreSmash', schema);
@@ -144,6 +144,20 @@ var models = {
   },
   getAll: function(data, callback) {
     this.find({}).exec(function(err, found) {
+      if (err) {
+        console.log(err);
+        callback(err, null);
+      } else if (found && found.length > 0) {
+        callback(null, found);
+      } else {
+        callback(null, []);
+      }
+    });
+  },
+  getHomeContent: function(data, callback) {
+    this.find({
+      isHome: true
+    }).exec(function(err, found) {
       if (err) {
         console.log(err);
         callback(err, null);
