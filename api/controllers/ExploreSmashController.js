@@ -70,6 +70,23 @@ module.exports = {
       });
     }
   },
+  getAllExploreSmashByCity: function(req, res) {
+    if (req.body) {
+      if (req.body._id && req.body._id !== "") {
+        ExploreSmash.getAllExploreSmashByCity(req.body, res.callback);
+      } else {
+        res.json({
+          value: false,
+          data: "Please provide parameters"
+        });
+      }
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
 
   findLimited: function(req, res) {
     if (req.body) {
