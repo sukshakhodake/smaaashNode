@@ -8,11 +8,11 @@ var schema = new Schema({
     type: String,
     default: ""
   },
-  city: {
-    type: Schema.Types.ObjectId,
-    ref: 'City',
-    index: true
-  },
+  city: [
+    {  type: Schema.Types.ObjectId,
+     ref: 'City',
+     index: true}
+   ],
   order: {
     type: String,
     default: ""
@@ -69,6 +69,7 @@ var schema = new Schema({
     type: String,
     default: ""
   },
+
   timing: [{
     type: {
       type: String,
@@ -97,6 +98,30 @@ var schema = new Schema({
       default: ""
     }
   }],
+  fb: {
+    type: String,
+    default: ""
+  },
+  google: {
+    type: String,
+    default: ""
+  },
+  twitter: {
+    type: String,
+    default: ""
+  },
+  externallink: {
+    type: String,
+    default: ""
+  },
+  gamefor: [{
+    type: String,
+    default: ""
+  }],
+  hometext: {
+    type: String,
+    default: ""
+  },
 });
 
 module.exports = mongoose.model('ExploreSmash', schema);
