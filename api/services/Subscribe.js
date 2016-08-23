@@ -4,12 +4,6 @@ var objectid = require("mongodb").ObjectId;
 
 var schema = new Schema({
 
-
-  // city: {
-  //   type: Schema.Subscribes.ObjectId,
-  //   ref: 'City',
-  //   index: true
-  // },
   email:{
     type:String,
     default:""
@@ -20,22 +14,30 @@ var schema = new Schema({
 module.exports = mongoose.model('Subscribe', schema);
 var models = {
     saveData: function(data, callback) {
-      Subscribe.findOne({
-          _id: data._id
+      var subscribe = this(data);
+      this.findOne({
+          email: data.email
       }, function(err, deleted) {
+        console.log("In resp");
+        console.log(err);
+        console.log(deleted);
           if (err) {
               callback(err, null);
-          } else {
-            if(deleted)
-            {
-              Subscribe.save(function(err, data2) {
+          } else if(deleted){
+            callback(null, {
+              value : false,
+              message: "already exists"
+            });
+          }
+          else{
+              subscribe.save(function(err, data2) {
                   if (err) {
                       callback(err, null);
                   } else {
+                    console.log(data2);
                       callback(null, data2);
                   }
               });
-            }
           }
       });
     },
