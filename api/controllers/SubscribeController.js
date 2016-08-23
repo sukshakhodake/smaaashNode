@@ -116,7 +116,7 @@ module.exports = {
         }
     },
 
-    getLimited: function(req, res) {
+    findLimited: function(req, res) {
         function callback(err, data) {
             Global.response(err, data, res);
         }

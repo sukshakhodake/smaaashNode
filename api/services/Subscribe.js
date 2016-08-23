@@ -91,7 +91,7 @@ var models = {
         async.parallel([
                 function(callback) {
                     Subscribe.count({
-                        name: {
+                        email: {
                             '$regex': check
                         }
                     }).exec(function(err, number) {
@@ -109,7 +109,7 @@ var models = {
                 },
                 function(callback) {
                     Subscribe.find({
-                        name: {
+                        email: {
                             '$regex': check
                         }
                     }, {
