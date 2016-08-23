@@ -1,1 +1,1 @@
-{"options":{},"indexes":[{"v":1,"key":{"_id":1},"name":"_id_","ns":"smash.exploresmashes"},{"v":1,"key":{"city":1},"name":"city_1","ns":"smash.exploresmashes","background":true}]}
+{"options":{},"indexes":[{"v":1,"key":{"_id":1},"name":"_id_","ns":"smash.exploresmashes"},{"v":1,"key":{"type":1},"name":"type_1","ns":"smash.exploresmashes","background":true},{"v":1,"key":{"city":1},"name":"city_1","ns":"smash.exploresmashes","background":true}]}

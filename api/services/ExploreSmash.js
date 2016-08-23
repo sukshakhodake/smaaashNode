@@ -29,10 +29,11 @@ var schema = new Schema({
     type: String,
     default: ""
   },
-  type: {
-    type: String,
-    default: ""
-  },
+     type: {
+       type: Schema.Types.ObjectId,
+       ref: 'Type',
+       index: true
+   },
   description: {
     type: String,
     default: ""
@@ -196,7 +197,7 @@ var models = {
   getHomeContent: function(data, callback) {
     this.find({
       isHome: true
-    }).exec(function(err, found) {
+    }).populate('type').exec(function(err, found) {
       if (err) {
         console.log(err);
         callback(err, null);
@@ -422,7 +423,7 @@ var models = {
           });
         },
         function(callback) {
-          ExploreSmash.find().skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).populate("city", "_id  name", null, {}).lean().exec(function(err, data2) {
+          ExploreSmash.find().populate("type").skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).populate("city", "_id  name", null, {}).lean().exec(function(err, data2) {
             console.log(data2);
             if (err) {
               console.log(err);
