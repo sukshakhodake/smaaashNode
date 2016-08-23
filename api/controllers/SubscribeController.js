@@ -33,7 +33,7 @@ module.exports = {
     },
     delete: function(req, res) {
         if (req.body) {
-            if (req.body._id && req.body._id != "") {
+            if (req.body._id && req.body._id !== "") {
                 //  console.log("not valid");
                 Subscribe.deleteData(req.body, function(err, respo) {
                     if (err) {

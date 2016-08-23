@@ -18,9 +18,6 @@ var models = {
       this.findOne({
           email: data.email
       }, function(err, deleted) {
-        console.log("In resp");
-        console.log(err);
-        console.log(deleted);
           if (err) {
               callback(err, null);
           } else if(deleted){
@@ -34,7 +31,6 @@ var models = {
                   if (err) {
                       callback(err, null);
                   } else {
-                    console.log(data2);
                       callback(null, data2);
                   }
               });
