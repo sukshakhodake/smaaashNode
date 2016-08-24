@@ -180,6 +180,20 @@ var models = {
       }
     });
   },
+  getSingleExploreSmaaash: function(data, callback) {
+    this.find({
+      type:data._id
+    }).exec(function(err, found) {
+      if (err) {
+        console.log(err);
+        callback(err, null);
+      } else if (found && found.length > 0) {
+        callback(null, found);
+      } else {
+        callback(null, []);
+      }
+    });
+  },
   getAllExploreSmashByCity: function(data, callback) {
     this.find({
       city:data._id
@@ -195,7 +209,7 @@ var models = {
     });
   },
   getHomeContent: function(data, callback) {
-    if(data.id && data.id!='')
+    if(data.id && data.id!='' && data.id!="577f4d106b78e0bc03724800")
     {
       console.log("In if");
       data.id=data.id;

@@ -126,14 +126,6 @@ module.exports = {
         data: "Invalid call"
       });
     }
-    // if (req.body) {
-    //   ExploreSmash.getAllTiming(req.body, res.callback);
-    // } else {
-    //   res.json({
-    //     value: false,
-    //     data: "Invalid Request"
-    //   });
-    // }
   },
   findOneTiming: function(req, res) {
     if (req.body) {
@@ -199,12 +191,6 @@ module.exports = {
     }
   },
 
-  /* make the API call */
-  // facebook:getFbData('1745055379070800', '/me/friends', function(data){
-  //     console.log(data);
-  // })
-
-
   // Gallery
 
   findGallery: function(req, res) {
@@ -242,6 +228,16 @@ module.exports = {
   getHomeContent: function(req, res) {
     if (req.body) {
       ExploreSmash.getHomeContent(req.body, res.callback);
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
+  getSingleExploreSmaaash: function(req, res) {
+    if (req.body) {
+      ExploreSmash.getSingleExploreSmaaash(req.body, res.callback);
     } else {
       res.json({
         value: false,
