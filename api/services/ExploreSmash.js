@@ -195,8 +195,15 @@ var models = {
     });
   },
   getHomeContent: function(data, callback) {
+    if(data.id && data.id!==''){
+      data.id=data.id;
+    }
+    else{
+      data.id="577f4d106b78e0bc03724800";
+    }
     this.find({
-      isHome: true
+      isHome: true,
+      city:data.id
     }).populate('type').exec(function(err, found) {
       if (err) {
         console.log(err);
