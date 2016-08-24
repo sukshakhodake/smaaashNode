@@ -209,16 +209,6 @@ var models = {
     });
   },
   getHomeContent: function(data, callback) {
-    if(data.id && data.id!='' && data.id!="577f4d106b78e0bc03724800")
-    {
-      console.log("In if");
-      data.id=data.id;
-    }
-    else{
-        console.log("else");
-      data.id="577f4d106b78e0bc03724800";
-    }
-    console.log(data.id);
     this.find({
       isHome: true,
       city:data.id
