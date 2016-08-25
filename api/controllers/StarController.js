@@ -65,6 +65,23 @@ module.exports = {
       });
     }
   },
+  findLimitedForBackend: function(req, res) {
+    if (req.body) {
+      if (req.body.pagenumber && req.body.pagenumber !== "" && req.body.pagesize && req.body.pagesize !== "") {
+        Star.findLimitedForBackend(req.body, res.callback);
+      } else {
+        res.json({
+          value: false,
+          data: "Please provide parameters"
+        });
+      }
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
 
   /* make the API call */
   // facebook:getFbData('1745055379070800', '/me/friends', function(data){
