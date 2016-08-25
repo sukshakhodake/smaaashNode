@@ -11,11 +11,11 @@ var schema = new Schema({
     type: String,
     default: ""
   },
-  city: {
+  city: [{
     type: Schema.Types.ObjectId,
     ref: 'City',
     index: true
-  }
+  }]
 
 });
 
