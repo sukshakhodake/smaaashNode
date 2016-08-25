@@ -112,7 +112,8 @@ var models = {
           Star.count({
             title: {
               '$regex': check
-            }
+            },
+            city:data.city
           }).exec(function(err, number) {
             if (err) {
               console.log(err);
@@ -130,7 +131,8 @@ var models = {
           Star.find({
             title: {
               '$regex': check
-            }
+            },
+              city:data.city
           }).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).exec(function(err, data2) {
             if (err) {
               console.log(err);

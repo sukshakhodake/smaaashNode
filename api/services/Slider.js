@@ -10,9 +10,6 @@ var schema = new Schema({
   image: {
     type: String,
     default: ""
-      // type: {
-      //   image: String
-      // }
   },
   city: {
     type: Schema.Types.ObjectId,
