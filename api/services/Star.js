@@ -23,7 +23,12 @@ var schema = new Schema({
   url: {
     type: String,
     default: ""
-  }
+  },
+  city: {
+    type: Schema.Types.ObjectId,
+    ref: 'City',
+    index: true
+}
 
 });
 
