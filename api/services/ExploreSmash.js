@@ -216,7 +216,7 @@ var models = {
   getHomeContent: function(data, callback) {
     this.find({
       isHome: true,
-      city:data._id
+      city:data.city
     }).populate('type').exec(function(err, found) {
       if (err) {
         console.log(err);

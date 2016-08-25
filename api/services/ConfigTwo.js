@@ -9,12 +9,23 @@ var schema = new Schema({
   homebanner: {
     type: String,
     default: ""
+  },
+  image1: {
+    type: String,
+    default: ""
+  },
+  image2: {
+    type: String,
+    default: ""
+  },
+  image3: {
+    type: String,
+    default: ""
+  },
+  image4: {
+    type: String,
+    default: ""
   }
-  // city: {
-  //   type: Schema.Types.ObjectId,
-  //   ref: 'City',
-  //   index: true
-  // }
 
 });
 

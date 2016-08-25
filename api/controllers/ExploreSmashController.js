@@ -226,7 +226,7 @@ module.exports = {
     }
   },
   getHomeContent: function(req, res) {
-    if (req.body) {
+    if (req.body.city && req.body.city !='' ) {
       ExploreSmash.getHomeContent(req.body, res.callback);
     } else {
       res.json({
