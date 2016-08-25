@@ -422,6 +422,21 @@ var models = {
       }
     });
   },
+  getDetailExploreSmaaash: function(data, callback) {
+    this.findOne({
+      "_id": data._id,
+      "city": data.city
+    }).exec(function(err, found) {
+      if (err) {
+        console.log(err);
+        callback(err, null);
+      } else if (found && Object.keys(found).length > 0) {
+        callback(null, found);
+      } else {
+        callback(null, {});
+      }
+    });
+  },
   findLimited: function(data, callback) {
     var newreturns = {};
     newreturns.data = [];
