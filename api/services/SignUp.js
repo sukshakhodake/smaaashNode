@@ -101,7 +101,7 @@ var models = {
     async.parallel([
         function(callback) {
           SignUp.count({
-            title: {
+            name: {
               '$regex': check
             }
           }).exec(function(err, number) {
@@ -119,7 +119,7 @@ var models = {
         },
         function(callback) {
           SignUp.find({
-            title: {
+            name: {
               '$regex': check
             }
           }).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).exec(function(err, data2) {
