@@ -236,7 +236,7 @@ module.exports = {
     }
   },
   getSingleExploreSmaaash: function(req, res) {
-    if (req.body) {
+    if (req.body.city && req.body.city !='' ) {
       ExploreSmash.getSingleExploreSmaaash(req.body, res.callback);
     } else {
       res.json({

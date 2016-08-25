@@ -186,7 +186,8 @@ var models = {
   },
   getSingleExploreSmaaash: function(data, callback) {
     this.find({
-      type:data._id
+      type:data._id,
+      city:data.city,
     }).exec(function(err, found) {
       if (err) {
         console.log(err);
