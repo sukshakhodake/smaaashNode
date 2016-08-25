@@ -157,6 +157,23 @@ var models = {
       }
     });
   },
+  getAllHostPartySlider: function(data, callback) {
+    this.find({
+      city: data.city,
+      type:2
+    }).sort({
+      order: -1
+    }).exec(function(err, found) {
+      if (err) {
+        console.log(err);
+        callback(err, null);
+      } else if (found && found.length > 0) {
+        callback(null, found);
+      } else {
+        callback(null, []);
+      }
+    });
+  },
 };
 
 module.exports = _.assign(module.exports, models);
