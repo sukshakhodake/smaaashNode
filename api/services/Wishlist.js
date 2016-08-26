@@ -75,6 +75,21 @@ var models = {
       }
     });
   },
+  getWishlistByUser: function(data, callback) {
+    this.find({
+      city:data.city,
+      user:data.user
+    }).exec(function(err, found) {
+      if (err) {
+        console.log(err);
+        callback(err, null);
+      } else if (found && found.length > 0) {
+        callback(null, found);
+      } else {
+        callback(null, []);
+      }
+    });
+  },
 
   getOne: function(data, callback) {
     this.findOne({
