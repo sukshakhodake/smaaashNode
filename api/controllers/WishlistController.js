@@ -1,7 +1,7 @@
 module.exports = {
 
   save: function(req, res) {
-    if (req.body) {
+    if (req.body.user && req.body.user !== "" && req.body.exploresmash && req.body.exploresmash !== "" && req.body.city && req.body.city !== "") {
       Wishlist.saveData(req.body, res.callback);
     } else {
       res.json({
@@ -24,7 +24,7 @@ module.exports = {
   },
 
   delete: function(req, res) {
-    if (req.body) {
+    if (req.body._id) {
       Wishlist.deleteData(req.body, res.callback);
     } else {
       res.json({
@@ -51,7 +51,7 @@ module.exports = {
     function callback(err, data) {
       Global.response(err, data, res);
     }
-    if (req.body) {
+    if (req.body.user && req.body.user !== "" && req.body.city && req.body.city !== "") {
       Wishlist.getWishlistByUser(req.body, res.callback);
     } else {
       res.json({
