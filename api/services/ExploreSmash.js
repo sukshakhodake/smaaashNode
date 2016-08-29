@@ -130,6 +130,10 @@ var schema = new Schema({
   price: {
     type: String,
     default: ""
+  },
+  homeimage:{
+    type: String,
+    default: ""
   }
 });
 
