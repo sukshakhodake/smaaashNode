@@ -16,6 +16,14 @@ var schema = new Schema({
   password: {
     type: String,
     default: ""
+  },
+  mobile: {
+    type: String,
+    default: ""
+  },
+  city: {
+    type: String,
+    default: ""
   }
 
 });

@@ -127,6 +127,10 @@ var schema = new Schema({
     type: String,
     default: ""
   },
+  price: {
+    type: String,
+    default: ""
+  }
 });
 
 module.exports = mongoose.model('ExploreSmash', schema);
