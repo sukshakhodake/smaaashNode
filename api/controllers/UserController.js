@@ -201,4 +201,32 @@ module.exports = {
             });
         }
     },
+
+    // EXTERNAL API'S
+
+    check:function(req,res) {
+
+      var api = {
+        "APIKey":"afa35e6d32a54d64962a78ccf28c140017636054922421850805185"
+      };
+      res.body = {
+        name:"GetAllBranch"
+        // name:"GetCompanyDetails"
+        // name:"GetPackageList"
+        // data: {
+        //   name: "chintan"
+        // }
+      };
+      api = _.assign(api,res.body.data);
+      request({
+        url:"http://apismaaash.itspl.net/SMAAASHAPI.svc/"+res.body.name,
+        method:"POST",
+        headers: {
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify(api)
+      },function(err,httpResponse,body){
+        res.json(JSON.parse(JSON.parse(body)));
+      });
+    },
 };

@@ -26,6 +26,18 @@ var schema = new Schema({
     type: String,
     default: ""
   },
+  BranchID: {
+    type: String,
+    default: ""
+  },
+  BranchName: {
+    type: String,
+    default: ""
+  },
+  Photo: {
+    type: String,
+    default: ""
+  }
 
 });
 
