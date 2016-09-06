@@ -106,4 +106,15 @@ module.exports = {
           });
       }
   },
+
+  addTocart: function(req, res) {
+    if (req.body.user && req.body.user !== "" && req.body.exploresmash && req.body.exploresmash !== "" && req.body.city && req.body.city !== "") {
+      Wishlist.saveData(req.body, res.callback);
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
 };

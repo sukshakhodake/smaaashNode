@@ -10,6 +10,46 @@ module.exports = {
       });
     }
   },
+  saveAttraction: function(req, res) {
+    if (req.body) {
+      ExploreSmash.saveAttraction(req.body, res.callback);
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
+  saveDeals: function(req, res) {
+    if (req.body) {
+      ExploreSmash.saveDeals(req.body, res.callback);
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
+  saveHost: function(req, res) {
+    if (req.body) {
+      ExploreSmash.saveHost(req.body, res.callback);
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
+  saveFood: function(req, res) {
+    if (req.body) {
+      ExploreSmash.saveFood(req.body, res.callback);
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
 
   getOne: function(req, res) {
 
@@ -81,6 +121,19 @@ module.exports = {
       });
     }
   },
+  getAllAttraction: function(req, res) {
+    function callback(err, data) {
+      Global.response(err, data, res);
+    }
+    if (req.body) {
+      ExploreSmash.getAllAttraction(req.body, res.callback);
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
   getAllExploreSmashByCity: function(req, res) {
     if (req.body) {
       if (req.body._id && req.body._id !== "") {
@@ -103,6 +156,74 @@ module.exports = {
     if (req.body) {
       if (req.body.pagenumber && req.body.pagenumber !== "" && req.body.pagesize && req.body.pagesize !== "") {
         ExploreSmash.findLimited(req.body, res.callback);
+      } else {
+        res.json({
+          value: false,
+          data: "Please provide parameters"
+        });
+      }
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
+  findLimitedDeals: function(req, res) {
+    if (req.body) {
+      if (req.body.pagenumber && req.body.pagenumber !== "" && req.body.pagesize && req.body.pagesize !== "") {
+        ExploreSmash.findLimitedDeals(req.body, res.callback);
+      } else {
+        res.json({
+          value: false,
+          data: "Please provide parameters"
+        });
+      }
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
+  findLimitedFood: function(req, res) {
+    if (req.body) {
+      if (req.body.pagenumber && req.body.pagenumber !== "" && req.body.pagesize && req.body.pagesize !== "") {
+        ExploreSmash.findLimitedFood(req.body, res.callback);
+      } else {
+        res.json({
+          value: false,
+          data: "Please provide parameters"
+        });
+      }
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
+  findLimitedAttraction: function(req, res) {
+    if (req.body) {
+      if (req.body.pagenumber && req.body.pagenumber !== "" && req.body.pagesize && req.body.pagesize !== "") {
+        ExploreSmash.findLimitedAttraction(req.body, res.callback);
+      } else {
+        res.json({
+          value: false,
+          data: "Please provide parameters"
+        });
+      }
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
+  findLimitedHost: function(req, res) {
+    if (req.body) {
+      if (req.body.pagenumber && req.body.pagenumber !== "" && req.body.pagesize && req.body.pagesize !== "") {
+        ExploreSmash.findLimitedHost(req.body, res.callback);
       } else {
         res.json({
           value: false,
@@ -310,6 +431,99 @@ module.exports = {
       });
     }
   },
+
+
+  // MULTIPLE ATTRACTIONS
+
+
+    // Gallery
+
+    findMultipleAttraction: function(req, res) {
+      if (req.body.pagenumber && req.body.pagesize) {
+        ExploreSmash.getAllMultipleAttraction(req.body, function(err, respo) {
+          if (err) {
+            res.json({
+              value: false,
+              data: err
+            });
+          } else {
+            res.json({
+              value: true,
+              data: respo
+            });
+          }
+        });
+      } else {
+        res.json({
+          value: false,
+          data: "Invalid call"
+        });
+      }
+    },
+    findOneMultipleAttraction: function(req, res) {
+      if (req.body) {
+        ExploreSmash.getOneMultipleAttraction(req.body, res.callback);
+      } else {
+        res.json({
+          value: false,
+          data: "Invalid Request"
+        });
+      }
+    },
+
+    deleteMultipleAttraction: function(req, res) {
+      if (req.body) {
+        if (req.body._id && req.body._id !== "") {
+          //	console.log("not valid");
+          ExploreSmash.deleteMultipleAttraction(req.body, function(err, respo) {
+            if (err) {
+              res.json({
+                value: false,
+                data: err
+              });
+            } else {
+              res.json({
+                value: true,
+                data: respo
+              });
+            }
+          });
+        } else {
+          res.json({
+            value: false,
+            data: "Invalid Id"
+          });
+        }
+      } else {
+        res.json({
+          value: false,
+          data: "Invalid call"
+        });
+      }
+    },
+    saveMultipleAttraction: function(req, res) {
+      console.log(req.body);
+      if (req.body) {
+        ExploreSmash.saveMultipleAttraction(req.body, function(err, respo) {
+          if (err) {
+            res.json({
+              value: false,
+              data: err
+            });
+          } else {
+            res.json({
+              value: true,
+              data: respo
+            });
+          }
+        });
+      } else {
+        res.json({
+          value: false,
+          data: "Invalid call"
+        });
+      }
+    },
 
 
 };

@@ -8,6 +8,10 @@ var schema = new Schema({
     type: String,
     default: ""
   },
+  status: {
+    type: Boolean,
+    default: ""
+  },
   city: [
     {  type: Schema.Types.ObjectId,
      ref: 'City',
@@ -134,7 +138,23 @@ var schema = new Schema({
   homeimage:{
     type: String,
     default: ""
-  }
+  },
+   multipleattraction: [{
+      icon: {
+        type: String,
+        default: ""
+      },
+      text: {
+        type: String,
+        default: ""
+      },
+      attraction:
+        {
+        type: Schema.Types.ObjectId,
+         ref: 'ExploreSmash',
+         index: true
+       }
+    }]
 });
 
 module.exports = mongoose.model('ExploreSmash', schema);
@@ -142,6 +162,122 @@ var models = {
   saveData: function(data, callback) {
     var exploresmash = this(data);
     exploresmash.timestamp = new Date();
+    if (data._id) {
+      this.findOneAndUpdate({
+        _id: data._id
+      }, data).exec(function(err, updated) {
+        if (err) {
+          console.log(err);
+          callback(err, null);
+        } else if (updated) {
+          callback(null, updated);
+        } else {
+          callback(null, {});
+        }
+      });
+    } else {
+      exploresmash.save(function(err, created) {
+        if (err) {
+          callback(err, null);
+        } else if (created) {
+          callback(null, created);
+        } else {
+          callback(null, {});
+        }
+      });
+    }
+  },
+  saveAttraction: function(data, callback) {
+    var exploresmash = this(data);
+    exploresmash.timestamp = new Date();
+    exploresmash.type = "57bc4b2aeb9c91f1025a3b55";
+    if (data._id) {
+      this.findOneAndUpdate({
+        _id: data._id
+      }, data).exec(function(err, updated) {
+        if (err) {
+          console.log(err);
+          callback(err, null);
+        } else if (updated) {
+          callback(null, updated);
+        } else {
+          callback(null, {});
+        }
+      });
+    } else {
+      exploresmash.save(function(err, created) {
+        if (err) {
+          callback(err, null);
+        } else if (created) {
+          callback(null, created);
+        } else {
+          callback(null, {});
+        }
+      });
+    }
+  },
+  saveFood: function(data, callback) {
+    var exploresmash = this(data);
+    exploresmash.timestamp = new Date();
+    exploresmash.type = "57bc4b48eb9c91f1025a3b57";
+    if (data._id) {
+      this.findOneAndUpdate({
+        _id: data._id
+      }, data).exec(function(err, updated) {
+        if (err) {
+          console.log(err);
+          callback(err, null);
+        } else if (updated) {
+          callback(null, updated);
+        } else {
+          callback(null, {});
+        }
+      });
+    } else {
+      exploresmash.save(function(err, created) {
+        if (err) {
+          callback(err, null);
+        } else if (created) {
+          callback(null, created);
+        } else {
+          callback(null, {});
+        }
+      });
+    }
+  },
+  saveHost: function(data, callback) {
+    var exploresmash = this(data);
+    exploresmash.timestamp = new Date();
+    exploresmash.type = "57bc4b10eb9c91f1025a3b54";
+    if (data._id) {
+      this.findOneAndUpdate({
+        _id: data._id
+      }, data).exec(function(err, updated) {
+        if (err) {
+          console.log(err);
+          callback(err, null);
+        } else if (updated) {
+          callback(null, updated);
+        } else {
+          callback(null, {});
+        }
+      });
+    } else {
+      exploresmash.save(function(err, created) {
+        if (err) {
+          callback(err, null);
+        } else if (created) {
+          callback(null, created);
+        } else {
+          callback(null, {});
+        }
+      });
+    }
+  },
+  saveDeals: function(data, callback) {
+    var exploresmash = this(data);
+    exploresmash.timestamp = new Date();
+    exploresmash.type = "57bc4b5aeb9c91f1025a3b58";
     if (data._id) {
       this.findOneAndUpdate({
         _id: data._id
@@ -186,6 +322,23 @@ var models = {
         console.log(err);
         callback(err, null);
       } else if (found && found.length > 0) {
+        callback(null, found);
+      } else {
+        callback(null, []);
+      }
+    });
+  },
+  getAllAttraction: function(data, callback) {
+    var name='';
+    this.find({type:"57bc4b2aeb9c91f1025a3b55"},{_id:1,hometext:1}).lean().exec(function(err, found) {
+      if (err) {
+        console.log(err);
+        callback(err, null);
+      } else if (found && found.length > 0) {
+        _.each(found,function(n) {
+          n.name = n.hometext;
+          delete n.hometext;
+        });
         callback(null, found);
       } else {
         callback(null, []);
@@ -491,6 +644,190 @@ var models = {
         }
       });
   },
+  findLimitedAttraction: function(data, callback) {
+    var newreturns = {};
+    newreturns.data = [];
+    data.pagenumber = parseInt(data.pagenumber);
+    data.pagesize = parseInt(data.pagesize);
+    async.parallel([
+        function(callback) {
+          ExploreSmash.count({type:"57bc4b2aeb9c91f1025a3b55"}).exec(function(err, number) {
+            if (err) {
+              console.log(err);
+              callback(err, null);
+            } else if (number && number !== "") {
+              newreturns.total = number;
+              newreturns.totalpages = Math.ceil(number / data.pagesize);
+              callback(null, newreturns);
+            } else {
+              callback(null, newreturns);
+            }
+          });
+        },
+        function(callback) {
+          ExploreSmash.find({type:"57bc4b2aeb9c91f1025a3b55"}).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).populate("city", "_id  name", null, {}).lean().exec(function(err, data2) {
+            console.log(data2);
+            if (err) {
+              console.log(err);
+              callback(err, null);
+            } else if (data2 && data2.length > 0) {
+              newreturns.data = data2;
+              callback(null, newreturns);
+            } else {
+              callback(null, newreturns);
+            }
+          });
+        }
+      ],
+      function(err, data4) {
+        if (err) {
+          console.log(err);
+          callback(err, null);
+        } else if (data4) {
+          callback(null, newreturns);
+        } else {
+          callback(null, newreturns);
+        }
+      });
+  },
+  findLimitedFood: function(data, callback) {
+    var newreturns = {};
+    newreturns.data = [];
+    data.pagenumber = parseInt(data.pagenumber);
+    data.pagesize = parseInt(data.pagesize);
+    async.parallel([
+        function(callback) {
+          ExploreSmash.count({type:"57bc4b48eb9c91f1025a3b57"}).exec(function(err, number) {
+            if (err) {
+              console.log(err);
+              callback(err, null);
+            } else if (number && number !== "") {
+              newreturns.total = number;
+              newreturns.totalpages = Math.ceil(number / data.pagesize);
+              callback(null, newreturns);
+            } else {
+              callback(null, newreturns);
+            }
+          });
+        },
+        function(callback) {
+          ExploreSmash.find({type:"57bc4b48eb9c91f1025a3b57"}).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).populate("city", "_id  name", null, {}).lean().exec(function(err, data2) {
+            console.log(data2);
+            if (err) {
+              console.log(err);
+              callback(err, null);
+            } else if (data2 && data2.length > 0) {
+              newreturns.data = data2;
+              callback(null, newreturns);
+            } else {
+              callback(null, newreturns);
+            }
+          });
+        }
+      ],
+      function(err, data4) {
+        if (err) {
+          console.log(err);
+          callback(err, null);
+        } else if (data4) {
+          callback(null, newreturns);
+        } else {
+          callback(null, newreturns);
+        }
+      });
+  },
+  findLimitedDeals: function(data, callback) {
+    var newreturns = {};
+    newreturns.data = [];
+    data.pagenumber = parseInt(data.pagenumber);
+    data.pagesize = parseInt(data.pagesize);
+    async.parallel([
+        function(callback) {
+          ExploreSmash.count({type:"57bc4b5aeb9c91f1025a3b58"}).exec(function(err, number) {
+            if (err) {
+              console.log(err);
+              callback(err, null);
+            } else if (number && number !== "") {
+              newreturns.total = number;
+              newreturns.totalpages = Math.ceil(number / data.pagesize);
+              callback(null, newreturns);
+            } else {
+              callback(null, newreturns);
+            }
+          });
+        },
+        function(callback) {
+          ExploreSmash.find({type:"57bc4b5aeb9c91f1025a3b58"}).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).populate("city", "_id  name", null, {}).lean().exec(function(err, data2) {
+            console.log(data2);
+            if (err) {
+              console.log(err);
+              callback(err, null);
+            } else if (data2 && data2.length > 0) {
+              newreturns.data = data2;
+              callback(null, newreturns);
+            } else {
+              callback(null, newreturns);
+            }
+          });
+        }
+      ],
+      function(err, data4) {
+        if (err) {
+          console.log(err);
+          callback(err, null);
+        } else if (data4) {
+          callback(null, newreturns);
+        } else {
+          callback(null, newreturns);
+        }
+      });
+  },
+  findLimitedHost: function(data, callback) {
+    var newreturns = {};
+    newreturns.data = [];
+    data.pagenumber = parseInt(data.pagenumber);
+    data.pagesize = parseInt(data.pagesize);
+    async.parallel([
+        function(callback) {
+          ExploreSmash.count({type:"57bc4b10eb9c91f1025a3b54"}).exec(function(err, number) {
+            if (err) {
+              console.log(err);
+              callback(err, null);
+            } else if (number && number !== "") {
+              newreturns.total = number;
+              newreturns.totalpages = Math.ceil(number / data.pagesize);
+              callback(null, newreturns);
+            } else {
+              callback(null, newreturns);
+            }
+          });
+        },
+        function(callback) {
+          ExploreSmash.find({type:"57bc4b10eb9c91f1025a3b54"}).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).populate("city", "_id  name", null, {}).lean().exec(function(err, data2) {
+            console.log(data2);
+            if (err) {
+              console.log(err);
+              callback(err, null);
+            } else if (data2 && data2.length > 0) {
+              newreturns.data = data2;
+              callback(null, newreturns);
+            } else {
+              callback(null, newreturns);
+            }
+          });
+        }
+      ],
+      function(err, data4) {
+        if (err) {
+          console.log(err);
+          callback(err, null);
+        } else if (data4) {
+          callback(null, newreturns);
+        } else {
+          callback(null, newreturns);
+        }
+      });
+  },
 
 
   //gallery
@@ -667,6 +1004,188 @@ var models = {
         callback(err, null);
       } else if (respo && respo.length > 0 && respo[0].gallery) {
         callback(null, respo[0].gallery);
+      } else {
+        callback({
+          message: "No data found"
+        }, null);
+      }
+    });
+  },
+
+
+  // Muilptle Attractions
+
+  saveMultipleAttraction: function(data, callback) {
+    console.log(data);
+    var explore = data.explore;
+    if (!data._id) {
+      ExploreSmash.update({
+        _id: explore
+      }, {
+        $push: {
+          multipleattraction: data
+        }
+      }, function(err, updated) {
+        if (err) {
+          console.log(err);
+          callback(err, null);
+        } else {
+          callback(null, updated);
+        }
+      });
+    } else {
+      data._id = objectid(data._id);
+      tobechanged = {};
+      var attribute = "multipleattraction.$.";
+      _.forIn(data, function(value, key) {
+        tobechanged[attribute + key] = value;
+      });
+      ExploreSmash.update({
+        "multipleattraction._id": data._id
+      }, {
+        $set: tobechanged
+      }, function(err, updated) {
+        if (err) {
+          console.log(err);
+          callback(err, null);
+        } else {
+          callback(null, updated);
+        }
+      });
+    }
+  },
+
+  getAllMultipleAttraction: function(data, callback) {
+    var newreturns = {};
+    newreturns.data = [];
+    var check = new RegExp(data.search, "i");
+    data.pagenumber = parseInt(data.pagenumber);
+    data.pagesize = parseInt(data.pagesize);
+    var skip = parseInt(data.pagesize * (data.pagenumber - 1));
+    async.parallel([
+        function(callback) {
+          ExploreSmash.aggregate([{
+            $match: {
+              _id: objectid(data._id)
+            }
+          }, {
+            $unwind: "$multipleattraction"
+          }, {
+            $group: {
+              _id: null,
+              count: {
+                $sum: 1
+              }
+            }
+          }, {
+            $project: {
+              count: 1
+            }
+          }]).exec(function(err, result) {
+            console.log(result);
+            if (result && result[0]) {
+              newreturns.total = result[0].count;
+              newreturns.totalpages = Math.ceil(result[0].count / data.pagesize);
+              callback(null, newreturns);
+            } else if (err) {
+              console.log(err);
+              callback(err, null);
+            } else {
+              callback({
+                message: "Count of null"
+              }, null);
+            }
+          });
+        },
+        function(callback) {
+          ExploreSmash.aggregate([{
+            $match: {
+              _id: objectid(data._id)
+            }
+          }, {
+            $unwind: "$multipleattraction"
+          }, {
+            $group: {
+              _id: "_id",
+              multipleattraction: {
+                $push: "$multipleattraction"
+              }
+            }
+          }, {
+            $project: {
+              _id: 0,
+              multipleattraction: {
+                $slice: ["$multipleattraction", skip, data.pagesize]
+              }
+            }
+          }]).exec(function(err, found) {
+            console.log(found);
+            if (found && found.length > 0) {
+              newreturns.data = found[0].multipleattraction;
+              callback(null, newreturns);
+            } else if (err) {
+              console.log(err);
+              callback(err, null);
+            } else {
+              callback({
+                message: "Count of null"
+              }, null);
+            }
+          });
+        }
+      ],
+      function(err, data4) {
+        if (err) {
+          console.log(err);
+          callback(err, null);
+        } else if (data4) {
+          callback(null, newreturns);
+        } else {
+          callback(null, newreturns);
+        }
+      });
+  },
+
+
+  deleteMultipleAttraction: function(data, callback) {
+    ExploreSmash.update({
+      "multipleattraction._id": data._id
+    }, {
+      $pull: {
+        "multipleattraction": {
+          "_id": objectid(data._id)
+        }
+      }
+    }, function(err, updated) {
+      console.log(updated);
+      if (err) {
+        console.log(err);
+        callback(err, null);
+      } else {
+        callback(null, updated);
+      }
+    });
+
+  },
+  getOneMultipleAttraction: function(data, callback) {
+    // aggregate query
+    ExploreSmash.aggregate([{
+      $unwind: "$multipleattraction"
+    }, {
+      $match: {
+        "multipleattraction._id": objectid(data._id)
+      }
+    }, {
+      $project: {
+        multipleattraction: 1
+      }
+    }]).exec(function(err, respo) {
+      if (err) {
+        console.log(err);
+        callback(err, null);
+      } else if (respo && respo.length > 0 && respo[0].multipleattraction) {
+
+        callback(null, respo[0].multipleattraction);
       } else {
         callback({
           message: "No data found"

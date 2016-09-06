@@ -25,7 +25,12 @@ var schema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'City',
     index: true
-  }
+  },
+  cart:[{
+    user:String,
+    exploresmash:String,
+    city:String
+  }]
 
 });
 schema.plugin(uniqueValidator);

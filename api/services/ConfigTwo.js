@@ -25,7 +25,24 @@ var schema = new Schema({
   image4: {
     type: String,
     default: ""
-  }
+  },
+  city: {
+    type: Schema.Types.ObjectId,
+    ref: 'City',
+    index: true
+  },
+  thumbnail: {
+    type: String,
+    default: ""
+  },
+  videotitle: {
+    type: String,
+    default: ""
+  },
+  videourl: {
+      type: String,
+      default: ""
+    }
 
 });
 

@@ -19,7 +19,19 @@ var schema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'City',
     index: true
-  }]
+  }],
+  title: {
+    type: String,
+    default: ""
+  },
+  url: {
+    type: String,
+    default: ""
+  },
+  status: {
+    type: String,
+    default: ""
+  }
 
 });
 
@@ -94,13 +106,20 @@ var models = {
     });
   },
   findLimited: function(data, callback) {
+    var obj={};
+
+   if(data._id && data._id !==''){
+      obj={
+              city:data._id
+            };
+   }
     var newreturns = {};
     newreturns.data = [];
     data.pagenumber = parseInt(data.pagenumber);
     data.pagesize = parseInt(data.pagesize);
     async.parallel([
         function(callback) {
-          Slider.count().exec(function(err, number) {
+          Slider.count(obj).exec(function(err, number) {
             if (err) {
               console.log(err);
               callback(err, null);
@@ -114,7 +133,7 @@ var models = {
           });
         },
         function(callback) {
-          Slider.find().skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).populate("city", "_id  name", null, {
+          Slider.find(obj).populate("city").skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).populate("city", "_id  name", null, {
             sort: {}
           }).lean().exec(function(err, data2) {
             if (err) {

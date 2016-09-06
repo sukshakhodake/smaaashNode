@@ -202,6 +202,7 @@ module.exports = {
         }
     },
 
+
     // EXTERNAL API'S
 
     check:function(req,res) {
@@ -210,14 +211,20 @@ module.exports = {
         "APIKey":"afa35e6d32a54d64962a78ccf28c140017636054922421850805185"
       };
       res.body = {
-        name:"GetAllBranch"
-        // name:"GetCompanyDetails"
-        // name:"GetPackageList"
-        // data: {
-        //   name: "chintan"
-        // }
+        // name:"GetAllBranch",
+        // name:"GetCompanyDetails",
+        // name:"GetPackageList",
+          name:"GetPackageList",
+        data: {
+          // name:"GetAllBranch",
+          // name:"GetCompanyDetails",
+
+          Visitdate:"2016-09-23",
+          BranchID:"12"
+        }
       };
       api = _.assign(api,res.body.data);
+      console.log(api);
       request({
         url:"http://apismaaash.itspl.net/SMAAASHAPI.svc/"+res.body.name,
         method:"POST",
@@ -226,6 +233,12 @@ module.exports = {
         },
         body:JSON.stringify(api)
       },function(err,httpResponse,body){
+        console.log("ERRORRRRRRRR");
+        console.log(err);
+        console.log("RESPONSEEEEEE");
+        console.log(httpResponse);
+          console.log("BODYYYYYYY");
+        console.log(body);
         res.json(JSON.parse(JSON.parse(body)));
       });
     },
