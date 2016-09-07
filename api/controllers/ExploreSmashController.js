@@ -50,6 +50,16 @@ module.exports = {
       });
     }
   },
+  saveEvents: function(req, res) {
+    if (req.body) {
+      ExploreSmash.saveEvents(req.body, res.callback);
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
 
   getOne: function(req, res) {
 
@@ -173,6 +183,23 @@ module.exports = {
     if (req.body) {
       if (req.body.pagenumber && req.body.pagenumber !== "" && req.body.pagesize && req.body.pagesize !== "") {
         ExploreSmash.findLimitedDeals(req.body, res.callback);
+      } else {
+        res.json({
+          value: false,
+          data: "Please provide parameters"
+        });
+      }
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
+  findLimitedEvents: function(req, res) {
+    if (req.body) {
+      if (req.body.pagenumber && req.body.pagenumber !== "" && req.body.pagesize && req.body.pagesize !== "") {
+        ExploreSmash.findLimitedEvents(req.body, res.callback);
       } else {
         res.json({
           value: false,
