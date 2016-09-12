@@ -708,7 +708,7 @@ var models = {
           });
         },
         function(callback) {
-          ExploreSmash.find({type:"57bc4b2aeb9c91f1025a3b55"}).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).populate("city", "_id  name", null, {}).lean().exec(function(err, data2) {
+          ExploreSmash.find(obj).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).populate("city", "_id  name", null, {}).lean().exec(function(err, data2) {
             console.log(data2);
             if (err) {
               console.log(err);
