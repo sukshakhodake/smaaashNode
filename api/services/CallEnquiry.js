@@ -132,7 +132,7 @@ var models = {
           });
         },
         function(callback) {
-          CallEnquiry.find(obj).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).exec(function(err, data2) {
+          CallEnquiry.find(obj).populate('city').skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).exec(function(err, data2) {
             if (err) {
               console.log(err);
               callback(err, null);
