@@ -162,7 +162,11 @@ var schema = new Schema({
     hostAPartyType:{
       type:String,
       default:""
-    }
+    },
+     timingAndPricing:{
+        type:String,
+        default:""
+      }
 });
 
 module.exports = mongoose.model('ExploreSmash', schema);
