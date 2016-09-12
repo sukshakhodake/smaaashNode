@@ -97,18 +97,18 @@ var models = {
   findLimited: function(data, callback) {
     var obj = {};
 
-    if (data._id && data._id !== '' && data.date && data.date !== '') {
+    if (data._id && data._id !== '' && data.search && data.search !== '') {
       obj = {
         city: data._id,
-        date: data.date
+        date: data.search
       };
     } else if (data._id && data._id !== '') {
       obj = {
         city: data._id
       };
-    } else if (data.date && data.date !== '') {
+    } else if (data.search && data.search !== '') {
       obj = {
-        city: data._id
+        date: data.search
       };
     }
     var newreturns = {};
