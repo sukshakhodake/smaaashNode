@@ -674,13 +674,27 @@ var models = {
       });
   },
   findLimitedAttraction: function(data, callback) {
+    var obj={};
+
+   if(data._id && data._id !=='')
+   {
+      obj={
+              city:data._id,
+              type:"57bc4b2aeb9c91f1025a3b55"
+          };
+   }
+   else{
+     obj={
+             type:"57bc4b2aeb9c91f1025a3b55"
+         };
+   }
     var newreturns = {};
     newreturns.data = [];
     data.pagenumber = parseInt(data.pagenumber);
     data.pagesize = parseInt(data.pagesize);
     async.parallel([
         function(callback) {
-          ExploreSmash.count({type:"57bc4b2aeb9c91f1025a3b55"}).exec(function(err, number) {
+          ExploreSmash.count(obj).exec(function(err, number) {
             if (err) {
               console.log(err);
               callback(err, null);
