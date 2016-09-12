@@ -154,7 +154,11 @@ var schema = new Schema({
          ref: 'ExploreSmash',
          index: true
        }
-    }]
+    }],
+    videoThumbnail:{
+      type:String,
+      default:""
+    }
 });
 
 module.exports = mongoose.model('ExploreSmash', schema);
@@ -734,13 +738,27 @@ var models = {
       });
   },
   findLimitedEvents: function(data, callback) {
+    var obj={};
+
+   if(data._id && data._id !=='')
+   {
+      obj={
+              city:data._id,
+              type:"57bd4e71a86ee9fa6770d4b2"
+          };
+   }
+   else{
+     obj={
+             type:"57bd4e71a86ee9fa6770d4b2"
+         };
+   }
     var newreturns = {};
     newreturns.data = [];
     data.pagenumber = parseInt(data.pagenumber);
     data.pagesize = parseInt(data.pagesize);
     async.parallel([
         function(callback) {
-          ExploreSmash.count({type:"57bd4e71a86ee9fa6770d4b2"}).exec(function(err, number) {
+          ExploreSmash.count(obj).exec(function(err, number) {
             if (err) {
               console.log(err);
               callback(err, null);
@@ -754,7 +772,7 @@ var models = {
           });
         },
         function(callback) {
-          ExploreSmash.find({type:"57bd4e71a86ee9fa6770d4b2"}).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).populate("city", "_id  name", null, {}).lean().exec(function(err, data2) {
+          ExploreSmash.find(obj).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).populate("city", "_id  name", null, {}).lean().exec(function(err, data2) {
             console.log(data2);
             if (err) {
               console.log(err);
@@ -780,13 +798,27 @@ var models = {
       });
   },
   findLimitedFood: function(data, callback) {
+    var obj={};
+
+   if(data._id && data._id !=='')
+   {
+      obj={
+              city:data._id,
+              type:"57bc4b48eb9c91f1025a3b57"
+          };
+   }
+   else{
+     obj={
+             type:"57bc4b48eb9c91f1025a3b57"
+         };
+   }
     var newreturns = {};
     newreturns.data = [];
     data.pagenumber = parseInt(data.pagenumber);
     data.pagesize = parseInt(data.pagesize);
     async.parallel([
         function(callback) {
-          ExploreSmash.count({type:"57bc4b48eb9c91f1025a3b57"}).exec(function(err, number) {
+          ExploreSmash.count(obj).exec(function(err, number) {
             if (err) {
               console.log(err);
               callback(err, null);
@@ -800,7 +832,7 @@ var models = {
           });
         },
         function(callback) {
-          ExploreSmash.find({type:"57bc4b48eb9c91f1025a3b57"}).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).populate("city", "_id  name", null, {}).lean().exec(function(err, data2) {
+          ExploreSmash.find(obj).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).populate("city", "_id  name", null, {}).lean().exec(function(err, data2) {
             console.log(data2);
             if (err) {
               console.log(err);
@@ -826,13 +858,27 @@ var models = {
       });
   },
   findLimitedDeals: function(data, callback) {
+    var obj={};
+
+   if(data._id && data._id !=='')
+   {
+      obj={
+              city:data._id,
+              type:"57bc4b5aeb9c91f1025a3b58"
+          };
+   }
+   else{
+     obj={
+             type:"57bc4b5aeb9c91f1025a3b58"
+         };
+   }
     var newreturns = {};
     newreturns.data = [];
     data.pagenumber = parseInt(data.pagenumber);
     data.pagesize = parseInt(data.pagesize);
     async.parallel([
         function(callback) {
-          ExploreSmash.count({type:"57bc4b5aeb9c91f1025a3b58"}).exec(function(err, number) {
+          ExploreSmash.count(obj).exec(function(err, number) {
             if (err) {
               console.log(err);
               callback(err, null);
@@ -846,7 +892,7 @@ var models = {
           });
         },
         function(callback) {
-          ExploreSmash.find({type:"57bc4b5aeb9c91f1025a3b58"}).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).populate("city", "_id  name", null, {}).lean().exec(function(err, data2) {
+          ExploreSmash.find(obj).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).populate("city", "_id  name", null, {}).lean().exec(function(err, data2) {
             console.log(data2);
             if (err) {
               console.log(err);
@@ -872,13 +918,27 @@ var models = {
       });
   },
   findLimitedHost: function(data, callback) {
+    var obj={};
+
+   if(data._id && data._id !=='')
+   {
+      obj={
+              city:data._id,
+              type:"57bc4b10eb9c91f1025a3b54"
+          };
+   }
+   else{
+     obj={
+             type:"57bc4b10eb9c91f1025a3b54"
+         };
+   }
     var newreturns = {};
     newreturns.data = [];
     data.pagenumber = parseInt(data.pagenumber);
     data.pagesize = parseInt(data.pagesize);
     async.parallel([
         function(callback) {
-          ExploreSmash.count({type:"57bc4b10eb9c91f1025a3b54"}).exec(function(err, number) {
+          ExploreSmash.count(obj).exec(function(err, number) {
             if (err) {
               console.log(err);
               callback(err, null);
@@ -892,7 +952,7 @@ var models = {
           });
         },
         function(callback) {
-          ExploreSmash.find({type:"57bc4b10eb9c91f1025a3b54"}).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).populate("city", "_id  name", null, {}).lean().exec(function(err, data2) {
+          ExploreSmash.find(obj).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).populate("city", "_id  name", null, {}).lean().exec(function(err, data2) {
             console.log(data2);
             if (err) {
               console.log(err);
