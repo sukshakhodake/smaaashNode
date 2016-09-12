@@ -37,6 +37,10 @@ var schema = new Schema({
   Photo: {
     type: String,
     default: ""
+  },
+  pdf: {
+    type: String,
+    default: ""
   }
 
 });

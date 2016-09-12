@@ -158,6 +158,10 @@ var schema = new Schema({
     videoThumbnail:{
       type:String,
       default:""
+    },
+    hostAPartyType:{
+      type:String,
+      default:""
     }
 });
 
