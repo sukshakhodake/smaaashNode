@@ -70,6 +70,16 @@ module.exports = {
       });
     }
   },
+  saveBuyNow: function(req, res) {
+    if (req.body) {
+      ExploreSmash.saveBuyNow(req.body, res.callback);
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
 
   getOne: function(req, res) {
 
@@ -210,6 +220,23 @@ module.exports = {
     if (req.body) {
       if (req.body.pagenumber && req.body.pagenumber !== "" && req.body.pagesize && req.body.pagesize !== "") {
         ExploreSmash.findLimitedAttraction(req.body, res.callback);
+      } else {
+        res.json({
+          value: false,
+          data: "Please provide parameters"
+        });
+      }
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
+  findLimitedBuyNow: function(req, res) {
+    if (req.body) {
+      if (req.body.pagenumber && req.body.pagenumber !== "" && req.body.pagesize && req.body.pagesize !== "") {
+        ExploreSmash.findLimitedBuyNow(req.body, res.callback);
       } else {
         res.json({
           value: false,

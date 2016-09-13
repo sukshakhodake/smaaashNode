@@ -228,6 +228,35 @@ var models = {
       });
     }
   },
+  saveBuyNow: function(data, callback) {
+    var exploresmash = this(data);
+    exploresmash.timestamp = new Date();
+    exploresmash.type = "57c9470e214d5a1c10f7d042";
+    if (data._id) {
+      this.findOneAndUpdate({
+        _id: data._id
+      }, data).exec(function(err, updated) {
+        if (err) {
+          console.log(err);
+          callback(err, null);
+        } else if (updated) {
+          callback(null, updated);
+        } else {
+          callback(null, {});
+        }
+      });
+    } else {
+      exploresmash.save(function(err, created) {
+        if (err) {
+          callback(err, null);
+        } else if (created) {
+          callback(null, created);
+        } else {
+          callback(null, {});
+        }
+      });
+    }
+  },
   saveEvents: function(data, callback) {
     var exploresmash = this(data);
     exploresmash.timestamp = new Date();
@@ -967,6 +996,66 @@ var models = {
    else{
      obj={
              type:"57bc4b36eb9c91f1025a3b56"
+         };
+   }
+    var newreturns = {};
+    newreturns.data = [];
+    data.pagenumber = parseInt(data.pagenumber);
+    data.pagesize = parseInt(data.pagesize);
+    async.parallel([
+        function(callback) {
+          ExploreSmash.count(obj).exec(function(err, number) {
+            if (err) {
+              console.log(err);
+              callback(err, null);
+            } else if (number && number !== "") {
+              newreturns.total = number;
+              newreturns.totalpages = Math.ceil(number / data.pagesize);
+              callback(null, newreturns);
+            } else {
+              callback(null, newreturns);
+            }
+          });
+        },
+        function(callback) {
+          ExploreSmash.find(obj).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).populate("city", "_id  name", null, {}).lean().exec(function(err, data2) {
+            console.log(data2);
+            if (err) {
+              console.log(err);
+              callback(err, null);
+            } else if (data2 && data2.length > 0) {
+              newreturns.data = data2;
+              callback(null, newreturns);
+            } else {
+              callback(null, newreturns);
+            }
+          });
+        }
+      ],
+      function(err, data4) {
+        if (err) {
+          console.log(err);
+          callback(err, null);
+        } else if (data4) {
+          callback(null, newreturns);
+        } else {
+          callback(null, newreturns);
+        }
+      });
+  },
+  findLimitedBuyNow: function(data, callback) {
+    var obj={};
+
+   if(data._id && data._id !=='')
+   {
+      obj={
+              city:data._id,
+              type:"57c9470e214d5a1c10f7d042"
+          };
+   }
+   else{
+     obj={
+             type:"57c9470e214d5a1c10f7d042"
          };
    }
     var newreturns = {};
