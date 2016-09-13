@@ -30,6 +30,16 @@ module.exports = {
       });
     }
   },
+  savePromotion: function(req, res) {
+    if (req.body) {
+      ExploreSmash.savePromotion(req.body, res.callback);
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
   saveHost: function(req, res) {
     if (req.body) {
       ExploreSmash.saveHost(req.body, res.callback);
@@ -196,6 +206,23 @@ module.exports = {
       });
     }
   },
+  findLimitedAttraction: function(req, res) {
+    if (req.body) {
+      if (req.body.pagenumber && req.body.pagenumber !== "" && req.body.pagesize && req.body.pagesize !== "") {
+        ExploreSmash.findLimitedAttraction(req.body, res.callback);
+      } else {
+        res.json({
+          value: false,
+          data: "Please provide parameters"
+        });
+      }
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
   findLimitedEvents: function(req, res) {
     if (req.body) {
       if (req.body.pagenumber && req.body.pagenumber !== "" && req.body.pagesize && req.body.pagesize !== "") {
@@ -230,10 +257,10 @@ module.exports = {
       });
     }
   },
-  findLimitedAttraction: function(req, res) {
+  findLimitedPromotion: function(req, res) {
     if (req.body) {
       if (req.body.pagenumber && req.body.pagenumber !== "" && req.body.pagesize && req.body.pagesize !== "") {
-        ExploreSmash.findLimitedAttraction(req.body, res.callback);
+        ExploreSmash.findLimitedPromotion(req.body, res.callback);
       } else {
         res.json({
           value: false,
