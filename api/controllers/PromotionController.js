@@ -64,12 +64,7 @@ module.exports = {
         data: "Invalid Request"
       });
     }
-  },
-
-  /* make the API call */
-  // facebook:getFbData('1745055379070800', '/me/friends', function(data){
-  //     console.log(data);
-  // })
+  }
 
 
 };

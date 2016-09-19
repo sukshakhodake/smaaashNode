@@ -1,7 +1,7 @@
 var request = require('request');
 module.exports = {
 
-    save: function(req, res) {
+    save: function (req, res) {
         if (req.body) {
             User.saveData(req.body, res.callback);
         } else {
@@ -12,7 +12,7 @@ module.exports = {
         }
     },
 
-    getOne: function(req, res) {
+    getOne: function (req, res) {
         if (req.body) {
             User.getOne(req.body, res.callback);
         } else {
@@ -23,7 +23,7 @@ module.exports = {
         }
     },
 
-    delete: function(req, res) {
+    delete: function (req, res) {
         if (req.body) {
             User.deleteData(req.body, res.callback);
         } else {
@@ -34,7 +34,7 @@ module.exports = {
         }
     },
 
-    getAll: function(req, res) {
+    getAll: function (req, res) {
         function callback(err, data) {
             Global.response(err, data, res);
         }
@@ -48,8 +48,8 @@ module.exports = {
         }
     },
 
-    register: function(req, res) {
-        var callback = function(err, data) {
+    register: function (req, res) {
+        var callback = function (err, data) {
             if (err) {
                 res.json({
                     error: err,
@@ -86,10 +86,10 @@ module.exports = {
         }
     },
 
-    checkOtp: function(req, res) {
+    checkOtp: function (req, res) {
         if (req.body) {
             if (req.body.mobile && req.body.otp) {
-                User.checkOtp(req.body, function(err, data) {
+                User.checkOtp(req.body, function (err, data) {
                     if (err) {
                         res.json({
                             value: false,
@@ -116,8 +116,8 @@ module.exports = {
         }
     },
 
-    loginFacebook: function(req, res) {
-        var callback = function(err, data) {
+    loginFacebook: function (req, res) {
+        var callback = function (err, data) {
             if (err || _.isEmpty(data)) {
                 res.json({
                     error: err,
@@ -126,7 +126,7 @@ module.exports = {
             } else {
                 if (data._id) {
                     req.session.user = data;
-                    req.session.save(function(err) {
+                    req.session.save(function (err) {
                         if (err) {
                             res.json(err);
                         } else {
@@ -146,7 +146,7 @@ module.exports = {
         }, callback)(req, res);
     },
 
-    profile: function(req, res) {
+    profile: function (req, res) {
         var user = req.session.user;
         if (user) {
             res.json({
@@ -160,8 +160,8 @@ module.exports = {
             });
         }
     },
-    loginTwitter: function(req, res) {
-        var callback = function(err, data) {
+    loginTwitter: function (req, res) {
+        var callback = function (err, data) {
             if (err || _.isEmpty(data)) {
                 res.json({
                     error: err,
@@ -170,7 +170,7 @@ module.exports = {
             } else {
                 req.session.user = data;
                 // console.log(req.session);
-                req.session.save(function(err) {
+                req.session.save(function (err) {
                     if (err) {
                         res.json(err);
                     } else {
@@ -184,7 +184,7 @@ module.exports = {
         passport.authenticate('twitter', {}, callback)(req, res);
     },
 
-    findLimited: function(req, res) {
+    findLimited: function (req, res) {
         if (req.body) {
             if (req.body.pagenumber && req.body.pagenumber !== "" && req.body.pagesize && req.body.pagesize !== "") {
                 User.findLimited(req.body, res.callback);
@@ -205,41 +205,42 @@ module.exports = {
 
     // EXTERNAL API'S
 
-    check:function(req,res) {
+    check: function (req, res) {
 
-      var api = {
-        "APIKey":"afa35e6d32a54d64962a78ccf28c140017636054922421850805185"
-      };
-      res.body = {
-        // name:"GetAllBranch",
-        // name:"GetCompanyDetails",
-        // name:"GetPackageList",
-          name:"GetPackageList",
-        data: {
-          // name:"GetAllBranch",
-          // name:"GetCompanyDetails",
+        var api = {
+            "APIKey": "afa35e6d32a54d64962a78ccf28c140017636054922421850805185"
+        };
+        res.body =
+            {
+                name: "GetAllBranch",
+                // name:"GetCompanyDetails",
+                // name:"GetPackageList",
+                //   name:"GetPackageList",
+                data: {
+                    // name:"GetAllBranch",
+                    // name:"GetCompanyDetails",
 
-          Visitdate:"2016-09-23",
-          BranchID:"12"
-        }
-      };
-      api = _.assign(api,res.body.data);
-      console.log(api);
-      request({
-        url:"http://apismaaash.itspl.net/SMAAASHAPI.svc/"+res.body.name,
-        method:"POST",
-        headers: {
-          "Content-Type":"application/json"
-        },
-        body:JSON.stringify(api)
-      },function(err,httpResponse,body){
-        console.log("ERRORRRRRRRR");
-        console.log(err);
-        console.log("RESPONSEEEEEE");
-        console.log(httpResponse);
-          console.log("BODYYYYYYY");
-        console.log(body);
-        res.json(JSON.parse(JSON.parse(body)));
-      });
+                    //   Visitdate:"2016-09-23",
+                    //   BranchID:"12"
+                }
+            };
+        api = _.assign(api, res.body.data);
+        console.log(api);
+        request({
+            url: "http://apismaaash.itspl.net/SMAAASHAPI.svc/" + res.body.name,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(api)
+        }, function (err, httpResponse, body) {
+            console.log("ERRORRRRRRRR");
+            console.log(err);
+            console.log("RESPONSEEEEEE");
+            console.log(httpResponse);
+            console.log("BODYYYYYYY");
+            console.log(body);
+            res.json(JSON.parse(JSON.parse(body)));
+        });
     },
 };
