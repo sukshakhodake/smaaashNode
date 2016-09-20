@@ -64,6 +64,23 @@ module.exports = {
         data: "Invalid Request"
       });
     }
+  },
+  viewEventRegistration: function(req, res) {
+    if (req.body) {
+      if (req.body.pagenumber && req.body.pagenumber !== "" && req.body.pagesize && req.body.pagesize !== "") {
+        Enquiry.viewEventRegistration(req.body, res.callback);
+      } else {
+        res.json({
+          value: false,
+          data: "Please provide parameters"
+        });
+      }
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
   }
 
 
