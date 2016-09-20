@@ -20,7 +20,7 @@ var schema = new Schema({
     type: String,
     default: ""
   },
-  destination: {
+  description: {
     type: String,
     default: ""
   },
@@ -69,6 +69,20 @@ var models = {
         callback(err, null);
       } else {
         callback(null, deleted);
+      }
+    });
+  },
+  getAllLeader: function(data, callback) {
+    this.find({
+      status:true
+    }).sort({order:-1}).exec(function(err, found) {
+      if (err) {
+        console.log(err);
+        callback(err, null);
+      } else if (found && found.length > 0) {
+        callback(null, found);
+      } else {
+        callback(null, []);
       }
     });
   },
@@ -138,8 +152,6 @@ var models = {
             name: {
               '$regex': check
             }
-          }, {
-            password: 0
           }).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).exec(function(err, data2) {
             if (err) {
               console.log(err);
