@@ -90,7 +90,7 @@ var models = {
     });
   },
   getAll: function(data, callback) {
-    this.find({}).exec(function(err, found) {
+    this.find({city:data.city}).exec(function(err, found) {
       if (err) {
         console.log(err);
         callback(err, null);
