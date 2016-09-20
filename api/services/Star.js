@@ -8,6 +8,9 @@ var schema = new Schema({
       image: String
     }
   },
+  images: [{
+    image: String
+  }],
   order: {
     type: String,
     default: ""
@@ -28,7 +31,7 @@ var schema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'City',
     index: true
-}]
+  }]
 
 });
 
@@ -113,7 +116,7 @@ var models = {
             title: {
               '$regex': check
             },
-            city:data.city
+            city: data.city
           }).exec(function(err, number) {
             if (err) {
               console.log(err);
@@ -132,7 +135,7 @@ var models = {
             title: {
               '$regex': check
             },
-              city:data.city
+            city: data.city
           }).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).exec(function(err, data2) {
             if (err) {
               console.log(err);
