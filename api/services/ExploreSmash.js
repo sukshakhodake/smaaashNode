@@ -12,11 +12,11 @@ var schema = new Schema({
     type: Boolean,
     default: ""
   },
-  city: [
-    {  type: Schema.Types.ObjectId,
-     ref: 'City',
-     index: true}
-   ],
+  city: [{
+    type: Schema.Types.ObjectId,
+    ref: 'City',
+    index: true
+  }],
   order: {
     type: String,
     default: ""
@@ -37,11 +37,11 @@ var schema = new Schema({
     type: String,
     default: ""
   },
-     type: {
-       type: Schema.Types.ObjectId,
-       ref: 'Type',
-       index: true
-   },
+  type: {
+    type: Schema.Types.ObjectId,
+    ref: 'Type',
+    index: true
+  },
   description: {
     type: String,
     default: ""
@@ -135,38 +135,45 @@ var schema = new Schema({
     type: String,
     default: ""
   },
-  homeimage:{
+  homeimage: {
     type: String,
     default: ""
   },
-   multipleattraction: [{
-      icon: {
-        type: String,
-        default: ""
-      },
-      text: {
-        type: String,
-        default: ""
-      },
-      attraction:
-        {
-        type: Schema.Types.ObjectId,
-         ref: 'ExploreSmash',
-         index: true
-       }
-    }],
-    videoThumbnail:{
-      type:String,
-      default:""
+  multipleattraction: [{
+    icon: {
+      type: String,
+      default: ""
     },
-    hostAPartyType:{
-      type:String,
-      default:""
+    text: {
+      type: String,
+      default: ""
     },
-     timingAndPricing:{
-        type:String,
-        default:""
-      }
+    attraction: {
+      type: Schema.Types.ObjectId,
+      ref: 'ExploreSmash',
+      index: true
+    }
+  }],
+  videoThumbnail: {
+    type: String,
+    default: ""
+  },
+  hostAPartyType: {
+    type: String,
+    default: ""
+  },
+  timingAndPricing: {
+    type: String,
+    default: ""
+  },
+  prize: {
+    type: String,
+    default: ""
+  },
+  schedule: {
+    type: String,
+    default: ""
+  }
 });
 
 module.exports = mongoose.model('ExploreSmash', schema);
@@ -428,13 +435,18 @@ var models = {
     });
   },
   getAllAttraction: function(data, callback) {
-    var name='';
-    this.find({type:"57bc4b2aeb9c91f1025a3b55"},{_id:1,hometext:1}).lean().exec(function(err, found) {
+    var name = '';
+    this.find({
+      type: "57bc4b2aeb9c91f1025a3b55"
+    }, {
+      _id: 1,
+      hometext: 1
+    }).lean().exec(function(err, found) {
       if (err) {
         console.log(err);
         callback(err, null);
       } else if (found && found.length > 0) {
-        _.each(found,function(n) {
+        _.each(found, function(n) {
           n.name = n.hometext;
           delete n.hometext;
         });
@@ -446,8 +458,8 @@ var models = {
   },
   getSingleExploreSmaaash: function(data, callback) {
     this.find({
-      type:data._id,
-      city:data.city,
+      type: data._id,
+      city: data.city,
     }).exec(function(err, found) {
       if (err) {
         console.log(err);
@@ -461,7 +473,7 @@ var models = {
   },
   getAllExploreSmashByCity: function(data, callback) {
     this.find({
-      city:data._id
+      city: data._id
     }).exec(function(err, found) {
       if (err) {
         console.log(err);
@@ -476,7 +488,7 @@ var models = {
   getHomeContent: function(data, callback) {
     this.find({
       isHome: true,
-      city:data.city
+      city: data.city
     }).populate('type').exec(function(err, found) {
       if (err) {
         console.log(err);
@@ -744,20 +756,18 @@ var models = {
       });
   },
   findLimitedAttraction: function(data, callback) {
-    var obj={};
+    var obj = {};
 
-   if(data._id && data._id !=='')
-   {
-      obj={
-              city:data._id,
-              type:"57bc4b2aeb9c91f1025a3b55"
-          };
-   }
-   else{
-     obj={
-             type:"57bc4b2aeb9c91f1025a3b55"
-         };
-   }
+    if (data._id && data._id !== '') {
+      obj = {
+        city: data._id,
+        type: "57bc4b2aeb9c91f1025a3b55"
+      };
+    } else {
+      obj = {
+        type: "57bc4b2aeb9c91f1025a3b55"
+      };
+    }
     var newreturns = {};
     newreturns.data = [];
     data.pagenumber = parseInt(data.pagenumber);
@@ -804,20 +814,18 @@ var models = {
       });
   },
   findLimitedEvents: function(data, callback) {
-    var obj={};
+    var obj = {};
 
-   if(data._id && data._id !=='')
-   {
-      obj={
-              city:data._id,
-              type:"57bd4e71a86ee9fa6770d4b2"
-          };
-   }
-   else{
-     obj={
-             type:"57bd4e71a86ee9fa6770d4b2"
-         };
-   }
+    if (data._id && data._id !== '') {
+      obj = {
+        city: data._id,
+        type: "57bd4e71a86ee9fa6770d4b2"
+      };
+    } else {
+      obj = {
+        type: "57bd4e71a86ee9fa6770d4b2"
+      };
+    }
     var newreturns = {};
     newreturns.data = [];
     data.pagenumber = parseInt(data.pagenumber);
@@ -864,20 +872,18 @@ var models = {
       });
   },
   findLimitedFood: function(data, callback) {
-    var obj={};
+    var obj = {};
 
-   if(data._id && data._id !=='')
-   {
-      obj={
-              city:data._id,
-              type:"57bc4b48eb9c91f1025a3b57"
-          };
-   }
-   else{
-     obj={
-             type:"57bc4b48eb9c91f1025a3b57"
-         };
-   }
+    if (data._id && data._id !== '') {
+      obj = {
+        city: data._id,
+        type: "57bc4b48eb9c91f1025a3b57"
+      };
+    } else {
+      obj = {
+        type: "57bc4b48eb9c91f1025a3b57"
+      };
+    }
     var newreturns = {};
     newreturns.data = [];
     data.pagenumber = parseInt(data.pagenumber);
@@ -924,20 +930,18 @@ var models = {
       });
   },
   findLimitedDeals: function(data, callback) {
-    var obj={};
+    var obj = {};
 
-   if(data._id && data._id !=='')
-   {
-      obj={
-              city:data._id,
-              type:"57bc4b5aeb9c91f1025a3b58"
-          };
-   }
-   else{
-     obj={
-             type:"57bc4b5aeb9c91f1025a3b58"
-         };
-   }
+    if (data._id && data._id !== '') {
+      obj = {
+        city: data._id,
+        type: "57bc4b5aeb9c91f1025a3b58"
+      };
+    } else {
+      obj = {
+        type: "57bc4b5aeb9c91f1025a3b58"
+      };
+    }
     var newreturns = {};
     newreturns.data = [];
     data.pagenumber = parseInt(data.pagenumber);
@@ -984,20 +988,18 @@ var models = {
       });
   },
   findLimitedPromotion: function(data, callback) {
-    var obj={};
+    var obj = {};
 
-   if(data._id && data._id !=='')
-   {
-      obj={
-              city:data._id,
-              type:"57bc4b36eb9c91f1025a3b56"
-          };
-   }
-   else{
-     obj={
-             type:"57bc4b36eb9c91f1025a3b56"
-         };
-   }
+    if (data._id && data._id !== '') {
+      obj = {
+        city: data._id,
+        type: "57bc4b36eb9c91f1025a3b56"
+      };
+    } else {
+      obj = {
+        type: "57bc4b36eb9c91f1025a3b56"
+      };
+    }
     var newreturns = {};
     newreturns.data = [];
     data.pagenumber = parseInt(data.pagenumber);
@@ -1044,20 +1046,18 @@ var models = {
       });
   },
   findLimitedBuyNow: function(data, callback) {
-    var obj={};
+    var obj = {};
 
-   if(data._id && data._id !=='')
-   {
-      obj={
-              city:data._id,
-              type:"57c9470e214d5a1c10f7d042"
-          };
-   }
-   else{
-     obj={
-             type:"57c9470e214d5a1c10f7d042"
-         };
-   }
+    if (data._id && data._id !== '') {
+      obj = {
+        city: data._id,
+        type: "57c9470e214d5a1c10f7d042"
+      };
+    } else {
+      obj = {
+        type: "57c9470e214d5a1c10f7d042"
+      };
+    }
     var newreturns = {};
     newreturns.data = [];
     data.pagenumber = parseInt(data.pagenumber);
@@ -1104,20 +1104,18 @@ var models = {
       });
   },
   findLimitedHost: function(data, callback) {
-    var obj={};
+    var obj = {};
 
-   if(data._id && data._id !=='')
-   {
-      obj={
-              city:data._id,
-              type:"57bc4b10eb9c91f1025a3b54"
-          };
-   }
-   else{
-     obj={
-             type:"57bc4b10eb9c91f1025a3b54"
-         };
-   }
+    if (data._id && data._id !== '') {
+      obj = {
+        city: data._id,
+        type: "57bc4b10eb9c91f1025a3b54"
+      };
+    } else {
+      obj = {
+        type: "57bc4b10eb9c91f1025a3b54"
+      };
+    }
     var newreturns = {};
     newreturns.data = [];
     data.pagenumber = parseInt(data.pagenumber);
