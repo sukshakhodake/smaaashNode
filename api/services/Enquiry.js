@@ -51,13 +51,27 @@ var models = {
         }
       });
     } else {
-      enquiry.save(function(err, created) {
+      this.findOne({
+        "email": data.email
+      }).exec(function(err, found) {
         if (err) {
+          console.log(err);
           callback(err, null);
-        } else if (created) {
-          callback(null, created);
+        } else if (found && Object.keys(found).length > 0) {
+          callback(null, {
+            value: false,
+            data: "Email already exists"
+          });
         } else {
-          callback(null, {});
+          enquiry.save(function(err, created) {
+            if (err) {
+              callback(err, null);
+            } else if (created) {
+              callback(null, created);
+            } else {
+              callback(null, {});
+            }
+          });
         }
       });
     }
