@@ -19,11 +19,16 @@ var schema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'City',
     index: true
-},
+  },
   comment: {
     type: String,
     default: ""
+  },
+  dob: {
+    type: Date,
+    default: Date.now
   }
+
 
 });
 
