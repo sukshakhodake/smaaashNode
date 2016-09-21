@@ -37,9 +37,6 @@ var schema = new Schema({
     type: String,
     default: ""
   },
-  deals: [{
-    type: Schema.tyope
-  }],
   type: {
     type: Schema.Types.ObjectId,
     ref: 'Type',
@@ -152,15 +149,6 @@ var schema = new Schema({
       default: ""
     },
     attraction: {
-      type: Schema.Types.ObjectId,
-      ref: 'ExploreSmash',
-      index: true
-    },
-    indicator: {
-      type: String,
-      default: ""
-    },
-    dealid: {
       type: Schema.Types.ObjectId,
       ref: 'ExploreSmash',
       index: true
