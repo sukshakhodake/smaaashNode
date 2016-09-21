@@ -12,6 +12,10 @@ var schema = new Schema({
     type: String,
     default: ""
   },
+  name: {
+    type: String,
+    default: ""
+  },
   city: {
     type: Schema.Types.ObjectId,
     ref: 'City',
