@@ -152,7 +152,15 @@ var schema = new Schema({
       type: Schema.Types.ObjectId,
       ref: 'ExploreSmash',
       index: true
-    }
+    },
+    indicator: {
+      type: String,
+      default: ""
+    },
+    dealid: {
+      type: String,
+      default: ""
+    },
   }],
   videoThumbnail: {
     type: String,
