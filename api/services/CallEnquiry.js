@@ -4,8 +4,8 @@ var Schema = mongoose.Schema;
 var schema = new Schema({
 
   date: {
-    type: String,
-    default: ""
+    type: Date,
+    default: date.now
   },
 
   mobile: {
