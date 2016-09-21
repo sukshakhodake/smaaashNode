@@ -246,7 +246,7 @@ module.exports = {
   findLimitedWhatsNew: function(req, res) {
     if (req.body) {
       if (req.body.pagenumber && req.body.pagenumber !== "" && req.body.pagesize && req.body.pagesize !== "") {
-        ExploreSmash.findLimitedAttraction(req.body, res.callback);
+        ExploreSmash.findLimitedWhatsNew(req.body, res.callback);
       } else {
         res.json({
           value: false,
