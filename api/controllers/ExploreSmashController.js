@@ -20,6 +20,16 @@ module.exports = {
       });
     }
   },
+  saveWhatsNew: function(req, res) {
+    if (req.body) {
+      ExploreSmash.saveWhatsNew(req.body, res.callback);
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
   saveDeals: function(req, res) {
     if (req.body) {
       ExploreSmash.saveDeals(req.body, res.callback);
@@ -217,6 +227,23 @@ module.exports = {
     }
   },
   findLimitedAttraction: function(req, res) {
+    if (req.body) {
+      if (req.body.pagenumber && req.body.pagenumber !== "" && req.body.pagesize && req.body.pagesize !== "") {
+        ExploreSmash.findLimitedAttraction(req.body, res.callback);
+      } else {
+        res.json({
+          value: false,
+          data: "Please provide parameters"
+        });
+      }
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
+  findLimitedWhatsNew: function(req, res) {
     if (req.body) {
       if (req.body.pagenumber && req.body.pagenumber !== "" && req.body.pagesize && req.body.pagesize !== "") {
         ExploreSmash.findLimitedAttraction(req.body, res.callback);
