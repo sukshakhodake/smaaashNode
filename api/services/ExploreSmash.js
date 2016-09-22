@@ -1458,23 +1458,24 @@ var models = {
           console.log(err);
           callback(err, null);
         } else {
-          ExploreSmash.update({
-            _id: data.attraction
-          }, {
-            $push: {
-              "multipleattraction": {
-                icon: data.icon,
-                indicator: "deal",
-                exploresmashid: data.explore
-              }
-            }
-          }, function(err, response) {
-            if (err) {
-              callback(err, null);
-            } else {
-              callback(null, response);
-            }
-          });
+          callback(null, updated);
+          // ExploreSmash.update({
+          //   _id: data.attraction
+          // }, {
+          //   $push: {
+          //     "multipleattraction": {
+          //       icon: data.icon,
+          //       indicator: "deal",
+          //       exploresmashid: data.explore
+          //     }
+          //   }
+          // }, function(err, response) {
+          //   if (err) {
+          //     callback(err, null);
+          //   } else {
+          //     callback(null, response);
+          //   }
+          // });
         }
       });
     } else {
@@ -1493,29 +1494,29 @@ var models = {
           console.log(err);
           callback(err, null);
         } else {
-          ExploreSmash.update({
-            "_id": data.attraction,
-            "multipleattraction._id" : data._id
-          }, {
-            "$set": {
-              "multipleattraction.$": {
-                "icon": data.icon,
-                "indicator": "deal",
-                "exploresmashid": data.explore
-              }
-            }
-          }, function(err, response) {
-            if (err) {
-              callback(err, null);
-            } else {
-              callback(null, response);
-            }
-          });
+          // ExploreSmash.update({
+          //   "_id": data.attraction,
+          //   "multipleattraction._id" : data._id
+          // }, {
+          //   "$set": {
+          //     "multipleattraction.$": {
+          //       "icon": data.icon,
+          //       "indicator": "deal",
+          //       "exploresmashid": data.explore
+          //     }
+          //   }
+          // }, function(err, response) {
+          //   if (err) {
+          //     callback(err, null);
+          //   } else {
+          //     callback(null, response);
+          //   }
+          // });
 
 
 
 
-          // callback(null, updated);
+          callback(null, updated);
         }
       });
     }
