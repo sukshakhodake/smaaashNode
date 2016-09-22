@@ -1546,7 +1546,7 @@ var models = {
             $project: {
               count: 1
             }
-          }]).populate('attraction').exec(function(err, result) {
+          }]).exec(function(err, result) {
             console.log(result);
             if (result && result[0]) {
               newreturns.total = result[0].count;
