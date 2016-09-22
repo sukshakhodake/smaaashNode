@@ -474,12 +474,10 @@ var models = {
   },
   getAllAttraction: function(data, callback) {
     var name = '';
-    this.find({
-      type: "57bc4b2aeb9c91f1025a3b55"
-    }, {
+    this.find({}, {
       _id: 1,
       hometext: 1
-    }).lean().exec(function(err, found) {
+    }).  where('type').in(['57bd4e71a86ee9fa6770d4b2', '57bc4b36eb9c91f1025a3b56','57bc4b5aeb9c91f1025a3b58']).lean().exec(function(err, found) {
       if (err) {
         console.log(err);
         callback(err, null);
