@@ -11,7 +11,7 @@ var schema = new Schema({
   email: {
     type: String,
     default: "",
-    unique : true
+    unique: true
   },
   password: {
     type: String,
@@ -26,11 +26,48 @@ var schema = new Schema({
     ref: 'City',
     index: true
   },
-  cart:[{
-    user:String,
-    exploresmash:String,
-    city:String
-  }]
+  cart: [{
+    user: String,
+    exploresmash: String,
+    city: String
+  }],
+  occasion: {
+    type: String,
+    default: ""
+  },
+  noofpeople: {
+    type: String,
+    default: ""
+  },
+  date: {
+    type: Date,
+    default: Date.now
+  },
+  games: [{
+    type: Schema.Types.ObjectId,
+    ref: 'ExploreSmash',
+    index: true
+  }],
+  foodStyle: {
+    type: String,
+    default: ""
+  },
+  starter: {
+    type: String,
+    default: ""
+  },
+  mainCourse: {
+    type: String,
+    default: ""
+  },
+  dessert: {
+    type: String,
+    default: ""
+  },
+  alcohol: {
+    type: String,
+    default: ""
+  },
 
 });
 schema.plugin(uniqueValidator);
@@ -39,7 +76,7 @@ module.exports = mongoose.model('SignUp', schema);
 var models = {
   saveData: function(data, callback) {
     if (data.password && data.password !== "") {
-        data.password = md5(data.password);
+      data.password = md5(data.password);
     }
     var signup = this(data);
     if (data._id) {
@@ -93,14 +130,22 @@ var models = {
     });
   },
   getOne: function(data, callback) {
+    var arr = [];
+    var found = {};
     this.findOne({
       "_id": data._id
-    }).exec(function(err, found) {
+    }).populate('games', 'hometext').exec(function(err, found) {
       if (err) {
         console.log(err);
         callback(err, null);
-      } else if (found && Object.keys(found).length > 0) {
-        callback(null, found);
+      } else if (found) {
+        _.each(found.games, function(n) {
+          arr.push(n.hometext);
+
+        });
+        y = _.clone(found);
+        y._doc.arr = arr;
+        callback(null, y._doc);
       } else {
         callback(null, {});
       }
@@ -164,65 +209,65 @@ var models = {
 
 
   login: function(data, callback) {
-      data.password = md5(data.password);
-      SignUp.findOne({
-          email: data.email,
-          password: data.password
-      }, function(err, data2) {
-          if (err) {
+    data.password = md5(data.password);
+    SignUp.findOne({
+      email: data.email,
+      password: data.password
+    }, function(err, data2) {
+      if (err) {
+        console.log(err);
+        callback(err, null);
+      } else {
+        if (_.isEmpty(data2)) {
+          SignUp.findOne({
+            email: data.email,
+            forgotpassword: data.password
+          }, function(err, data4) {
+            if (err) {
               console.log(err);
               callback(err, null);
-          } else {
-              if (_.isEmpty(data2)) {
-                  SignUp.findOne({
-                      email: data.email,
-                      forgotpassword: data.password
-                  }, function(err, data4) {
-                      if (err) {
-                          console.log(err);
-                          callback(err, null);
-                      } else {
-                          if (_.isEmpty(data4)) {
-                              callback(null, {
-                                  comment: "User Not Found"
-                              });
-                          } else {
-                              SignUp.findOneAndUpdate({
-                                  _id: data4._id
-                              }, {
-                                  password: data.password,
-                                  forgotpassword: ""
-                              }, function(err, data5) {
-                                  if (err) {
-                                      console.log(err);
-                                      callback(err, null);
-                                  } else {
-                                      data5.password = "";
-                                      data5.forgotpassword = "";
-                                      callback(null, data5);
-                                  }
-                              });
-                          }
-                      }
-                  });
+            } else {
+              if (_.isEmpty(data4)) {
+                callback(null, {
+                  comment: "User Not Found"
+                });
               } else {
-                  SignUp.findOneAndUpdate({
-                      _id: data2._id
-                  }, {
-                      forgotpassword: ""
-                  }, function(err, data3) {
-                      if (err) {
-                          console.log(err);
-                          callback(err, null);
-                      } else {
-                          data3.password = "";
-                          data3.forgotpassword = "";
-                          callback(null, data3);
-                      }
-                  });
+                SignUp.findOneAndUpdate({
+                  _id: data4._id
+                }, {
+                  password: data.password,
+                  forgotpassword: ""
+                }, function(err, data5) {
+                  if (err) {
+                    console.log(err);
+                    callback(err, null);
+                  } else {
+                    data5.password = "";
+                    data5.forgotpassword = "";
+                    callback(null, data5);
+                  }
+                });
               }
-          }
-      });
+            }
+          });
+        } else {
+          SignUp.findOneAndUpdate({
+            _id: data2._id
+          }, {
+            forgotpassword: ""
+          }, function(err, data3) {
+            if (err) {
+              console.log(err);
+              callback(err, null);
+            } else {
+              data3.password = "";
+              data3.forgotpassword = "";
+              callback(null, data3);
+            }
+          });
+        }
+      }
+    });
   },
 };
 

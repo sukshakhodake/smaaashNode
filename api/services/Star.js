@@ -8,10 +8,12 @@ var schema = new Schema({
       image: String
     }
   },
-  images: [{
-    image: String
-  }],
+
   order: {
+    type: String,
+    default: ""
+  },
+  popupImage: {
     type: String,
     default: ""
   },

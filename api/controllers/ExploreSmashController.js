@@ -610,7 +610,6 @@ module.exports = {
       }
     },
     saveMultipleAttraction: function(req, res) {
-      console.log(req.body);
       if (req.body) {
         ExploreSmash.saveMultipleAttraction(req.body, function(err, respo) {
           if (err) {

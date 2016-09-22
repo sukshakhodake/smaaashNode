@@ -22,6 +22,10 @@ var schema = new Schema({
     ref: 'City',
     index: true
   }],
+  popupImage: {
+    type: String,
+    default: ""
+  }
 
 });
 

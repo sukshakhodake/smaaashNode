@@ -157,9 +157,10 @@ var schema = new Schema({
       type: String,
       default: ""
     },
-    dealid: {
-      type: String,
-      default: ""
+    exploresmashid: {
+      type: Schema.Types.ObjectId,
+      ref: 'ExploreSmash',
+      index: true
     },
   }],
   videoThumbnail: {
@@ -1444,7 +1445,6 @@ var models = {
   // Muilptle Attractions
 
   saveMultipleAttraction: function(data, callback) {
-    console.log(data);
     var explore = data.explore;
     if (!data._id) {
       ExploreSmash.update({
@@ -1458,7 +1458,23 @@ var models = {
           console.log(err);
           callback(err, null);
         } else {
-          callback(null, updated);
+          ExploreSmash.update({
+            _id: data.attraction
+          }, {
+            $push: {
+              "multipleattraction": {
+                icon: data.icon,
+                indicator: "deal",
+                exploresmashid: data.explore
+              }
+            }
+          }, function(err, response) {
+            if (err) {
+              callback(err, null);
+            } else {
+              callback(null, response);
+            }
+          });
         }
       });
     } else {
@@ -1477,7 +1493,29 @@ var models = {
           console.log(err);
           callback(err, null);
         } else {
-          callback(null, updated);
+          ExploreSmash.update({
+            "_id": data.attraction,
+            "multipleattraction._id" : data._id
+          }, {
+            "$set": {
+              "multipleattraction.$": {
+                "icon": data.icon,
+                "indicator": "deal",
+                "exploresmashid": data.explore
+              }
+            }
+          }, function(err, response) {
+            if (err) {
+              callback(err, null);
+            } else {
+              callback(null, response);
+            }
+          });
+
+
+
+
+          // callback(null, updated);
         }
       });
     }
