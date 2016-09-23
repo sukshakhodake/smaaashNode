@@ -477,7 +477,7 @@ var models = {
     this.find({}, {
       _id: 1,
       hometext: 1
-    }).  where('type').in(['57bd4e71a86ee9fa6770d4b2', '57bc4b36eb9c91f1025a3b56','57bc4b5aeb9c91f1025a3b58']).lean().exec(function(err, found) {
+    }).where('type').in(['57bd4e71a86ee9fa6770d4b2', '57bc4b36eb9c91f1025a3b56', '57bc4b5aeb9c91f1025a3b58']).lean().exec(function(err, found) {
       if (err) {
         console.log(err);
         callback(err, null);
@@ -734,12 +734,23 @@ var models = {
     this.findOne({
       "_id": data._id,
       "city": data.city
-    }).exec(function(err, found) {
+    }).populate('multipleattraction.attraction').exec(function(err, found) {
       if (err) {
         console.log(err);
         callback(err, null);
       } else if (found && Object.keys(found).length > 0) {
-        callback(null, found);
+
+        ExploreSmash.populate(found, {
+            path: 'multipleattraction.attraction'
+          }, function(err, response) {
+            if (err) {
+              callback(err, null);
+            } else {
+              callback(null, response);
+
+            }
+          })
+          // callback(null, found);
       } else {
         callback(null, {});
       }
