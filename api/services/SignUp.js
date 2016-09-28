@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var objectid = require("mongodb").ObjectId;
 var uniqueValidator = require('mongoose-unique-validator');
 var md5 = require('md5');
 var schema = new Schema({
@@ -27,9 +28,16 @@ var schema = new Schema({
     index: true
   },
   cart: [{
-    user: String,
-    exploresmash: String,
-    city: String
+    exploresmash: {
+      type: Schema.Types.ObjectId,
+      ref: 'ExploreSmash',
+      index: true
+    },
+    city: {
+      type: Schema.Types.ObjectId,
+      ref: 'City',
+      index: true
+    }
   }],
   occasion: {
     type: String,
@@ -114,6 +122,107 @@ var models = {
         callback(null, deleted);
       } else {
         callback(null, {});
+      }
+    });
+  },
+  addToCart: function(data, callback) {
+    this.update({
+        _id: data.user
+      }, {
+        $push: {
+          cart: data.cart
+        }
+      }, {
+        upsert: true
+      },
+      function(err, res) {
+        if (err) {
+          callback(err, null);
+        } else if (res) {
+          callback(null, res);
+        } else {
+          callback(null, {});
+        }
+      }
+    );
+
+  },
+  showCart: function(data, callback) {
+    this.findOne({
+      "_id": data.user
+    }, {
+      "cart": 1
+    }).exec(function(err, found) {
+      if (err) {
+        console.log(err);
+        callback(err, null);
+      } else if (found && Object.keys(found).length > 0) {
+        SignUp.populate(found, {
+          path: "cart.exploresmash"
+        }, function(err, res) {
+          if (err) {
+            callback(err, null);
+          } else {
+            callback(null, res);
+          }
+        });
+      } else {
+        callback(null, {});
+      }
+    });
+  },
+  deleteCart: function(data, callback) {
+    this.update({
+      _id: data.user
+    }, {
+      $pull: {
+        cart: {
+          _id: data._id
+        }
+      }
+    }, function(err, found) {
+      if (err) {
+        console.log(err);
+        callback(err, null);
+      } else {
+        callback(null, {
+          message: "Deleted",
+          value: true
+        });
+      }
+    })
+  },
+  totalCart: function(data, callback) {
+
+    console.log(data);
+    SignUp.aggregate([{
+      $match: {
+        "_id": objectid(data.user)
+      }
+    }, {
+      $unwind: "$cart"
+    }, {
+      $lookup: {
+        from: 'exploresmashes',
+        localField: 'cart.exploresmash',
+        foreignField: '_id',
+        as: 'cart.exploresmash'
+      }
+    }, {
+      $unwind: '$cart.exploresmash'
+    }, {
+      $group: {
+        _id: null,
+        "sum": {
+          $sum: "$cart.exploresmash.price"
+        }
+      }
+    }]).exec(function(err, found) {
+      if (err) {
+        console.log(err);
+        callback(err, null);
+      } else if (found) {
+        callback(null, found);
       }
     });
   },

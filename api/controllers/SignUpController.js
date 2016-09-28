@@ -68,48 +68,78 @@ module.exports = {
 
 
   login: function(req, res) {
-      var callback = function(err, data) {
-          if (err || _.isEmpty(data)) {
-              res.json({
-                  error: err,
-                  value: false
-              });
-          } else {
-              if (data._id) {
-                req.session.user = data;
-                  res.json({
-                      data: data,
-                      value: true
-                  });
-              } else {
-                  req.session.user = {};
-                  res.json({
-                      data: {},
-                      value: false
-                  });
-              }
-          }
-      };
-      if (req.body) {
-          if (req.body.email && req.body.email !== "" && req.body.password && req.body.password !== "") {
-              SignUp.login(req.body, callback);
-          } else {
-              res.json({
-                  data: "Please provide params",
-                  value: true
-              });
-          }
+    var callback = function(err, data) {
+      if (err || _.isEmpty(data)) {
+        res.json({
+          error: err,
+          value: false
+        });
       } else {
+        if (data._id) {
+          req.session.user = data;
           res.json({
-              data: "Invalid Call",
-              value: true
+            data: data,
+            value: true
           });
+        } else {
+          req.session.user = {};
+          res.json({
+            data: {},
+            value: false
+          });
+        }
       }
+    };
+    if (req.body) {
+      if (req.body.email && req.body.email !== "" && req.body.password && req.body.password !== "") {
+        SignUp.login(req.body, callback);
+      } else {
+        res.json({
+          data: "Please provide params",
+          value: true
+        });
+      }
+    } else {
+      res.json({
+        data: "Invalid Call",
+        value: true
+      });
+    }
   },
 
-  addTocart: function(req, res) {
-    if (req.body.user && req.body.user !== "" && req.body.exploresmash && req.body.exploresmash !== "" && req.body.city && req.body.city !== "") {
-      Wishlist.saveData(req.body, res.callback);
+  addToCart: function(req, res) {
+    if (req.body.user && req.body.user !== "" && req.body.cart && req.body.cart !== "") {
+      SignUp.addToCart(req.body, res.callback);
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
+  showCart: function(req, res) {
+    if (req.body.user && req.body.user !== "") {
+      SignUp.showCart(req.body, res.callback);
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
+  deleteCart: function(req, res) {
+    if (req.body.user && req.body.user !== "" && req.body._id && req.body._id !== "") {
+      SignUp.deleteCart(req.body, res.callback);
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
+  totalCart: function(req, res) {
+    if (req.body.user && req.body.user !== "") {
+      SignUp.totalCart(req.body, res.callback);
     } else {
       res.json({
         value: false,

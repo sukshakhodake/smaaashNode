@@ -132,8 +132,8 @@ var schema = new Schema({
     default: ""
   },
   price: {
-    type: String,
-    default: ""
+    type: Number,
+    default: 0
   },
   homeimage: {
     type: String,
