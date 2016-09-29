@@ -1,6 +1,6 @@
 module.exports = {
 
-  save: function(req, res) {
+  save: function (req, res) {
     if (req.body) {
       SignUp.saveData(req.body, res.callback);
     } else {
@@ -11,7 +11,7 @@ module.exports = {
     }
   },
 
-  getOne: function(req, res) {
+  getOne: function (req, res) {
 
     if (req.body) {
       SignUp.getOne(req.body, res.callback);
@@ -23,7 +23,7 @@ module.exports = {
     }
   },
 
-  delete: function(req, res) {
+  delete: function (req, res) {
     if (req.body) {
       SignUp.deleteData(req.body, res.callback);
     } else {
@@ -34,7 +34,7 @@ module.exports = {
     }
   },
 
-  getAll: function(req, res) {
+  getAll: function (req, res) {
     function callback(err, data) {
       Global.response(err, data, res);
     }
@@ -48,7 +48,7 @@ module.exports = {
     }
   },
 
-  findLimited: function(req, res) {
+  findLimited: function (req, res) {
     if (req.body) {
       if (req.body.pagenumber && req.body.pagenumber !== "" && req.body.pagesize && req.body.pagesize !== "") {
         SignUp.findLimited(req.body, res.callback);
@@ -67,8 +67,8 @@ module.exports = {
   },
 
 
-  login: function(req, res) {
-    var callback = function(err, data) {
+  login: function (req, res) {
+    var callback = function (err, data) {
       if (err || _.isEmpty(data)) {
         res.json({
           error: err,
@@ -106,8 +106,8 @@ module.exports = {
       });
     }
   },
-
-  addToCart: function(req, res) {
+  //cart
+  addToCart: function (req, res) {
     if (req.body.user && req.body.user !== "" && req.body.cart && req.body.cart !== "") {
       SignUp.addToCart(req.body, res.callback);
     } else {
@@ -117,7 +117,7 @@ module.exports = {
       });
     }
   },
-  showCart: function(req, res) {
+  showCart: function (req, res) {
     if (req.body.user && req.body.user !== "") {
       SignUp.showCart(req.body, res.callback);
     } else {
@@ -127,7 +127,7 @@ module.exports = {
       });
     }
   },
-  deleteCart: function(req, res) {
+  deleteCart: function (req, res) {
     if (req.body.user && req.body.user !== "" && req.body._id && req.body._id !== "") {
       SignUp.deleteCart(req.body, res.callback);
     } else {
@@ -137,9 +137,41 @@ module.exports = {
       });
     }
   },
-  totalCart: function(req, res) {
+  totalCart: function (req, res) {
     if (req.body.user && req.body.user !== "") {
       SignUp.totalCart(req.body, res.callback);
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
+  // wishlist
+
+  addToWishList: function (req, res) {
+    if (req.body.user && req.body.user !== "" && req.body.wishList && req.body.wishList !== "") {
+      SignUp.addToWishList(req.body, res.callback);
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
+  showWishList: function (req, res) {
+    if (req.body.user && req.body.user !== "") {
+      SignUp.showWishList(req.body, res.callback);
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
+  deleteWishList: function (req, res) {
+    if (req.body.user && req.body.user !== "" && req.body._id && req.body._id !== "") {
+      SignUp.deleteWishList(req.body, res.callback);
     } else {
       res.json({
         value: false,
