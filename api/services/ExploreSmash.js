@@ -148,11 +148,11 @@ var schema = new Schema({
       type: String,
       default: ""
     },
-    attraction: {
+    attraction: [{
       type: Schema.Types.ObjectId,
       ref: 'ExploreSmash',
       index: true
-    },
+    }],
     indicator: {
       type: String,
       default: ""
@@ -187,13 +187,13 @@ var schema = new Schema({
 
 module.exports = mongoose.model('ExploreSmash', schema);
 var models = {
-  saveData: function(data, callback) {
+  saveData: function (data, callback) {
     var exploresmash = this(data);
     exploresmash.timestamp = new Date();
     if (data._id) {
       this.findOneAndUpdate({
         _id: data._id
-      }, data).exec(function(err, updated) {
+      }, data).exec(function (err, updated) {
         if (err) {
           console.log(err);
           callback(err, null);
@@ -204,7 +204,7 @@ var models = {
         }
       });
     } else {
-      exploresmash.save(function(err, created) {
+      exploresmash.save(function (err, created) {
         if (err) {
           callback(err, null);
         } else if (created) {
@@ -215,14 +215,14 @@ var models = {
       });
     }
   },
-  saveAttraction: function(data, callback) {
+  saveAttraction: function (data, callback) {
     var exploresmash = this(data);
     exploresmash.timestamp = new Date();
     exploresmash.type = "57bc4b2aeb9c91f1025a3b55";
     if (data._id) {
       this.findOneAndUpdate({
         _id: data._id
-      }, data).exec(function(err, updated) {
+      }, data).exec(function (err, updated) {
         if (err) {
           console.log(err);
           callback(err, null);
@@ -233,7 +233,7 @@ var models = {
         }
       });
     } else {
-      exploresmash.save(function(err, created) {
+      exploresmash.save(function (err, created) {
         if (err) {
           callback(err, null);
         } else if (created) {
@@ -244,14 +244,14 @@ var models = {
       });
     }
   },
-  saveWhatsNew: function(data, callback) {
+  saveWhatsNew: function (data, callback) {
     var exploresmash = this(data);
     exploresmash.timestamp = new Date();
     exploresmash.type = "57bc4af6eb9c91f1025a3b4f";
     if (data._id) {
       this.findOneAndUpdate({
         _id: data._id
-      }, data).exec(function(err, updated) {
+      }, data).exec(function (err, updated) {
         if (err) {
           console.log(err);
           callback(err, null);
@@ -262,7 +262,7 @@ var models = {
         }
       });
     } else {
-      exploresmash.save(function(err, created) {
+      exploresmash.save(function (err, created) {
         if (err) {
           callback(err, null);
         } else if (created) {
@@ -273,14 +273,14 @@ var models = {
       });
     }
   },
-  saveBuyNow: function(data, callback) {
+  saveBuyNow: function (data, callback) {
     var exploresmash = this(data);
     exploresmash.timestamp = new Date();
     exploresmash.type = "57c9470e214d5a1c10f7d042";
     if (data._id) {
       this.findOneAndUpdate({
         _id: data._id
-      }, data).exec(function(err, updated) {
+      }, data).exec(function (err, updated) {
         if (err) {
           console.log(err);
           callback(err, null);
@@ -291,7 +291,7 @@ var models = {
         }
       });
     } else {
-      exploresmash.save(function(err, created) {
+      exploresmash.save(function (err, created) {
         if (err) {
           callback(err, null);
         } else if (created) {
@@ -302,14 +302,14 @@ var models = {
       });
     }
   },
-  saveEvents: function(data, callback) {
+  saveEvents: function (data, callback) {
     var exploresmash = this(data);
     exploresmash.timestamp = new Date();
     exploresmash.type = "57bd4e71a86ee9fa6770d4b2";
     if (data._id) {
       this.findOneAndUpdate({
         _id: data._id
-      }, data).exec(function(err, updated) {
+      }, data).exec(function (err, updated) {
         if (err) {
           console.log(err);
           callback(err, null);
@@ -320,7 +320,7 @@ var models = {
         }
       });
     } else {
-      exploresmash.save(function(err, created) {
+      exploresmash.save(function (err, created) {
         if (err) {
           callback(err, null);
         } else if (created) {
@@ -331,14 +331,14 @@ var models = {
       });
     }
   },
-  savePromotion: function(data, callback) {
+  savePromotion: function (data, callback) {
     var exploresmash = this(data);
     exploresmash.timestamp = new Date();
     exploresmash.type = "57bc4b36eb9c91f1025a3b56";
     if (data._id) {
       this.findOneAndUpdate({
         _id: data._id
-      }, data).exec(function(err, updated) {
+      }, data).exec(function (err, updated) {
         if (err) {
           console.log(err);
           callback(err, null);
@@ -349,7 +349,7 @@ var models = {
         }
       });
     } else {
-      exploresmash.save(function(err, created) {
+      exploresmash.save(function (err, created) {
         if (err) {
           callback(err, null);
         } else if (created) {
@@ -360,14 +360,14 @@ var models = {
       });
     }
   },
-  saveFood: function(data, callback) {
+  saveFood: function (data, callback) {
     var exploresmash = this(data);
     exploresmash.timestamp = new Date();
     exploresmash.type = "57bc4b48eb9c91f1025a3b57";
     if (data._id) {
       this.findOneAndUpdate({
         _id: data._id
-      }, data).exec(function(err, updated) {
+      }, data).exec(function (err, updated) {
         if (err) {
           console.log(err);
           callback(err, null);
@@ -378,7 +378,7 @@ var models = {
         }
       });
     } else {
-      exploresmash.save(function(err, created) {
+      exploresmash.save(function (err, created) {
         if (err) {
           callback(err, null);
         } else if (created) {
@@ -389,14 +389,14 @@ var models = {
       });
     }
   },
-  saveHost: function(data, callback) {
+  saveHost: function (data, callback) {
     var exploresmash = this(data);
     exploresmash.timestamp = new Date();
     exploresmash.type = "57bc4b10eb9c91f1025a3b54";
     if (data._id) {
       this.findOneAndUpdate({
         _id: data._id
-      }, data).exec(function(err, updated) {
+      }, data).exec(function (err, updated) {
         if (err) {
           console.log(err);
           callback(err, null);
@@ -407,7 +407,7 @@ var models = {
         }
       });
     } else {
-      exploresmash.save(function(err, created) {
+      exploresmash.save(function (err, created) {
         if (err) {
           callback(err, null);
         } else if (created) {
@@ -418,14 +418,14 @@ var models = {
       });
     }
   },
-  saveDeals: function(data, callback) {
+  saveDeals: function (data, callback) {
     var exploresmash = this(data);
     exploresmash.timestamp = new Date();
     exploresmash.type = "57bc4b5aeb9c91f1025a3b58";
     if (data._id) {
       this.findOneAndUpdate({
         _id: data._id
-      }, data).exec(function(err, updated) {
+      }, data).exec(function (err, updated) {
         if (err) {
           console.log(err);
           callback(err, null);
@@ -436,7 +436,7 @@ var models = {
         }
       });
     } else {
-      exploresmash.save(function(err, created) {
+      exploresmash.save(function (err, created) {
         if (err) {
           callback(err, null);
         } else if (created) {
@@ -447,10 +447,10 @@ var models = {
       });
     }
   },
-  deleteData: function(data, callback) {
+  deleteData: function (data, callback) {
     this.findOneAndRemove({
       _id: data._id
-    }, function(err, deleted) {
+    }, function (err, deleted) {
       if (err) {
         callback(err, null);
       } else if (deleted) {
@@ -460,8 +460,8 @@ var models = {
       }
     });
   },
-  getAll: function(data, callback) {
-    this.find({}).exec(function(err, found) {
+  getAll: function (data, callback) {
+    this.find({}).exec(function (err, found) {
       if (err) {
         console.log(err);
         callback(err, null);
@@ -472,17 +472,17 @@ var models = {
       }
     });
   },
-  getAllAttraction: function(data, callback) {
+  getAllAttraction: function (data, callback) {
     var name = '';
     this.find({}, {
       _id: 1,
       hometext: 1
-    }).where('type').in(['57bd4e71a86ee9fa6770d4b2', '57bc4b36eb9c91f1025a3b56', '57bc4b5aeb9c91f1025a3b58']).lean().exec(function(err, found) {
+    }).where('type').in(['57bd4e71a86ee9fa6770d4b2', '57bc4b36eb9c91f1025a3b56', '57bc4b5aeb9c91f1025a3b58']).lean().exec(function (err, found) {
       if (err) {
         console.log(err);
         callback(err, null);
       } else if (found && found.length > 0) {
-        _.each(found, function(n) {
+        _.each(found, function (n) {
           n.name = n.hometext;
           delete n.hometext;
         });
@@ -492,11 +492,11 @@ var models = {
       }
     });
   },
-  getSingleExploreSmaaash: function(data, callback) {
+  getSingleExploreSmaaash: function (data, callback) {
     this.find({
       type: data._id,
       city: data.city,
-    }).exec(function(err, found) {
+    }).exec(function (err, found) {
       if (err) {
         console.log(err);
         callback(err, null);
@@ -507,10 +507,10 @@ var models = {
       }
     });
   },
-  getAllExploreSmashByCity: function(data, callback) {
+  getAllExploreSmashByCity: function (data, callback) {
     this.find({
       city: data._id
-    }).exec(function(err, found) {
+    }).exec(function (err, found) {
       if (err) {
         console.log(err);
         callback(err, null);
@@ -521,11 +521,11 @@ var models = {
       }
     });
   },
-  getHomeContent: function(data, callback) {
+  getHomeContent: function (data, callback) {
     this.find({
       isHome: true,
       city: data.city
-    }).populate('type').exec(function(err, found) {
+    }).populate('type').exec(function (err, found) {
       if (err) {
         console.log(err);
         callback(err, null);
@@ -539,7 +539,7 @@ var models = {
 
   //side menu
 
-  getAllTiming: function(data, callback) {
+  getAllTiming: function (data, callback) {
     var newreturns = {};
     newreturns.data = [];
     var check = new RegExp(data.search, "i");
@@ -547,7 +547,7 @@ var models = {
     data.pagesize = parseInt(data.pagesize);
     var skip = parseInt(data.pagesize * (data.pagenumber - 1));
     async.parallel([
-        function(callback) {
+        function (callback) {
           ExploreSmash.aggregate([{
             $match: {
               _id: objectid(data._id)
@@ -565,7 +565,7 @@ var models = {
             $project: {
               count: 1
             }
-          }]).exec(function(err, result) {
+          }]).exec(function (err, result) {
             console.log(result);
             if (result && result[0]) {
               newreturns.total = result[0].count;
@@ -581,7 +581,7 @@ var models = {
             }
           });
         },
-        function(callback) {
+        function (callback) {
           ExploreSmash.aggregate([{
             $match: {
               _id: objectid(data._id)
@@ -602,7 +602,7 @@ var models = {
                 $slice: ["$timing", skip, data.pagesize]
               }
             }
-          }]).exec(function(err, found) {
+          }]).exec(function (err, found) {
             console.log(found);
             if (found && found.length > 0) {
               newreturns.data = found[0].timing;
@@ -618,7 +618,7 @@ var models = {
           });
         }
       ],
-      function(err, data4) {
+      function (err, data4) {
         if (err) {
           console.log(err);
           callback(err, null);
@@ -631,7 +631,7 @@ var models = {
   },
 
 
-  deleteTiming: function(data, callback) {
+  deleteTiming: function (data, callback) {
     ExploreSmash.update({
       "timing._id": data._id
     }, {
@@ -640,7 +640,7 @@ var models = {
           "_id": objectid(data._id)
         }
       }
-    }, function(err, updated) {
+    }, function (err, updated) {
       console.log(updated);
       if (err) {
         console.log(err);
@@ -652,7 +652,7 @@ var models = {
 
   },
 
-  saveTiming: function(data, callback) {
+  saveTiming: function (data, callback) {
     var exploresmash = data.exploresmash;
     if (!data._id) {
       ExploreSmash.update({
@@ -661,7 +661,7 @@ var models = {
         $push: {
           timing: data
         }
-      }, function(err, updated) {
+      }, function (err, updated) {
         if (err) {
           console.log(err);
           callback(err, null);
@@ -673,14 +673,14 @@ var models = {
       data._id = objectid(data._id);
       tobechanged = {};
       var attribute = "timing.$.";
-      _.forIn(data, function(value, key) {
+      _.forIn(data, function (value, key) {
         tobechanged[attribute + key] = value;
       });
       ExploreSmash.update({
         "timing._id": data._id
       }, {
         $set: tobechanged
-      }, function(err, updated) {
+      }, function (err, updated) {
         if (err) {
           console.log(err);
           callback(err, null);
@@ -690,7 +690,7 @@ var models = {
       });
     }
   },
-  getOneTiming: function(data, callback) {
+  getOneTiming: function (data, callback) {
     // aggregate query
     ExploreSmash.aggregate([{
       $unwind: "$timing"
@@ -702,7 +702,7 @@ var models = {
       $project: {
         timing: 1
       }
-    }]).exec(function(err, respo) {
+    }]).exec(function (err, respo) {
       if (err) {
         console.log(err);
         callback(err, null);
@@ -716,10 +716,10 @@ var models = {
     });
   },
 
-  getOne: function(data, callback) {
+  getOne: function (data, callback) {
     this.findOne({
       "_id": data._id
-    }).exec(function(err, found) {
+    }).exec(function (err, found) {
       if (err) {
         console.log(err);
         callback(err, null);
@@ -730,11 +730,11 @@ var models = {
       }
     });
   },
-  getDetailExploreSmaaash: function(data, callback) {
+  getDetailExploreSmaaash: function (data, callback) {
     this.findOne({
       "_id": data._id,
       "city": data.city
-    }).populate('multipleattraction.attraction').exec(function(err, found) {
+    }).populate('multipleattraction.attraction').exec(function (err, found) {
       if (err) {
         console.log(err);
         callback(err, null);
@@ -742,7 +742,7 @@ var models = {
 
         ExploreSmash.populate(found, {
             path: 'multipleattraction.attraction'
-          }, function(err, response) {
+          }, function (err, response) {
             if (err) {
               callback(err, null);
             } else {
@@ -756,14 +756,14 @@ var models = {
       }
     });
   },
-  findLimited: function(data, callback) {
+  findLimited: function (data, callback) {
     var newreturns = {};
     newreturns.data = [];
     data.pagenumber = parseInt(data.pagenumber);
     data.pagesize = parseInt(data.pagesize);
     async.parallel([
-        function(callback) {
-          ExploreSmash.count().exec(function(err, number) {
+        function (callback) {
+          ExploreSmash.count().exec(function (err, number) {
             if (err) {
               console.log(err);
               callback(err, null);
@@ -776,8 +776,8 @@ var models = {
             }
           });
         },
-        function(callback) {
-          ExploreSmash.find().populate("type").skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).populate("city", "_id  name", null, {}).lean().exec(function(err, data2) {
+        function (callback) {
+          ExploreSmash.find().populate("type").skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).populate("city", "_id  name", null, {}).lean().exec(function (err, data2) {
             console.log(data2);
             if (err) {
               console.log(err);
@@ -791,7 +791,7 @@ var models = {
           });
         }
       ],
-      function(err, data4) {
+      function (err, data4) {
         if (err) {
           console.log(err);
           callback(err, null);
@@ -802,7 +802,7 @@ var models = {
         }
       });
   },
-  findLimitedAttraction: function(data, callback) {
+  findLimitedAttraction: function (data, callback) {
     var obj = {};
 
     if (data._id && data._id !== '') {
@@ -820,8 +820,8 @@ var models = {
     data.pagenumber = parseInt(data.pagenumber);
     data.pagesize = parseInt(data.pagesize);
     async.parallel([
-        function(callback) {
-          ExploreSmash.count(obj).exec(function(err, number) {
+        function (callback) {
+          ExploreSmash.count(obj).exec(function (err, number) {
             if (err) {
               console.log(err);
               callback(err, null);
@@ -834,8 +834,8 @@ var models = {
             }
           });
         },
-        function(callback) {
-          ExploreSmash.find(obj).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).populate("city", "_id  name", null, {}).lean().exec(function(err, data2) {
+        function (callback) {
+          ExploreSmash.find(obj).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).populate("city", "_id  name", null, {}).lean().exec(function (err, data2) {
             console.log(data2);
             if (err) {
               console.log(err);
@@ -849,7 +849,7 @@ var models = {
           });
         }
       ],
-      function(err, data4) {
+      function (err, data4) {
         if (err) {
           console.log(err);
           callback(err, null);
@@ -860,7 +860,7 @@ var models = {
         }
       });
   },
-  findLimitedWhatsNew: function(data, callback) {
+  findLimitedWhatsNew: function (data, callback) {
     var obj = {};
 
     if (data._id && data._id !== '') {
@@ -878,8 +878,8 @@ var models = {
     data.pagenumber = parseInt(data.pagenumber);
     data.pagesize = parseInt(data.pagesize);
     async.parallel([
-        function(callback) {
-          ExploreSmash.count(obj).exec(function(err, number) {
+        function (callback) {
+          ExploreSmash.count(obj).exec(function (err, number) {
             if (err) {
               console.log(err);
               callback(err, null);
@@ -892,8 +892,8 @@ var models = {
             }
           });
         },
-        function(callback) {
-          ExploreSmash.find(obj).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).populate("city", "_id  name", null, {}).lean().exec(function(err, data2) {
+        function (callback) {
+          ExploreSmash.find(obj).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).populate("city", "_id  name", null, {}).lean().exec(function (err, data2) {
             console.log(data2);
             if (err) {
               console.log(err);
@@ -907,7 +907,7 @@ var models = {
           });
         }
       ],
-      function(err, data4) {
+      function (err, data4) {
         if (err) {
           console.log(err);
           callback(err, null);
@@ -918,7 +918,7 @@ var models = {
         }
       });
   },
-  findLimitedEvents: function(data, callback) {
+  findLimitedEvents: function (data, callback) {
     var obj = {};
 
     if (data._id && data._id !== '') {
@@ -936,8 +936,8 @@ var models = {
     data.pagenumber = parseInt(data.pagenumber);
     data.pagesize = parseInt(data.pagesize);
     async.parallel([
-        function(callback) {
-          ExploreSmash.count(obj).exec(function(err, number) {
+        function (callback) {
+          ExploreSmash.count(obj).exec(function (err, number) {
             if (err) {
               console.log(err);
               callback(err, null);
@@ -950,8 +950,8 @@ var models = {
             }
           });
         },
-        function(callback) {
-          ExploreSmash.find(obj).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).populate("city", "_id  name", null, {}).lean().exec(function(err, data2) {
+        function (callback) {
+          ExploreSmash.find(obj).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).populate("city", "_id  name", null, {}).lean().exec(function (err, data2) {
             console.log(data2);
             if (err) {
               console.log(err);
@@ -965,7 +965,7 @@ var models = {
           });
         }
       ],
-      function(err, data4) {
+      function (err, data4) {
         if (err) {
           console.log(err);
           callback(err, null);
@@ -976,7 +976,7 @@ var models = {
         }
       });
   },
-  findLimitedFood: function(data, callback) {
+  findLimitedFood: function (data, callback) {
     var obj = {};
 
     if (data._id && data._id !== '') {
@@ -994,8 +994,8 @@ var models = {
     data.pagenumber = parseInt(data.pagenumber);
     data.pagesize = parseInt(data.pagesize);
     async.parallel([
-        function(callback) {
-          ExploreSmash.count(obj).exec(function(err, number) {
+        function (callback) {
+          ExploreSmash.count(obj).exec(function (err, number) {
             if (err) {
               console.log(err);
               callback(err, null);
@@ -1008,8 +1008,8 @@ var models = {
             }
           });
         },
-        function(callback) {
-          ExploreSmash.find(obj).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).populate("city", "_id  name", null, {}).lean().exec(function(err, data2) {
+        function (callback) {
+          ExploreSmash.find(obj).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).populate("city", "_id  name", null, {}).lean().exec(function (err, data2) {
             console.log(data2);
             if (err) {
               console.log(err);
@@ -1023,7 +1023,7 @@ var models = {
           });
         }
       ],
-      function(err, data4) {
+      function (err, data4) {
         if (err) {
           console.log(err);
           callback(err, null);
@@ -1034,7 +1034,7 @@ var models = {
         }
       });
   },
-  findLimitedDeals: function(data, callback) {
+  findLimitedDeals: function (data, callback) {
     var obj = {};
 
     if (data._id && data._id !== '') {
@@ -1052,8 +1052,8 @@ var models = {
     data.pagenumber = parseInt(data.pagenumber);
     data.pagesize = parseInt(data.pagesize);
     async.parallel([
-        function(callback) {
-          ExploreSmash.count(obj).exec(function(err, number) {
+        function (callback) {
+          ExploreSmash.count(obj).exec(function (err, number) {
             if (err) {
               console.log(err);
               callback(err, null);
@@ -1066,8 +1066,8 @@ var models = {
             }
           });
         },
-        function(callback) {
-          ExploreSmash.find(obj).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).populate("city", "_id  name", null, {}).lean().exec(function(err, data2) {
+        function (callback) {
+          ExploreSmash.find(obj).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).populate("city", "_id  name", null, {}).lean().exec(function (err, data2) {
             console.log(data2);
             if (err) {
               console.log(err);
@@ -1081,7 +1081,7 @@ var models = {
           });
         }
       ],
-      function(err, data4) {
+      function (err, data4) {
         if (err) {
           console.log(err);
           callback(err, null);
@@ -1092,7 +1092,7 @@ var models = {
         }
       });
   },
-  findLimitedPromotion: function(data, callback) {
+  findLimitedPromotion: function (data, callback) {
     var obj = {};
 
     if (data._id && data._id !== '') {
@@ -1110,8 +1110,8 @@ var models = {
     data.pagenumber = parseInt(data.pagenumber);
     data.pagesize = parseInt(data.pagesize);
     async.parallel([
-        function(callback) {
-          ExploreSmash.count(obj).exec(function(err, number) {
+        function (callback) {
+          ExploreSmash.count(obj).exec(function (err, number) {
             if (err) {
               console.log(err);
               callback(err, null);
@@ -1124,8 +1124,8 @@ var models = {
             }
           });
         },
-        function(callback) {
-          ExploreSmash.find(obj).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).populate("city", "_id  name", null, {}).lean().exec(function(err, data2) {
+        function (callback) {
+          ExploreSmash.find(obj).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).populate("city", "_id  name", null, {}).lean().exec(function (err, data2) {
             console.log(data2);
             if (err) {
               console.log(err);
@@ -1139,7 +1139,7 @@ var models = {
           });
         }
       ],
-      function(err, data4) {
+      function (err, data4) {
         if (err) {
           console.log(err);
           callback(err, null);
@@ -1150,7 +1150,7 @@ var models = {
         }
       });
   },
-  findLimitedBuyNow: function(data, callback) {
+  findLimitedBuyNow: function (data, callback) {
     var obj = {};
 
     if (data._id && data._id !== '') {
@@ -1168,8 +1168,8 @@ var models = {
     data.pagenumber = parseInt(data.pagenumber);
     data.pagesize = parseInt(data.pagesize);
     async.parallel([
-        function(callback) {
-          ExploreSmash.count(obj).exec(function(err, number) {
+        function (callback) {
+          ExploreSmash.count(obj).exec(function (err, number) {
             if (err) {
               console.log(err);
               callback(err, null);
@@ -1182,8 +1182,8 @@ var models = {
             }
           });
         },
-        function(callback) {
-          ExploreSmash.find(obj).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).populate("city", "_id  name", null, {}).lean().exec(function(err, data2) {
+        function (callback) {
+          ExploreSmash.find(obj).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).populate("city", "_id  name", null, {}).lean().exec(function (err, data2) {
             console.log(data2);
             if (err) {
               console.log(err);
@@ -1197,7 +1197,7 @@ var models = {
           });
         }
       ],
-      function(err, data4) {
+      function (err, data4) {
         if (err) {
           console.log(err);
           callback(err, null);
@@ -1208,7 +1208,7 @@ var models = {
         }
       });
   },
-  findLimitedHost: function(data, callback) {
+  findLimitedHost: function (data, callback) {
     var obj = {};
 
     if (data._id && data._id !== '') {
@@ -1226,8 +1226,8 @@ var models = {
     data.pagenumber = parseInt(data.pagenumber);
     data.pagesize = parseInt(data.pagesize);
     async.parallel([
-        function(callback) {
-          ExploreSmash.count(obj).exec(function(err, number) {
+        function (callback) {
+          ExploreSmash.count(obj).exec(function (err, number) {
             if (err) {
               console.log(err);
               callback(err, null);
@@ -1240,8 +1240,8 @@ var models = {
             }
           });
         },
-        function(callback) {
-          ExploreSmash.find(obj).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).populate("city", "_id  name", null, {}).lean().exec(function(err, data2) {
+        function (callback) {
+          ExploreSmash.find(obj).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).populate("city", "_id  name", null, {}).lean().exec(function (err, data2) {
             console.log(data2);
             if (err) {
               console.log(err);
@@ -1255,7 +1255,7 @@ var models = {
           });
         }
       ],
-      function(err, data4) {
+      function (err, data4) {
         if (err) {
           console.log(err);
           callback(err, null);
@@ -1272,7 +1272,7 @@ var models = {
 
   //SIDEMENU CAST
 
-  saveGallery: function(data, callback) {
+  saveGallery: function (data, callback) {
     console.log(data);
     var explore = data.explore;
     if (!data._id) {
@@ -1282,7 +1282,7 @@ var models = {
         $push: {
           gallery: data
         }
-      }, function(err, updated) {
+      }, function (err, updated) {
         if (err) {
           console.log(err);
           callback(err, null);
@@ -1294,14 +1294,14 @@ var models = {
       data._id = objectid(data._id);
       tobechanged = {};
       var attribute = "gallery.$.";
-      _.forIn(data, function(value, key) {
+      _.forIn(data, function (value, key) {
         tobechanged[attribute + key] = value;
       });
       ExploreSmash.update({
         "gallery._id": data._id
       }, {
         $set: tobechanged
-      }, function(err, updated) {
+      }, function (err, updated) {
         if (err) {
           console.log(err);
           callback(err, null);
@@ -1312,7 +1312,7 @@ var models = {
     }
   },
 
-  getAllGallery: function(data, callback) {
+  getAllGallery: function (data, callback) {
     var newreturns = {};
     newreturns.data = [];
     var check = new RegExp(data.search, "i");
@@ -1320,7 +1320,7 @@ var models = {
     data.pagesize = parseInt(data.pagesize);
     var skip = parseInt(data.pagesize * (data.pagenumber - 1));
     async.parallel([
-        function(callback) {
+        function (callback) {
           ExploreSmash.aggregate([{
             $match: {
               _id: objectid(data._id)
@@ -1338,7 +1338,7 @@ var models = {
             $project: {
               count: 1
             }
-          }]).exec(function(err, result) {
+          }]).exec(function (err, result) {
             console.log(result);
             if (result && result[0]) {
               newreturns.total = result[0].count;
@@ -1354,7 +1354,7 @@ var models = {
             }
           });
         },
-        function(callback) {
+        function (callback) {
           ExploreSmash.aggregate([{
             $match: {
               _id: objectid(data._id)
@@ -1375,7 +1375,7 @@ var models = {
                 $slice: ["$gallery", skip, data.pagesize]
               }
             }
-          }]).exec(function(err, found) {
+          }]).exec(function (err, found) {
             console.log(found);
             if (found && found.length > 0) {
               newreturns.data = found[0].gallery;
@@ -1391,7 +1391,7 @@ var models = {
           });
         }
       ],
-      function(err, data4) {
+      function (err, data4) {
         if (err) {
           console.log(err);
           callback(err, null);
@@ -1404,7 +1404,7 @@ var models = {
   },
 
 
-  deleteGallery: function(data, callback) {
+  deleteGallery: function (data, callback) {
     ExploreSmash.update({
       "gallery._id": data._id
     }, {
@@ -1413,7 +1413,7 @@ var models = {
           "_id": objectid(data._id)
         }
       }
-    }, function(err, updated) {
+    }, function (err, updated) {
       console.log(updated);
       if (err) {
         console.log(err);
@@ -1424,7 +1424,7 @@ var models = {
     });
 
   },
-  getOneGallery: function(data, callback) {
+  getOneGallery: function (data, callback) {
     // aggregate query
     ExploreSmash.aggregate([{
       $unwind: "$gallery"
@@ -1436,7 +1436,7 @@ var models = {
       $project: {
         gallery: 1
       }
-    }]).exec(function(err, respo) {
+    }]).exec(function (err, respo) {
       if (err) {
         console.log(err);
         callback(err, null);
@@ -1453,7 +1453,7 @@ var models = {
 
   // Muilptle Attractions
 
-  saveMultipleAttraction: function(data, callback) {
+  saveMultipleAttraction: function (data, callback) {
     var explore = data.explore;
     if (!data._id) {
       ExploreSmash.update({
@@ -1462,7 +1462,7 @@ var models = {
         $push: {
           multipleattraction: data
         }
-      }, function(err, updated) {
+      }, function (err, updated) {
         if (err) {
           console.log(err);
           callback(err, null);
@@ -1491,14 +1491,14 @@ var models = {
       data._id = objectid(data._id);
       tobechanged = {};
       var attribute = "multipleattraction.$.";
-      _.forIn(data, function(value, key) {
+      _.forIn(data, function (value, key) {
         tobechanged[attribute + key] = value;
       });
       ExploreSmash.update({
         "multipleattraction._id": data._id
       }, {
         $set: tobechanged
-      }, function(err, updated) {
+      }, function (err, updated) {
         if (err) {
           console.log(err);
           callback(err, null);
@@ -1531,7 +1531,7 @@ var models = {
     }
   },
 
-  getAllMultipleAttraction: function(data, callback) {
+  getAllMultipleAttraction: function (data, callback) {
     var newreturns = {};
     newreturns.data = [];
     var check = new RegExp(data.search, "i");
@@ -1539,7 +1539,7 @@ var models = {
     data.pagesize = parseInt(data.pagesize);
     var skip = parseInt(data.pagesize * (data.pagenumber - 1));
     async.parallel([
-        function(callback) {
+        function (callback) {
           ExploreSmash.aggregate([{
             $match: {
               _id: objectid(data._id)
@@ -1557,7 +1557,7 @@ var models = {
             $project: {
               count: 1
             }
-          }]).exec(function(err, result) {
+          }]).exec(function (err, result) {
             console.log(result);
             if (result && result[0]) {
               newreturns.total = result[0].count;
@@ -1573,7 +1573,7 @@ var models = {
             }
           });
         },
-        function(callback) {
+        function (callback) {
           ExploreSmash.aggregate([{
             $match: {
               _id: objectid(data._id)
@@ -1594,7 +1594,7 @@ var models = {
                 $slice: ["$multipleattraction", skip, data.pagesize]
               }
             }
-          }]).exec(function(err, found) {
+          }]).exec(function (err, found) {
             console.log(found);
             if (found && found.length > 0) {
               newreturns.data = found[0].multipleattraction;
@@ -1610,7 +1610,7 @@ var models = {
           });
         }
       ],
-      function(err, data4) {
+      function (err, data4) {
         if (err) {
           console.log(err);
           callback(err, null);
@@ -1711,7 +1711,7 @@ var models = {
   },
 
 
-  deleteMultipleAttraction: function(data, callback) {
+  deleteMultipleAttraction: function (data, callback) {
     ExploreSmash.update({
       "multipleattraction._id": data._id
     }, {
@@ -1720,7 +1720,7 @@ var models = {
           "_id": objectid(data._id)
         }
       }
-    }, function(err, updated) {
+    }, function (err, updated) {
       console.log(updated);
       if (err) {
         console.log(err);
@@ -1731,7 +1731,7 @@ var models = {
     });
 
   },
-  getOneMultipleAttraction: function(data, callback) {
+  getOneMultipleAttraction: function (data, callback) {
     // aggregate query
     ExploreSmash.aggregate([{
       $unwind: "$multipleattraction"
@@ -1743,7 +1743,7 @@ var models = {
       $project: {
         multipleattraction: 1
       }
-    }]).exec(function(err, respo) {
+    }]).exec(function (err, respo) {
       if (err) {
         console.log(err);
         callback(err, null);
