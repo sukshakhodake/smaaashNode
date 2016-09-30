@@ -734,12 +734,12 @@ var models = {
     this.findOne({
       "_id": data._id,
       "city": data.city
-    }).populate('multipleattraction.attraction').exec(function (err, found) {
+    }).exec(function (err, found) {
       if (err) {
         console.log(err);
         callback(err, null);
       } else if (found && Object.keys(found).length > 0) {
-
+        console.log(found);
         ExploreSmash.populate(found, {
             path: 'multipleattraction.attraction'
           }, function (err, response) {
