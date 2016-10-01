@@ -78,6 +78,10 @@ var schema = new Schema({
     type: String,
     default: ""
   },
+  gameType: {
+    type: Number,
+    default: 0
+  },
 
   timing: [{
     type: {
@@ -498,12 +502,15 @@ var models = {
     checkobj.city = data.city;
     if (data.search && data.search !== '') {
       var check = new RegExp(data.search, "i");
-      checkobj.name = {
+      checkobj.hometext = {
         '$regex': check
       };
     }
     if (data.gameFor && data.gameFor !== '') {
       checkobj.gamefor = data.gameFor;
+    }
+    if (data.gameType && data.gameType !== '') {
+      checkobj.gameType = data.gameType;
     }
     this.find(checkobj).exec(function (err, found) {
       if (err) {
