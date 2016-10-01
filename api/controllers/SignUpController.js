@@ -10,7 +10,20 @@ module.exports = {
       });
     }
   },
+  demo: function (req, res) {
+    var callback = function (err, data) {
+      if (err) {
+        res.json({
+          error: err,
+          value: false
+        });
+      } else {
+        res.send(data);
+      }
+    }
+    SignUp.demo(req.body, callback);
 
+  },
   getOne: function (req, res) {
 
     if (req.body) {
@@ -35,9 +48,7 @@ module.exports = {
   },
 
   getAll: function (req, res) {
-    function callback(err, data) {
-      Global.response(err, data, res);
-    }
+
     if (req.body) {
       SignUp.getAll(req.body, res.callback);
     } else {

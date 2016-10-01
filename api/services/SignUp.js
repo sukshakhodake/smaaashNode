@@ -135,8 +135,8 @@ var models = {
         if (err) {
           callback(err, null);
         } else if (created) {
-          // console.log(created);
-          Email.sendMail(created, function (err, res) {
+          Email.sendMail(created, 'index', function (err, res) {
+            // Email.sendMail(created, function (err, res) {
             if (err) {
               callback(err, null);
             } else if (res) {
@@ -145,6 +145,8 @@ var models = {
               callback(null, {});
             }
           });
+
+
           // callback(null, created);
           // NOW SEND EMAIL
           // var helper = require('sendgrid').mail
@@ -194,6 +196,23 @@ var models = {
       } else {
         callback(null, {});
       }
+    });
+  },
+  demo: function (data, callback) {
+    sails.renderView('email/index', {
+      name: "Pooja",
+      lastname: "Thakre",
+      hobbies: ["cricket", "name", "email", "phone"]
+    }, function (err, res) {
+      if (err) {
+        callback(err, null);
+      } else if (res) {
+        callback(null, res);
+      } else {
+        callback(null, {});
+      }
+
+
     });
   },
   addToCart: function (data, callback) {

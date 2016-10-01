@@ -493,10 +493,19 @@ var models = {
     });
   },
   getSingleExploreSmaaash: function (data, callback) {
-    this.find({
-      type: data._id,
-      city: data.city,
-    }).exec(function (err, found) {
+    var checkobj = {};
+    checkobj._id = data._id;
+    checkobj.city = data.city;
+    if (data.search && data.search !== '') {
+      var check = new RegExp(data.search, "i");
+      checkobj.name = {
+        '$regex': check
+      };
+    }
+    if (data.gameFor && data.gameFor !== '') {
+      checkobj.gamefor = data.gameFor;
+    }
+    this.find(checkobj).exec(function (err, found) {
       if (err) {
         console.log(err);
         callback(err, null);
