@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var objectid = require("mongodb").ObjectId;
 var uniqueValidator = require('mongoose-unique-validator');
+var SendGrid = require('sendgrid').SendGrid;
 var md5 = require('md5');
 var schema = new Schema({
 
@@ -63,6 +64,19 @@ var schema = new Schema({
     type: String,
     default: ""
   },
+  K120K200: {
+    type: String,
+    default: ""
+  },
+  status: {
+    type: Boolean,
+    default: ""
+  },
+  oauthLogin: {
+    socialId: String,
+    socialProvider: String
+
+  },
   date: {
     type: Date,
     default: Date.now
@@ -121,7 +135,48 @@ var models = {
         if (err) {
           callback(err, null);
         } else if (created) {
-          callback(null, created);
+          // console.log(created);
+          Email.sendMail(created, function (err, res) {
+            if (err) {
+              callback(err, null);
+            } else if (res) {
+              callback(null, res);
+            } else {
+              callback(null, {});
+            }
+          });
+          // callback(null, created);
+          // NOW SEND EMAIL
+          // var helper = require('sendgrid').mail
+          // from_email = new helper.Email("no-reply@smaaashindia.com")
+          // to_email = new helper.Email("pooja@wohlig.com")
+          // subject = "SMAAASH INDIA"
+          // content = new helper.Content("text/plain", "Thank you for Sign up with SMAAASH!!!")
+          // mail = new helper.Mail(from_email, subject, to_email, content)
+
+          // var sg = require('sendgrid')('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');
+          // var request = sg.emptyRequest({
+          //   method: 'POST',
+          //   path: '/v3/mail/send',
+          //   body: mail.toJSON()
+          // });
+
+          // sg.API(request, function (err, response) {
+
+          //     console.log(response.statusCode)
+          //     console.log(response.body)
+          //     console.log(response.headers)
+          //     if (err) {
+          //       console.log(err);
+          //       callback(err, null);
+          //     } else if (response) {
+          //       callback(null, created);
+          //     } else {
+          //       callback(null, {});
+          //     }
+          //   })
+          //  SEND EMAIL END 
+          // 
         } else {
           callback(null, {});
         }
@@ -321,6 +376,7 @@ var models = {
       }
     });
   },
+
   getOne: function (data, callback) {
     var arr = [];
     var found = {};

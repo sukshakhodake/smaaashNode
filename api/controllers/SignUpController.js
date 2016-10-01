@@ -179,4 +179,33 @@ module.exports = {
       });
     }
   },
+  loginFacebook: function (req, res) {
+    var callback = function (err, data) {
+      if (err || _.isEmpty(data)) {
+        res.json({
+          error: err,
+          value: false
+        });
+      } else {
+        if (data._id) {
+          req.session.user = data;
+          req.session.save(function (err) {
+            if (err) {
+              res.json(err);
+            } else {
+              res.redirect(redirect);
+            }
+          });
+        } else {
+          res.json({
+            data: "User not found",
+            value: false
+          });
+        }
+      }
+    };
+    passport.authenticate('facebook', {
+      scope: ['public_profile', 'user_friends', 'email']
+    }, callback)(req, res);
+  }
 };
