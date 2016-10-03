@@ -498,7 +498,7 @@ var models = {
   },
   getSingleExploreSmaaash: function (data, callback) {
     var checkobj = {};
-    checkobj._id = data._id;
+    checkobj.type = data._id;
     checkobj.city = data.city;
     if (data.search && data.search !== '') {
       var check = new RegExp(data.search, "i");

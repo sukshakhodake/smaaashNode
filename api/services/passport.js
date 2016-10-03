@@ -12,7 +12,7 @@ module.exports.use(new FacebookStrategy({
     },
     function (accessToken, refreshToken, profile, done) {
         if (!_.isEmpty(profile)) {
-            User.findOne({
+            Signup.findOne({
                 "oauthLogin.socialId": profile.id + ""
             }).exec(function (err, data) {
                 if (err) {
@@ -32,7 +32,7 @@ module.exports.use(new FacebookStrategy({
                     }
                     if (_.isEmpty(data)) {
                         var user = User(usertemp);
-                        user.save(function (err, data2) {
+                        signup.save(function (err, data2) {
                             done(err, data2);
                         });
                     } else {
