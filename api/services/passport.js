@@ -30,7 +30,7 @@ module.exports.use(new FacebookStrategy({
                         usertemp.profilePic = profile.photos[0].value;
                     }
                     if (_.isEmpty(data)) {
-                        var signup = User(usertemp);
+                        var signup = SignUp(usertemp);
                         signup.save(function (err, data2) {
                             done(err, data2);
                         });
@@ -79,7 +79,7 @@ module.exports.use(new GoogleStrategy({
                         usertemp.email = profile.emails[0].value;
                     }
                     if (_.isEmpty(data)) {
-                        var signup = User(usertemp);
+                        var signup = SignUp(usertemp);
                         signup.save(function (err, data2) {
                             done(err, data2);
                         });
