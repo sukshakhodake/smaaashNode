@@ -1,18 +1,18 @@
 var FacebookStrategy = require("passport-facebook");
-var TwitterStrategy = require("passport-twitter");
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 module.exports = require("passport");
 
 
 module.exports.use(new FacebookStrategy({
         clientID: "290363011350715",
         clientSecret: "24ba159a124f0f14ec670db3225c8405",
-        callbackURL: "/user/loginFacebook/",
+        callbackURL: "/signup/loginFacebook/",
         profileFields: ['id', 'displayName', 'photos', 'email'],
         enableProof: false
     },
     function (accessToken, refreshToken, profile, done) {
         if (!_.isEmpty(profile)) {
-            Signup.findOne({
+            SignUp.findOne({
                 "oauthLogin.socialId": profile.id + ""
             }).exec(function (err, data) {
                 if (err) {
@@ -20,18 +20,17 @@ module.exports.use(new FacebookStrategy({
                 } else {
                     usertemp = {
                         "name": profile.displayName,
-                        "K120K200": accessToken,
-                        "oauthLogin": [{
+                        "oauthLogin": {
                             "socialId": profile.id + "",
                             "socialProvider": profile.provider
-                        }],
+                        },
                         "status": 1
                     };
                     if (profile.photos && profile.photos.length > 0) {
                         usertemp.profilePic = profile.photos[0].value;
                     }
                     if (_.isEmpty(data)) {
-                        var user = User(usertemp);
+                        var signup = User(usertemp);
                         signup.save(function (err, data2) {
                             done(err, data2);
                         });
@@ -48,43 +47,47 @@ module.exports.use(new FacebookStrategy({
     }
 ));
 
-
-module.exports.use(new TwitterStrategy({
-        consumerKey: "ScyOXj37xkvmkY9hi6edFsLaz",
-        consumerSecret: "4J1vaHxX1rr84ygGHBrADkFQS32Nb9lNkHKwRuM4ykfwgVj9qh",
-        callbackURL: "/user/loginTwitter/",
+module.exports.use(new GoogleStrategy({
+        clientID: "96922746997-plgbvoveug5cjn00qr4a3stioc4r1tic.apps.googleusercontent.com",
+        clientSecret: "zanvS3-t7EDa7V0cgi8kTLBK",
+        callbackURL: "/signup/loginGoogleCallback"
     },
     function (token, tokenSecret, profile, done) {
         if (!_.isEmpty(profile)) {
-            User.findOne({
+            SignUp.findOne({
                 "oauthLogin.socialId": profile.id + ""
             }).exec(function (err, data) {
                 if (err) {
                     done(err, false);
                 } else {
                     usertemp = {
-                        "name": profile.displayName,
                         "oauthLogin": [{
                             "socialId": profile.id + "",
                             "socialProvider": profile.provider
                         }],
                         "status": 1
                     };
+                    if (profile.displayName) {
+                        usertemp.firstName = profile.displayName.split(" ")[0];
+                        usertemp.lastName = profile.displayName.split(" ")[1];
+                        usertemp.name = usertemp.firstName + " " + usertemp.lastName;
+                    }
                     if (profile.photos && profile.photos.length > 0) {
                         usertemp.profilePic = profile.photos[0].value;
                     }
+                    if (profile.emails && profile.emails.length > 0) {
+                        usertemp.email = profile.emails[0].value;
+                    }
                     if (_.isEmpty(data)) {
-                        var user = User(usertemp);
-                        user.save(function (err, data2) {
+                        var signup = User(usertemp);
+                        signup.save(function (err, data2) {
                             done(err, data2);
                         });
                     } else {
                         done(err, data);
                     }
-
                 }
             });
-
         } else {
             done("There is an Error", false);
         }

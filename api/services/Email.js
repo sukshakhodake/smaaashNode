@@ -10,7 +10,7 @@ var models = {
             } else {
                 var helper = require('sendgrid').mail
                 from_email = new helper.Email("no-reply@smaaashindia.com")
-                to_email = new helper.Email(data.email)
+                to_email = new helper.Email('smaaashindia@gmail.com')
                 subject = "SMAAASH INDIA"
                 content = new helper.Content("text/html", view)
                     // content = new helper.Content("text/html", "views/email/index.ejs")
@@ -28,7 +28,7 @@ var models = {
                         console.log(err);
                         callback(err, null);
                     } else if (response) {
-                        callback(null, response);
+                        callback(null, data);
                     } else {
                         callback(null, {});
                     }

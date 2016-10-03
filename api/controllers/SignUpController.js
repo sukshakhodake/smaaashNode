@@ -1,3 +1,4 @@
+var redirect = "http://tingdom.in/smaaash";
 module.exports = {
 
   save: function (req, res) {
@@ -217,6 +218,41 @@ module.exports = {
     };
     passport.authenticate('facebook', {
       scope: ['public_profile', 'user_friends', 'email']
+    }, callback)(req, res);
+  },
+  loginGoogle: function (req, res) {
+    passport.authenticate('google', {
+      scope: "openid profile email"
+    })(req, res);
+  },
+  loginGoogleCallback: function (req, res) {
+    var callback = function (err, data) {
+      if (err || _.isEmpty(data)) {
+        res.json({
+          error: err,
+          value: false
+        });
+      } else {
+        if (data._id) {
+          // console.log("google", data);
+          req.session.user = data;
+          req.session.save(function (err) {
+            if (err) {
+              res.json(err);
+            } else {
+              res.redirect(redirect);
+            }
+          });
+        } else {
+          res.json({
+            data: "User not found",
+            value: false
+          });
+        }
+      }
+    }
+    passport.authenticate('google', {
+      failureRedirect: '/login'
     }, callback)(req, res);
   }
 };

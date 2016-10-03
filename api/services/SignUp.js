@@ -401,6 +401,8 @@ var models = {
     var found = {};
     this.findOne({
       "_id": data._id
+    }, {
+      "password": 0
     }).populate('games', 'hometext').exec(function (err, found) {
       if (err) {
         console.log(err);
