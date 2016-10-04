@@ -64,12 +64,24 @@ var schema = new Schema({
     type: String,
     default: ""
   },
+  gender: {
+    type: Number,
+    default: ""
+  },
   K120K200: {
     type: String,
     default: ""
   },
   status: {
     type: Boolean,
+    default: false
+  },
+  profilePic: {
+    type: String,
+    default: ""
+  },
+  address: {
+    type: String,
     default: ""
   },
   oauthLogin: {
