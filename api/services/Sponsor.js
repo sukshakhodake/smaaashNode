@@ -101,6 +101,68 @@ var models = {
             }
         });
     },
+    getAllSponsorPageDetail: function (data, callback) {
+        async.parallel({
+            sponsor: function (callback) {
+                Sponsor.find({
+                    status: true
+                }).sort({
+                    order: -1
+                }).populate('city').exec(function (err, found) {
+                    if (err) {
+                        console.log(err);
+                        callback(err, null);
+                    } else if (found && found.length > 0) {
+                        callback(null, found);
+                    } else {
+                        callback(null, found);
+                    }
+                });
+            },
+            esteem: function (callback) {
+                Esteem.find({
+                    status: true
+                }).sort({
+                    order: -1
+                }).populate('city').exec(function (err, found) {
+                    if (err) {
+                        console.log(err);
+                        callback(err, null);
+                    } else if (found && found.length > 0) {
+                        callback(null, found);
+                    } else {
+                        callback(null, found);
+                    }
+                });
+            },
+            contact: function (callback) {
+                Contact.find({
+                    status: true
+                }).sort({
+                    order: -1
+                }).populate('city').exec(function (err, found) {
+                    if (err) {
+                        console.log(err);
+                        callback(err, null);
+                    } else if (found && found.length > 0) {
+                        callback(null, found);
+                    } else {
+                        callback(null, found);
+                    }
+                });
+            }
+        }, function (err, results) {
+            if (err) {
+                console.log(err);
+                callback(err, null);
+            } else if (results && results.length > 0) {
+                callback(null, results);
+            } else {
+                callback(null, results);
+            }
+            // results is now equals to: {one: 'abc\n', two: 'xyz\n'}
+        });
+    },
     findLimited: function (data, callback) {
         var obj = {};
 
@@ -154,40 +216,6 @@ var models = {
                     callback(null, newreturns);
                 }
             });
-    },
-    getAllSponsorByOrder: function (data, callback) {
-        this.find({
-            city: data.city,
-            type: 1
-        }).sort({
-            order: -1
-        }).exec(function (err, found) {
-            if (err) {
-                console.log(err);
-                callback(err, null);
-            } else if (found && found.length > 0) {
-                callback(null, found);
-            } else {
-                callback(null, []);
-            }
-        });
-    },
-    getAllHostPartySponsor: function (data, callback) {
-        this.find({
-            city: data.city,
-            type: 2
-        }).sort({
-            order: -1
-        }).exec(function (err, found) {
-            if (err) {
-                console.log(err);
-                callback(err, null);
-            } else if (found && found.length > 0) {
-                callback(null, found);
-            } else {
-                callback(null, []);
-            }
-        });
     },
 };
 

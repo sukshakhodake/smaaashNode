@@ -47,25 +47,12 @@ module.exports = {
             });
         }
     },
-    getAllSponsorByOrder: function (req, res) {
+    getAllSponsorPageDetail: function (req, res) {
         function callback(err, data) {
             Global.response(err, data, res);
         }
         if (req.body) {
-            Sponsor.getAllSponsorByOrder(req.body, res.callback);
-        } else {
-            res.json({
-                value: false,
-                data: "Invalid Request"
-            });
-        }
-    },
-    getAllHostPartySponsor: function (req, res) {
-        function callback(err, data) {
-            Global.response(err, data, res);
-        }
-        if (req.body) {
-            Sponsor.getAllHostPartySponsor(req.body, res.callback);
+            Sponsor.getAllSponsorPageDetail(req.body, res.callback);
         } else {
             res.json({
                 value: false,
