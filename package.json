@@ -8,6 +8,7 @@
     "MD5": "^1.3.0",
     "base-64": "^0.1.0",
     "ejs": "2.3.4",
+    "exec-php": "0.0.3",
     "gridfs-stream": "^1.1.1",
     "grunt": "0.4.5",
     "grunt-contrib-clean": "0.6.0",
