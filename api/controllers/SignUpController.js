@@ -181,6 +181,41 @@ module.exports = {
       });
     }
   },
+  forgotPassword: function (req, res) {
+    if (req.body.email && req.body.email !== "") {
+      SignUp.forgotPassword(req.body, res.callback);
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
+  forgotPasswordSubmit: function (req, res) {
+    function callback(err, data) {
+      if (data) {
+        res.json({
+          value: true,
+          data: {
+            message: "Password Updated"
+          }
+        });
+      } else {
+        res.json({
+          value: false,
+          data: err
+        });
+      }
+    }
+    if (req.body.password && req.body.password !== "" && req.body._id && req.body._id !== "") {
+      SignUp.forgotPasswordSubmit(req.body, callback);
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
   deleteWishList: function (req, res) {
     if (req.body.user && req.body.user !== "" && req.body._id && req.body._id !== "") {
       SignUp.deleteWishList(req.body, res.callback);
