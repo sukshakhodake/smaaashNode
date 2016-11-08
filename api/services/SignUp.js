@@ -147,16 +147,17 @@ var models = {
         if (err) {
           callback(err, null);
         } else if (created) {
-          Email.sendMail(created, 'index', function (err, res) {
-            // Email.sendMail(created, function (err, res) {
-            if (err) {
-              callback(err, null);
-            } else if (res) {
-              callback(null, res);
-            } else {
-              callback(null, {});
-            }
-          });
+          callback(null, created);
+          // Email.sendMail(created, 'index', function (err, res) {
+          //   // Email.sendMail(created, function (err, res) {
+          //   if (err) {
+          //     callback(err, null);
+          //   } else if (res) {
+          //     callback(null, res);
+          //   } else {
+          //     callback(null, {});
+          //   }
+          // });
         } else {
           callback(null, {});
         }
