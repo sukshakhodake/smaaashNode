@@ -51,7 +51,7 @@ var models = {
         content = new helper.Content("text/html", view)
           // content = new helper.Content("text/html", "views/email/index.ejs")
         mail = new helper.Mail(from_email, subject, to_email, content)
-        var decodedData = base64.decode('U0cudEJIbVZ3WDRUbzYwVWpYekJqLUFpQS50TWk0am5sMm1zYVhVWUlwbHFycWxjV3J0dF9ycGkyWW1JaklKeGw5OWZ3');
+        var decodedData = base64.decode('U0cuc2pfOEtQVDdReXlNM3k3cGNUNVF4US5TZjNKSmlCdzZJZVpENmVQYUhZTTc0Mi1HT0FyMkRON1RjbFlrRHpiOTJN');
         var sg = require('sendgrid')(decodedData);
         var request = sg.emptyRequest({
           method: 'POST',

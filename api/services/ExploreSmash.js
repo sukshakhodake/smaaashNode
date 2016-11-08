@@ -858,6 +858,15 @@ var models = {
               callback(err, null);
             } else if (data2 && data2.length > 0) {
               newreturns.data = data2;
+              _.each(newreturns.data, function (n) {
+                if (n.status == true) {
+                  n.status = "Enabled";
+                } else if (n.status == false) {
+                  n.status = "Disabled";
+                } else {
+                  n.status = "Disabled";
+                }
+              });
               callback(null, newreturns);
             } else {
               callback(null, newreturns);
@@ -974,6 +983,15 @@ var models = {
               callback(err, null);
             } else if (data2 && data2.length > 0) {
               newreturns.data = data2;
+              _.each(newreturns.data, function (n) {
+                if (n.status == true) {
+                  n.status = "Enabled";
+                } else if (n.status == false) {
+                  n.status = "Disabled";
+                } else {
+                  n.status = "Disabled";
+                }
+              });
               callback(null, newreturns);
             } else {
               callback(null, newreturns);
@@ -1032,6 +1050,15 @@ var models = {
               callback(err, null);
             } else if (data2 && data2.length > 0) {
               newreturns.data = data2;
+              _.each(newreturns.data, function (n) {
+                if (n.status == true) {
+                  n.status = "Enabled";
+                } else if (n.status == false) {
+                  n.status = "Disabled";
+                } else {
+                  n.status = "Disabled";
+                }
+              });
               callback(null, newreturns);
             } else {
               callback(null, newreturns);
@@ -1090,6 +1117,16 @@ var models = {
               callback(err, null);
             } else if (data2 && data2.length > 0) {
               newreturns.data = data2;
+              _.each(newreturns.data, function (n) {
+                if (n.status == true) {
+                  n.status = "Enabled";
+                } else if (n.status == false) {
+                  n.status = "Disabled";
+                } else {
+                  n.status = "Disabled";
+                }
+              });
+              console.log(newreturns.data);
               callback(null, newreturns);
             } else {
               callback(null, newreturns);
@@ -1148,6 +1185,15 @@ var models = {
               callback(err, null);
             } else if (data2 && data2.length > 0) {
               newreturns.data = data2;
+              _.each(newreturns.data, function (n) {
+                if (n.status == true) {
+                  n.status = "Enabled";
+                } else if (n.status == false) {
+                  n.status = "Disabled";
+                } else {
+                  n.status = "Disabled";
+                }
+              });
               callback(null, newreturns);
             } else {
               callback(null, newreturns);
@@ -1206,6 +1252,15 @@ var models = {
               callback(err, null);
             } else if (data2 && data2.length > 0) {
               newreturns.data = data2;
+              _.each(newreturns.data, function (n) {
+                if (n.status == true) {
+                  n.status = "Enabled";
+                } else if (n.status == false) {
+                  n.status = "Disabled";
+                } else {
+                  n.status = "Disabled";
+                }
+              });
               callback(null, newreturns);
             } else {
               callback(null, newreturns);
@@ -1264,6 +1319,15 @@ var models = {
               callback(err, null);
             } else if (data2 && data2.length > 0) {
               newreturns.data = data2;
+              _.each(newreturns.data, function (n) {
+                if (n.status == true) {
+                  n.status = "Enabled";
+                } else if (n.status == false) {
+                  n.status = "Disabled";
+                } else {
+                  n.status = "Disabled";
+                }
+              });
               callback(null, newreturns);
             } else {
               callback(null, newreturns);

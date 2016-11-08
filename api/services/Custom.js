@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-
 var schema = new Schema({
 
   name: {
@@ -9,17 +8,19 @@ var schema = new Schema({
   },
   email: {
     type: String,
-    default: ""
+    default: "",
+    unique: true
   },
   mobile: {
     type: String,
     default: ""
   },
-  occasion: {
-    type: String,
-    default: ""
+  city: {
+    type: Schema.Types.ObjectId,
+    ref: 'City',
+    index: true
   },
-  assistancefor: {
+  occasion: {
     type: String,
     default: ""
   },
@@ -27,35 +28,55 @@ var schema = new Schema({
     type: String,
     default: ""
   },
-  date: {
+  gender: {
+    type: Number,
+    default: ""
+  },
+  profilePic: {
     type: String,
     default: ""
   },
-  timestamp: {
+  address: {
     type: String,
+    default: ""
+  },
+  date: {
+    type: Date,
     default: Date.now
   },
-  city: {
+  games: [{
     type: Schema.Types.ObjectId,
-    ref: 'City',
+    ref: 'ExploreSmash',
     index: true
-  },
-  status: {
-    type: String,
-    enum: ["Pending", "Not Attended", "Attended"]
-  },
-  comment: {
+  }],
+  foodStyle: {
     type: String,
     default: ""
-  }
+  },
+  starter: {
+    type: String,
+    default: ""
+  },
+  mainCourse: {
+    type: String,
+    default: ""
+  },
+  dessert: {
+    type: String,
+    default: ""
+  },
+  alcohol: {
+    type: String,
+    default: ""
+  },
 
 });
 
-module.exports = mongoose.model('Assistance', schema);
+module.exports = mongoose.model('Custom', schema);
 var models = {
   saveData: function (data, callback) {
-    var assistance = this(data);
-    assistance.timestamp = new Date();
+    var Custom = this(data);
+    Custom.timestamp = new Date();
     if (data._id) {
       this.findOneAndUpdate({
         _id: data._id
@@ -70,7 +91,7 @@ var models = {
         }
       });
     } else {
-      assistance.save(function (err, created) {
+      Custom.save(function (err, created) {
         if (err) {
           callback(err, null);
         } else if (created) {
@@ -129,16 +150,10 @@ var models = {
     data.pagesize = parseInt(data.pagesize);
     async.parallel([
         function (callback) {
-          Assistance.count({
-            $or: [{
-              name: {
-                '$regex': check
-              }
-            }, {
-              email: {
-                '$regex': check
-              }
-            }]
+          Custom.count({
+            email: {
+              '$regex': check
+            }
           }).exec(function (err, number) {
             if (err) {
               console.log(err);
@@ -153,23 +168,13 @@ var models = {
           });
         },
         function (callback) {
-          Assistance.find({
-              $or: [{
-                name: {
-                  '$regex': check
-                }
-              }, {
-                email: {
-                  '$regex': check
-                }
-              }]
+          Custom.find({
+            email: {
+              '$regex': check
             }
-            //   {
-            //   name: {
-            //     '$regex': check
-            //   }
-            // }
-          ).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).exec(function (err, data2) {
+          }).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).populate("city", "_id  name", null, {
+            sort: {}
+          }).lean().exec(function (err, data2) {
             if (err) {
               console.log(err);
               callback(err, null);
@@ -192,23 +197,7 @@ var models = {
           callback(null, newreturns);
         }
       });
-  },
-  getAllAssistanceByOrder: function (data, callback) {
-    this.find({
-      city: data._id
-    }).sort({
-      order: -1
-    }).exec(function (err, found) {
-      if (err) {
-        console.log(err);
-        callback(err, null);
-      } else if (found && found.length > 0) {
-        callback(null, found);
-      } else {
-        callback(null, []);
-      }
-    });
-  },
+  }
 };
 
 module.exports = _.assign(module.exports, models);
