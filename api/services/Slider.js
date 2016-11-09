@@ -29,8 +29,8 @@ var schema = new Schema({
     default: ""
   },
   status: {
-    type: String,
-    default: ""
+    type: Boolean,
+    default: false
   }
 
 });
