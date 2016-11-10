@@ -64,6 +64,29 @@ module.exports = {
         data: "Invalid Request"
       });
     }
-  }
+  },
+  // exportCustomExcel: function (req, res) {
+  //   Custom
+  //     .find({})
+  //     .populate('city')
+  //     .exec(function (err, response) {
+  //       var excelData = [];
+  //       var row = {};
+  //       _.each(response, function (key) {
+  //         console.log(key);
+  //         row = {};
+  //         row = {
+  //           "NAME": key.name,
+  //           "EMAIL": key.email,
+  //           "TIMESTAMP": key.timestamp,
+  //         };
+  //         if (key.city) {
+  //           row["CITY"] = key.city.name;
+  //         }
+  //         excelData.push(row);
+  //       });
+  //       Config.generateExcel("CustomPackages", excelData, res);
+  //     });
+  // },
 
 };

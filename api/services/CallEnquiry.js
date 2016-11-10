@@ -3,6 +3,10 @@ var Schema = mongoose.Schema;
 
 var schema = new Schema({
 
+  timestamp: {
+    type: Date,
+    default: Date.now
+  },
   date: {
     type: Date,
     default: Date.now
@@ -31,13 +35,13 @@ var schema = new Schema({
 
 module.exports = mongoose.model('CallEnquiry', schema);
 var models = {
-  saveData: function(data, callback) {
+  saveData: function (data, callback) {
     var callenquiry = this(data);
     callenquiry.timestamp = new Date();
     if (data._id) {
       this.findOneAndUpdate({
         _id: data._id
-      }, data).exec(function(err, updated) {
+      }, data).exec(function (err, updated) {
         if (err) {
           console.log(err);
           callback(err, null);
@@ -48,7 +52,7 @@ var models = {
         }
       });
     } else {
-      callenquiry.save(function(err, created) {
+      callenquiry.save(function (err, created) {
         if (err) {
           callback(err, null);
         } else if (created) {
@@ -59,10 +63,10 @@ var models = {
       });
     }
   },
-  deleteData: function(data, callback) {
+  deleteData: function (data, callback) {
     this.findOneAndRemove({
       _id: data._id
-    }, function(err, deleted) {
+    }, function (err, deleted) {
       if (err) {
         callback(err, null);
       } else if (deleted) {
@@ -72,8 +76,8 @@ var models = {
       }
     });
   },
-  getAll: function(data, callback) {
-    this.find({}).exec(function(err, found) {
+  getAll: function (data, callback) {
+    this.find({}).exec(function (err, found) {
       if (err) {
         console.log(err);
         callback(err, null);
@@ -84,10 +88,10 @@ var models = {
       }
     });
   },
-  getOne: function(data, callback) {
+  getOne: function (data, callback) {
     this.findOne({
       "_id": data._id
-    }).exec(function(err, found) {
+    }).exec(function (err, found) {
       if (err) {
         console.log(err);
         callback(err, null);
@@ -98,7 +102,7 @@ var models = {
       }
     });
   },
-  findLimited: function(data, callback) {
+  findLimited: function (data, callback) {
     var obj = {};
 
     if (data._id && data._id !== '' && data.search && data.search !== '') {
@@ -121,8 +125,8 @@ var models = {
     data.pagenumber = parseInt(data.pagenumber);
     data.pagesize = parseInt(data.pagesize);
     async.parallel([
-        function(callback) {
-          CallEnquiry.count(obj).exec(function(err, number) {
+        function (callback) {
+          CallEnquiry.count(obj).exec(function (err, number) {
             if (err) {
               console.log(err);
               callback(err, null);
@@ -135,8 +139,8 @@ var models = {
             }
           });
         },
-        function(callback) {
-          CallEnquiry.find(obj).populate('city').skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).exec(function(err, data2) {
+        function (callback) {
+          CallEnquiry.find(obj).populate('city').skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).exec(function (err, data2) {
             if (err) {
               console.log(err);
               callback(err, null);
@@ -149,7 +153,7 @@ var models = {
           });
         }
       ],
-      function(err, data4) {
+      function (err, data4) {
         if (err) {
           console.log(err);
           callback(err, null);
