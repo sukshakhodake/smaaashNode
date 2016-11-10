@@ -1,6 +1,6 @@
 module.exports = {
 
-  save: function(req, res) {
+  save: function (req, res) {
     if (req.body) {
       Enquiry.saveData(req.body, res.callback);
     } else {
@@ -11,7 +11,7 @@ module.exports = {
     }
   },
 
-  getOne: function(req, res) {
+  getOne: function (req, res) {
 
     if (req.body) {
       Enquiry.getOne(req.body, res.callback);
@@ -23,7 +23,7 @@ module.exports = {
     }
   },
 
-  delete: function(req, res) {
+  delete: function (req, res) {
     if (req.body) {
       Enquiry.deleteData(req.body, res.callback);
     } else {
@@ -34,7 +34,7 @@ module.exports = {
     }
   },
 
-  getAll: function(req, res) {
+  getAll: function (req, res) {
     function callback(err, data) {
       Global.response(err, data, res);
     }
@@ -48,7 +48,7 @@ module.exports = {
     }
   },
 
-  findLimited: function(req, res) {
+  findLimited: function (req, res) {
     if (req.body) {
       if (req.body.pagenumber && req.body.pagenumber !== "" && req.body.pagesize && req.body.pagesize !== "") {
         Enquiry.findLimited(req.body, res.callback);
@@ -65,7 +65,7 @@ module.exports = {
       });
     }
   },
-  viewEventRegistration: function(req, res) {
+  viewEventRegistration: function (req, res) {
     if (req.body) {
       if (req.body.pagenumber && req.body.pagenumber !== "" && req.body.pagesize && req.body.pagesize !== "") {
         Enquiry.viewEventRegistration(req.body, res.callback);
@@ -81,7 +81,27 @@ module.exports = {
         data: "Invalid Request"
       });
     }
-  }
+  },
+  exportEnquiryExcel: function (req, res) {
+    Enquiry
+      .find({})
+      .exec(function (err, response) {
+        var excelData = [];
+        var row = {};
+        _.each(response, function (key) {
+          console.log(key);
+          row = {};
+          row = {
+            "NAME": key.name,
+            "EMAIL": key.email,
+            "MOBILE": key.mobile,
+            "COMMENT": key.comment
+          };
+          excelData.push(row);
+        });
+        Config.generateExcel("PartyEnquiries", excelData, res);
+      });
+  },
 
 
 };

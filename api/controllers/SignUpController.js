@@ -289,5 +289,33 @@ module.exports = {
     passport.authenticate('google', {
       failureRedirect: '/login'
     }, callback)(req, res);
-  }
+  },
+  exportRegisteredUsersExcel: function (req, res) {
+    SignUp
+      .find({})
+      .populate('city')
+      .exec(function (err, response) {
+        var excelData = [];
+        var row = {};
+        _.each(response, function (key) {
+          console.log(key);
+          row = {};
+          row = {
+            "NAME": key.name,
+            "EMAIL": key.email,
+            "MOBILE": key.mobile,
+            "DOB": key.dob,
+            "GENDER": key.gender,
+            "PINCODE": key.pincode,
+            "DATE": key.date,
+            "TIMESTAMP": key.timestamp,
+          };
+          if (key.city) {
+            row["CITY"] = key.city.name;
+          }
+          excelData.push(row);
+        });
+        Config.generateExcel("RegisteredUsers", excelData, res);
+      });
+  },
 };

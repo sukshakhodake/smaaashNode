@@ -1,6 +1,6 @@
 module.exports = {
 
-  save: function(req, res) {
+  save: function (req, res) {
     if (req.body) {
       Assistance.saveData(req.body, res.callback);
     } else {
@@ -11,7 +11,7 @@ module.exports = {
     }
   },
 
-  getOne: function(req, res) {
+  getOne: function (req, res) {
 
     if (req.body) {
       Assistance.getOne(req.body, res.callback);
@@ -23,7 +23,7 @@ module.exports = {
     }
   },
 
-  delete: function(req, res) {
+  delete: function (req, res) {
     if (req.body) {
       Assistance.deleteData(req.body, res.callback);
     } else {
@@ -34,7 +34,7 @@ module.exports = {
     }
   },
 
-  getAll: function(req, res) {
+  getAll: function (req, res) {
     function callback(err, data) {
       Global.response(err, data, res);
     }
@@ -47,7 +47,7 @@ module.exports = {
       });
     }
   },
-  getAllAssistanceByOrder: function(req, res) {
+  getAllAssistanceByOrder: function (req, res) {
     function callback(err, data) {
       Global.response(err, data, res);
     }
@@ -61,7 +61,7 @@ module.exports = {
     }
   },
 
-  findLimited: function(req, res) {
+  findLimited: function (req, res) {
     if (req.body) {
       if (req.body.pagenumber && req.body.pagenumber !== "" && req.body.pagesize && req.body.pagesize !== "") {
         Assistance.findLimited(req.body, res.callback);
@@ -77,7 +77,33 @@ module.exports = {
         data: "Invalid Request"
       });
     }
-  }
-
-
+  },
+  exportAssistanceExcel: function (req, res) {
+    Assistance
+      .find({})
+      .populate('city')
+      .exec(function (err, response) {
+        var excelData = [];
+        var row = {};
+        _.each(response, function (key) {
+          console.log(key);
+          row = {};
+          row = {
+            "NAME": key.name,
+            "EMAIL": key.email,
+            "MOBILE": key.mobile,
+            "OCCASION": key.occasion,
+            "ASSISTANCE FOR": key.assistancefor,
+            "NO OF PEOPLE": key.noofpeople,
+            "DATE": key.date,
+            "TIMESTAMP": key.timestamp,
+          };
+          if (key.city) {
+            row["CITY"] = key.city.name;
+          }
+          excelData.push(row);
+        });
+        Config.generateExcel("Assistance", excelData, res);
+      });
+  },
 };

@@ -23,6 +23,8 @@
     "grunt-sails-linker": "~0.10.1",
     "grunt-sync": "0.2.4",
     "include-all": "~0.1.6",
+    "json2csv": "^3.7.1",
+    "json2xls": "^0.1.2",
     "lwip": "0.0.9",
     "md5": "^2.1.0",
     "mongoose": "^4.5.3",

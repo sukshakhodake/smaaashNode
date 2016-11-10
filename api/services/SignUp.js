@@ -65,8 +65,8 @@ var schema = new Schema({
     default: ""
   },
   gender: {
-    type: Number,
-    default: ""
+    type: String,
+    enum: ["Male", "Female"]
   },
   K120K200: {
     type: String,
@@ -75,6 +75,14 @@ var schema = new Schema({
   status: {
     type: Boolean,
     default: false
+  },
+  pincode: {
+    type: Number,
+    default: ""
+  },
+  dob: {
+    type: Date,
+    default: Date.now
   },
   profilePic: {
     type: String,

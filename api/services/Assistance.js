@@ -122,24 +122,66 @@ var models = {
     });
   },
   findLimited: function (data, callback) {
+
     var newreturns = {};
     newreturns.data = [];
     var check = new RegExp(data.search, "i");
+    var checkStatus = new RegExp(data.status, "i");
     data.pagenumber = parseInt(data.pagenumber);
     data.pagesize = parseInt(data.pagesize);
+    var status = data.status;
+    var fromDate = data.fromDate;
+    var toDate = data.toDate;
+    if (status) {
+      console.log("This is status");
+      var obj = {
+        $or: [{
+          name: {
+            '$regex': check
+          }
+        }, {
+          email: {
+            '$regex': check
+          }
+        }, {
+          status: checkStatus
+        }]
+      };
+    } else if (fromDate && toDate) {
+      console.log("This is not status");
+      var obj = {
+        $or: [{
+          name: {
+            '$regex': check
+          }
+        }, {
+          email: {
+            '$regex': check
+          }
+        }, {
+          "timestamp": {
+            "$gte": fromDate,
+            "$lte": toDate
+          }
+        }]
+      };
+    } else {
+      console.log("else");
+      var obj = {
+        $or: [{
+          name: {
+            '$regex': check
+          }
+        }, {
+          email: {
+            '$regex': check
+          }
+        }]
+      };
+    }
     async.parallel([
         function (callback) {
-          Assistance.count({
-            $or: [{
-              name: {
-                '$regex': check
-              }
-            }, {
-              email: {
-                '$regex': check
-              }
-            }]
-          }).exec(function (err, number) {
+          Assistance.count(obj).exec(function (err, number) {
             if (err) {
               console.log(err);
               callback(err, null);
@@ -153,23 +195,7 @@ var models = {
           });
         },
         function (callback) {
-          Assistance.find({
-              $or: [{
-                name: {
-                  '$regex': check
-                }
-              }, {
-                email: {
-                  '$regex': check
-                }
-              }]
-            }
-            //   {
-            //   name: {
-            //     '$regex': check
-            //   }
-            // }
-          ).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).exec(function (err, data2) {
+          Assistance.find(obj).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).exec(function (err, data2) {
             if (err) {
               console.log(err);
               callback(err, null);
