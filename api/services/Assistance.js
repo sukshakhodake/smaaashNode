@@ -32,7 +32,7 @@ var schema = new Schema({
     default: ""
   },
   timestamp: {
-    type: String,
+    type: Date,
     default: Date.now
   },
   city: {

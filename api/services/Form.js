@@ -1,7 +1,5 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var objectid = require("mongodb").ObjectId;
-
 var schema = new Schema({
 
   name: {

@@ -41,7 +41,7 @@ module.exports = {
     var writestream = gfs.createWriteStream({
       filename: newFilename
     });
-    var imageStream = fs.createReadStream(filename);
+    var imageStream = sails.fs.createReadStream(filename);
 
     function writer2(metaValue) {
       var writestream2 = gfs.createWriteStream({
@@ -52,9 +52,9 @@ module.exports = {
         callback(null, {
           name: newFilename
         });
-        fs.unlink(filename);
+        sails.fs.unlink(filename);
       });
-      fs.createReadStream(filename).pipe(writestream2);
+      sails.fs.createReadStream(filename).pipe(writestream2);
     }
 
     if (extension == "png" || extension == "jpg" || extension == "gif") {
@@ -105,7 +105,7 @@ module.exports = {
       callback(null, {
         name: newFilename
       });
-      fs.unlink(filename);
+      sails.fs.unlink(filename);
     });
   },
   generateExcel: function (nameParam, excelData, res) {
@@ -149,10 +149,10 @@ module.exports = {
         metadata: metaValue
       });
       writestream2.on('finish', function () {
-        fs.unlink(filename);
+        sails.fs.unlink(filename);
       });
-      fs.createReadStream(filename).pipe(res);
-      fs.createReadStream(filename).pipe(writestream2);
+      sails.fs.createReadStream(filename).pipe(res);
+      sails.fs.createReadStream(filename).pipe(writestream2);
     }
 
     function read2(filename2) {
@@ -200,7 +200,7 @@ module.exports = {
         if (found) {
           read2(newNameExtire);
         } else {
-          var imageStream = fs.createWriteStream('./.tmp/uploads/' + filename);
+          var imageStream = sails.fs.createWriteStream('./.tmp/uploads/' + filename);
           readstream.pipe(imageStream);
           imageStream.on("finish", function () {
             lwip.open('./.tmp/uploads/' + filename, function (err, image) {

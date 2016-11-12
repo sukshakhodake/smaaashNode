@@ -307,12 +307,12 @@ module.exports = {
             "DOB": key.dob,
             "GENDER": key.gender,
             "PINCODE": key.pincode,
-            "DATE": key.date,
+            "DESIGNATION": key.designation,
+            "IMAGE": key.profilePic,
+            "AVATAR": key.avatar,
+            "CITY": key.city.name,
             "TIMESTAMP": key.timestamp,
           };
-          if (key.city) {
-            row["CITY"] = key.city.name;
-          }
           excelData.push(row);
         });
         Config.generateExcel("RegisteredUsers", excelData, res);

@@ -3,14 +3,6 @@ var Schema = mongoose.Schema;
 
 var schema = new Schema({
 
-  timestamp: {
-    type: Date,
-    default: Date.now
-  },
-  date: {
-    type: Date,
-    default: Date.now
-  },
 
   mobile: {
     type: String,
@@ -25,10 +17,9 @@ var schema = new Schema({
     ref: 'City',
     index: true
   },
-  hostaparty: {
-    type: Schema.Types.ObjectId,
-    ref: 'ExploreSmash',
-    index: true
+  timestamp: {
+    type: Date,
+    default: Date.now
   }
 
 });

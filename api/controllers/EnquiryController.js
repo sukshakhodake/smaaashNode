@@ -85,6 +85,7 @@ module.exports = {
   exportEnquiryExcel: function (req, res) {
     Enquiry
       .find({})
+      .populate('city')
       .exec(function (err, response) {
         var excelData = [];
         var row = {};
@@ -95,7 +96,9 @@ module.exports = {
             "NAME": key.name,
             "EMAIL": key.email,
             "MOBILE": key.mobile,
-            "COMMENT": key.comment
+            "COMMENT": key.comment,
+            "CITY": key.city.name,
+            "TIMESTAMP": key.timestamp,
           };
           excelData.push(row);
         });

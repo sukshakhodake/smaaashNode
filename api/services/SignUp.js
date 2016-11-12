@@ -5,7 +5,6 @@ var uniqueValidator = require('mongoose-unique-validator');
 var SendGrid = require('sendgrid').SendGrid;
 var md5 = require('md5');
 var schema = new Schema({
-
   name: {
     type: String,
     default: ""
@@ -56,14 +55,6 @@ var schema = new Schema({
       index: true
     }
   }],
-  occasion: {
-    type: String,
-    default: ""
-  },
-  noofpeople: {
-    type: String,
-    default: ""
-  },
   gender: {
     type: String,
     enum: ["Male", "Female"]
@@ -84,49 +75,26 @@ var schema = new Schema({
     type: Date,
     default: Date.now
   },
+  timestamp: {
+    type: Date,
+    default: Date.now
+  },
   profilePic: {
     type: String,
     default: ""
   },
-  address: {
+  avatar: {
+    type: String,
+    default: ""
+  },
+  designation: {
     type: String,
     default: ""
   },
   oauthLogin: {
     socialId: String,
     socialProvider: String
-
-  },
-  date: {
-    type: Date,
-    default: Date.now
-  },
-  games: [{
-    type: Schema.Types.ObjectId,
-    ref: 'ExploreSmash',
-    index: true
-  }],
-  foodStyle: {
-    type: String,
-    default: ""
-  },
-  starter: {
-    type: String,
-    default: ""
-  },
-  mainCourse: {
-    type: String,
-    default: ""
-  },
-  dessert: {
-    type: String,
-    default: ""
-  },
-  alcohol: {
-    type: String,
-    default: ""
-  },
-
+  }
 });
 schema.plugin(uniqueValidator);
 
