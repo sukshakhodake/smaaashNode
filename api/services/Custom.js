@@ -134,18 +134,37 @@ var models = {
     });
   },
   findLimited: function (data, callback) {
+    var obj = {};
     var newreturns = {};
     newreturns.data = [];
     var check = new RegExp(data.search, "i");
+    var checkStatus = new RegExp(data.status, "i");
     data.pagenumber = parseInt(data.pagenumber);
     data.pagesize = parseInt(data.pagesize);
+    var status = data.status;
+    var fromDate = data.fromDate;
+    var toDate = data.toDate;
+    if (check != "/(?:)/i") {
+      obj = {
+        $or: [{
+          name: {
+            '$regex': check
+          }
+        }, {
+          email: {
+            '$regex': check
+          }
+        }]
+      };
+    } else if (fromDate && toDate) {
+      obj.timestamp = {
+        "$gte": fromDate,
+        "$lte": toDate
+      }
+    }
     async.parallel([
         function (callback) {
-          Custom.count({
-            email: {
-              '$regex': check
-            }
-          }).exec(function (err, number) {
+          Custom.count(obj).exec(function (err, number) {
             if (err) {
               console.log(err);
               callback(err, null);
@@ -159,11 +178,7 @@ var models = {
           });
         },
         function (callback) {
-          Custom.find({
-            email: {
-              '$regex': check
-            }
-          }).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).populate("city", "_id  name", null, {
+          Custom.find(obj).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).populate("city", "_id  name", null, {
             sort: {}
           }).lean().exec(function (err, data2) {
             if (err) {

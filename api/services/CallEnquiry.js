@@ -95,26 +95,33 @@ var models = {
   },
   findLimited: function (data, callback) {
     var obj = {};
-
-    if (data._id && data._id !== '' && data.search && data.search !== '') {
-      obj = {
-        city: data._id,
-        date: data.search
-      };
-    } else if (data._id && data._id !== '') {
-      obj = {
-        city: data._id
-      };
-    } else if (data.search && data.search !== '') {
-      obj = {
-        date: data.search
-      };
-    }
     var newreturns = {};
     newreturns.data = [];
-    // var check = new RegExp(data.search, "i");
+    var check = new RegExp(data.search, "i");
+    var checkStatus = new RegExp(data.status, "i");
     data.pagenumber = parseInt(data.pagenumber);
     data.pagesize = parseInt(data.pagesize);
+    var status = data.status;
+    var fromDate = data.fromDate;
+    var toDate = data.toDate;
+    if (check != "/(?:)/i") {
+      obj = {
+        $or: [{
+          name: {
+            '$regex': check
+          }
+        }, {
+          email: {
+            '$regex': check
+          }
+        }]
+      };
+    } else if (fromDate && toDate) {
+      obj.timestamp = {
+        "$gte": fromDate,
+        "$lte": toDate
+      }
+    }
     async.parallel([
         function (callback) {
           CallEnquiry.count(obj).exec(function (err, number) {

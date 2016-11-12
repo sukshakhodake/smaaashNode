@@ -476,6 +476,27 @@ var models = {
       }
     });
   },
+  getAllForDropDown: function (data, callback) {
+    this.find({}, {
+      hometext: 1
+    }).exec(function (err, found) {
+      if (err) {
+        console.log(err);
+        callback(err, null);
+      } else if (found && found.length > 0) {
+        var newFound = {};
+        newFound = _.clone(found);
+
+        _.each(newFound, function (n) {
+          n.name = n.hometext;
+        })
+        console.log(newFound);
+        callback(null, found);
+      } else {
+        callback(null, []);
+      }
+    });
+  },
   getAllAttraction: function (data, callback) {
     var name = '';
     this.find({}, {

@@ -122,7 +122,7 @@ var models = {
     });
   },
   findLimited: function (data, callback) {
-
+    var obj = {};
     var newreturns = {};
     newreturns.data = [];
     var check = new RegExp(data.search, "i");
@@ -132,9 +132,8 @@ var models = {
     var status = data.status;
     var fromDate = data.fromDate;
     var toDate = data.toDate;
-    if (status) {
-      console.log("This is status");
-      var obj = {
+    if (check != "/(?:)/i") {
+      obj = {
         $or: [{
           name: {
             '$regex': check
@@ -143,41 +142,15 @@ var models = {
           email: {
             '$regex': check
           }
-        }, {
-          status: checkStatus
         }]
       };
+    } else if (status) {
+      obj.status = checkStatus;
     } else if (fromDate && toDate) {
-      console.log("This is not status");
-      var obj = {
-        $or: [{
-          name: {
-            '$regex': check
-          }
-        }, {
-          email: {
-            '$regex': check
-          }
-        }, {
-          "timestamp": {
-            "$gte": fromDate,
-            "$lte": toDate
-          }
-        }]
-      };
-    } else {
-      console.log("else");
-      var obj = {
-        $or: [{
-          name: {
-            '$regex': check
-          }
-        }, {
-          email: {
-            '$regex': check
-          }
-        }]
-      };
+      obj.timestamp = {
+        "$gte": fromDate,
+        "$lte": toDate
+      }
     }
     async.parallel([
         function (callback) {

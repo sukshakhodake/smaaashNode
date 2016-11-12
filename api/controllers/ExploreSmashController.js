@@ -1,6 +1,6 @@
 module.exports = {
 
-  save: function(req, res) {
+  save: function (req, res) {
     if (req.body) {
       ExploreSmash.saveData(req.body, res.callback);
     } else {
@@ -10,7 +10,7 @@ module.exports = {
       });
     }
   },
-  saveAttraction: function(req, res) {
+  saveAttraction: function (req, res) {
     if (req.body) {
       ExploreSmash.saveAttraction(req.body, res.callback);
     } else {
@@ -20,7 +20,7 @@ module.exports = {
       });
     }
   },
-  saveWhatsNew: function(req, res) {
+  saveWhatsNew: function (req, res) {
     if (req.body) {
       ExploreSmash.saveWhatsNew(req.body, res.callback);
     } else {
@@ -30,7 +30,7 @@ module.exports = {
       });
     }
   },
-  saveDeals: function(req, res) {
+  saveDeals: function (req, res) {
     if (req.body) {
       ExploreSmash.saveDeals(req.body, res.callback);
     } else {
@@ -40,7 +40,7 @@ module.exports = {
       });
     }
   },
-  savePromotion: function(req, res) {
+  savePromotion: function (req, res) {
     if (req.body) {
       ExploreSmash.savePromotion(req.body, res.callback);
     } else {
@@ -50,7 +50,7 @@ module.exports = {
       });
     }
   },
-  saveHost: function(req, res) {
+  saveHost: function (req, res) {
     if (req.body) {
       ExploreSmash.saveHost(req.body, res.callback);
     } else {
@@ -60,7 +60,7 @@ module.exports = {
       });
     }
   },
-  saveFood: function(req, res) {
+  saveFood: function (req, res) {
     if (req.body) {
       ExploreSmash.saveFood(req.body, res.callback);
     } else {
@@ -70,7 +70,7 @@ module.exports = {
       });
     }
   },
-  saveEvents: function(req, res) {
+  saveEvents: function (req, res) {
     if (req.body) {
       ExploreSmash.saveEvents(req.body, res.callback);
     } else {
@@ -80,7 +80,7 @@ module.exports = {
       });
     }
   },
-  saveBuyNow: function(req, res) {
+  saveBuyNow: function (req, res) {
     if (req.body) {
       ExploreSmash.saveBuyNow(req.body, res.callback);
     } else {
@@ -91,7 +91,7 @@ module.exports = {
     }
   },
 
-  getOne: function(req, res) {
+  getOne: function (req, res) {
 
     if (req.body) {
       ExploreSmash.getOne(req.body, res.callback);
@@ -102,7 +102,7 @@ module.exports = {
       });
     }
   },
-  getDetailExploreSmaaash: function(req, res) {
+  getDetailExploreSmaaash: function (req, res) {
 
     if (req.body) {
       ExploreSmash.getDetailExploreSmaaash(req.body, res.callback);
@@ -114,7 +114,7 @@ module.exports = {
     }
   },
 
-  delete: function(req, res) {
+  delete: function (req, res) {
     if (req.body) {
       ExploreSmash.deleteData(req.body, res.callback);
     } else {
@@ -125,9 +125,9 @@ module.exports = {
     }
   },
 
-  getTiming: function(req, res) {
+  getTiming: function (req, res) {
     if (req.body) {
-      User.getTiming(req.body, function(err, respo) {
+      User.getTiming(req.body, function (err, respo) {
         if (err) {
           res.json({
             value: false,
@@ -148,7 +148,7 @@ module.exports = {
     }
   },
 
-  getAll: function(req, res) {
+  getAll: function (req, res) {
     function callback(err, data) {
       Global.response(err, data, res);
     }
@@ -161,7 +161,20 @@ module.exports = {
       });
     }
   },
-  getAllAttraction: function(req, res) {
+  getAllForDropDown: function (req, res) {
+    function callback(err, data) {
+      Global.response(err, data, res);
+    }
+    if (req.body) {
+      ExploreSmash.getAllForDropDown(req.body, res.callback);
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
+  getAllAttraction: function (req, res) {
     function callback(err, data) {
       Global.response(err, data, res);
     }
@@ -174,7 +187,7 @@ module.exports = {
       });
     }
   },
-  getAllExploreSmashByCity: function(req, res) {
+  getAllExploreSmashByCity: function (req, res) {
     if (req.body) {
       if (req.body._id && req.body._id !== "") {
         ExploreSmash.getAllExploreSmashByCity(req.body, res.callback);
@@ -192,7 +205,7 @@ module.exports = {
     }
   },
 
-  findLimited: function(req, res) {
+  findLimited: function (req, res) {
     if (req.body) {
       if (req.body.pagenumber && req.body.pagenumber !== "" && req.body.pagesize && req.body.pagesize !== "") {
         ExploreSmash.findLimited(req.body, res.callback);
@@ -209,7 +222,7 @@ module.exports = {
       });
     }
   },
-  findLimitedDeals: function(req, res) {
+  findLimitedDeals: function (req, res) {
     if (req.body) {
       if (req.body.pagenumber && req.body.pagenumber !== "" && req.body.pagesize && req.body.pagesize !== "") {
         ExploreSmash.findLimitedDeals(req.body, res.callback);
@@ -226,7 +239,7 @@ module.exports = {
       });
     }
   },
-  findLimitedAttraction: function(req, res) {
+  findLimitedAttraction: function (req, res) {
     if (req.body) {
       if (req.body.pagenumber && req.body.pagenumber !== "" && req.body.pagesize && req.body.pagesize !== "") {
         ExploreSmash.findLimitedAttraction(req.body, res.callback);
@@ -243,7 +256,7 @@ module.exports = {
       });
     }
   },
-  findLimitedWhatsNew: function(req, res) {
+  findLimitedWhatsNew: function (req, res) {
     if (req.body) {
       if (req.body.pagenumber && req.body.pagenumber !== "" && req.body.pagesize && req.body.pagesize !== "") {
         ExploreSmash.findLimitedWhatsNew(req.body, res.callback);
@@ -260,7 +273,7 @@ module.exports = {
       });
     }
   },
-  findLimitedBuyNow: function(req, res) {
+  findLimitedBuyNow: function (req, res) {
     if (req.body) {
       if (req.body.pagenumber && req.body.pagenumber !== "" && req.body.pagesize && req.body.pagesize !== "") {
         ExploreSmash.findLimitedBuyNow(req.body, res.callback);
@@ -277,7 +290,7 @@ module.exports = {
       });
     }
   },
-  findLimitedEvents: function(req, res) {
+  findLimitedEvents: function (req, res) {
     if (req.body) {
       if (req.body.pagenumber && req.body.pagenumber !== "" && req.body.pagesize && req.body.pagesize !== "") {
         ExploreSmash.findLimitedEvents(req.body, res.callback);
@@ -294,7 +307,7 @@ module.exports = {
       });
     }
   },
-  findLimitedFood: function(req, res) {
+  findLimitedFood: function (req, res) {
     if (req.body) {
       if (req.body.pagenumber && req.body.pagenumber !== "" && req.body.pagesize && req.body.pagesize !== "") {
         ExploreSmash.findLimitedFood(req.body, res.callback);
@@ -311,7 +324,7 @@ module.exports = {
       });
     }
   },
-  findLimitedPromotion: function(req, res) {
+  findLimitedPromotion: function (req, res) {
     if (req.body) {
       if (req.body.pagenumber && req.body.pagenumber !== "" && req.body.pagesize && req.body.pagesize !== "") {
         ExploreSmash.findLimitedPromotion(req.body, res.callback);
@@ -328,7 +341,7 @@ module.exports = {
       });
     }
   },
-  findLimitedHost: function(req, res) {
+  findLimitedHost: function (req, res) {
     if (req.body) {
       if (req.body.pagenumber && req.body.pagenumber !== "" && req.body.pagesize && req.body.pagesize !== "") {
         ExploreSmash.findLimitedHost(req.body, res.callback);
@@ -345,9 +358,9 @@ module.exports = {
       });
     }
   },
-  findTiming: function(req, res) {
+  findTiming: function (req, res) {
     if (req.body) {
-      ExploreSmash.getAllTiming(req.body, function(err, respo) {
+      ExploreSmash.getAllTiming(req.body, function (err, respo) {
         if (err) {
           res.json({
             value: false,
@@ -367,7 +380,7 @@ module.exports = {
       });
     }
   },
-  findOneTiming: function(req, res) {
+  findOneTiming: function (req, res) {
     if (req.body) {
       ExploreSmash.getOneTiming(req.body, res.callback);
     } else {
@@ -378,11 +391,11 @@ module.exports = {
     }
   },
 
-  deleteTiming: function(req, res) {
+  deleteTiming: function (req, res) {
     if (req.body) {
       if (req.body._id && req.body._id !== "") {
         //	console.log("not valid");
-        ExploreSmash.deleteTiming(req.body, function(err, respo) {
+        ExploreSmash.deleteTiming(req.body, function (err, respo) {
           if (err) {
             res.json({
               value: false,
@@ -408,9 +421,9 @@ module.exports = {
       });
     }
   },
-  saveTiming: function(req, res) {
+  saveTiming: function (req, res) {
     if (req.body) {
-      ExploreSmash.saveTiming(req.body, function(err, respo) {
+      ExploreSmash.saveTiming(req.body, function (err, respo) {
         if (err) {
           res.json({
             value: false,
@@ -433,9 +446,9 @@ module.exports = {
 
   // Gallery
 
-  findGallery: function(req, res) {
+  findGallery: function (req, res) {
     if (req.body.pagenumber && req.body.pagesize) {
-      ExploreSmash.getAllGallery(req.body, function(err, respo) {
+      ExploreSmash.getAllGallery(req.body, function (err, respo) {
         if (err) {
           res.json({
             value: false,
@@ -455,7 +468,7 @@ module.exports = {
       });
     }
   },
-  findOneGallery: function(req, res) {
+  findOneGallery: function (req, res) {
     if (req.body) {
       ExploreSmash.getOneGallery(req.body, res.callback);
     } else {
@@ -465,8 +478,8 @@ module.exports = {
       });
     }
   },
-  getHomeContent: function(req, res) {
-    if (req.body.city && req.body.city !='' ) {
+  getHomeContent: function (req, res) {
+    if (req.body.city && req.body.city != '') {
       ExploreSmash.getHomeContent(req.body, res.callback);
     } else {
       res.json({
@@ -475,8 +488,8 @@ module.exports = {
       });
     }
   },
-  getSingleExploreSmaaash: function(req, res) {
-    if (req.body.city && req.body.city !='' ) {
+  getSingleExploreSmaaash: function (req, res) {
+    if (req.body.city && req.body.city != '') {
       ExploreSmash.getSingleExploreSmaaash(req.body, res.callback);
     } else {
       res.json({
@@ -486,11 +499,11 @@ module.exports = {
     }
   },
 
-  deleteGallery: function(req, res) {
+  deleteGallery: function (req, res) {
     if (req.body) {
       if (req.body._id && req.body._id !== "") {
         //	console.log("not valid");
-        ExploreSmash.deleteGallery(req.body, function(err, respo) {
+        ExploreSmash.deleteGallery(req.body, function (err, respo) {
           if (err) {
             res.json({
               value: false,
@@ -516,10 +529,10 @@ module.exports = {
       });
     }
   },
-  saveGallery: function(req, res) {
+  saveGallery: function (req, res) {
     console.log(req.body);
     if (req.body) {
-      ExploreSmash.saveGallery(req.body, function(err, respo) {
+      ExploreSmash.saveGallery(req.body, function (err, respo) {
         if (err) {
           res.json({
             value: false,
@@ -544,74 +557,46 @@ module.exports = {
   // MULTIPLE ATTRACTIONS
 
 
-    // Gallery
+  // Gallery
 
-    findMultipleAttraction: function(req, res) {
-      if (req.body.pagenumber && req.body.pagesize) {
-        ExploreSmash.getAllMultipleAttraction(req.body, function(err, respo) {
-          if (err) {
-            res.json({
-              value: false,
-              data: err
-            });
-          } else {
-            res.json({
-              value: true,
-              data: respo
-            });
-          }
-        });
-      } else {
-        res.json({
-          value: false,
-          data: "Invalid call"
-        });
-      }
-    },
-    findOneMultipleAttraction: function(req, res) {
-      if (req.body) {
-        ExploreSmash.getOneMultipleAttraction(req.body, res.callback);
-      } else {
-        res.json({
-          value: false,
-          data: "Invalid Request"
-        });
-      }
-    },
-
-    deleteMultipleAttraction: function(req, res) {
-      if (req.body) {
-        if (req.body._id && req.body._id !== "") {
-          //	console.log("not valid");
-          ExploreSmash.deleteMultipleAttraction(req.body, function(err, respo) {
-            if (err) {
-              res.json({
-                value: false,
-                data: err
-              });
-            } else {
-              res.json({
-                value: true,
-                data: respo
-              });
-            }
+  findMultipleAttraction: function (req, res) {
+    if (req.body.pagenumber && req.body.pagesize) {
+      ExploreSmash.getAllMultipleAttraction(req.body, function (err, respo) {
+        if (err) {
+          res.json({
+            value: false,
+            data: err
           });
         } else {
           res.json({
-            value: false,
-            data: "Invalid Id"
+            value: true,
+            data: respo
           });
         }
-      } else {
-        res.json({
-          value: false,
-          data: "Invalid call"
-        });
-      }
-    },
-    saveMultipleAttraction: function(req, res) {
-      if (req.body) {
-        ExploreSmash.saveMultipleAttraction(req.body, function(err, respo) {
+      });
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid call"
+      });
+    }
+  },
+  findOneMultipleAttraction: function (req, res) {
+    if (req.body) {
+      ExploreSmash.getOneMultipleAttraction(req.body, res.callback);
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
+
+  deleteMultipleAttraction: function (req, res) {
+    if (req.body) {
+      if (req.body._id && req.body._id !== "") {
+        //	console.log("not valid");
+        ExploreSmash.deleteMultipleAttraction(req.body, function (err, respo) {
           if (err) {
             res.json({
               value: false,
@@ -627,10 +612,38 @@ module.exports = {
       } else {
         res.json({
           value: false,
-          data: "Invalid call"
+          data: "Invalid Id"
         });
       }
-    },
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid call"
+      });
+    }
+  },
+  saveMultipleAttraction: function (req, res) {
+    if (req.body) {
+      ExploreSmash.saveMultipleAttraction(req.body, function (err, respo) {
+        if (err) {
+          res.json({
+            value: false,
+            data: err
+          });
+        } else {
+          res.json({
+            value: true,
+            data: respo
+          });
+        }
+      });
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid call"
+      });
+    }
+  },
 
 
 };
