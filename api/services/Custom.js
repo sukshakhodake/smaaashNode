@@ -28,18 +28,6 @@ var schema = new Schema({
     type: String,
     default: ""
   },
-  gender: {
-    type: Number,
-    default: ""
-  },
-  profilePic: {
-    type: String,
-    default: ""
-  },
-  address: {
-    type: String,
-    default: ""
-  },
   date: {
     type: Date,
     default: Date.now
@@ -69,7 +57,10 @@ var schema = new Schema({
     type: String,
     default: ""
   },
-
+  timestamp: {
+    type: Date,
+    default: Date.now
+  }
 });
 
 module.exports = mongoose.model('Custom', schema);

@@ -65,28 +65,48 @@ module.exports = {
       });
     }
   },
-  // exportCustomExcel: function (req, res) {
-  //   Custom
-  //     .find({})
-  //     .populate('city')
-  //     .exec(function (err, response) {
-  //       var excelData = [];
-  //       var row = {};
-  //       _.each(response, function (key) {
-  //         console.log(key);
-  //         row = {};
-  //         row = {
-  //           "NAME": key.name,
-  //           "EMAIL": key.email,
-  //           "TIMESTAMP": key.timestamp,
-  //         };
-  //         if (key.city) {
-  //           row["CITY"] = key.city.name;
-  //         }
-  //         excelData.push(row);
-  //       });
-  //       Config.generateExcel("CustomPackages", excelData, res);
-  //     });
-  // },
+  exportCustomExcel: function (req, res) {
+    var gamesName = '';
+    Custom
+      .find({})
+      .populate('city')
+      .populate('games')
+      .exec(function (err, response) {
+        var excelData = [];
+        var row = {};
+        _.each(response, function (key) {
+          _.each(key.games, function (n) {
+            if (gamesName == '') {
+              gamesName = n.hometext;
+            } else {
+              gamesName = gamesName + ", " + n.hometext;
+            }
+          });
+          row = {};
+          row = {
+            "NAME": key.name,
+            "EMAIL": key.email,
+            "MOBILE": key.mobile,
+            "OCCASION": key.occasion,
+            "NO OF PEOPLE": key.noofpeople,
+            "DATE": key.DATE,
+            "FOOD STYLE": key.foodStyle,
+            "STARTER": key.starter,
+            "MAIN COURSE": key.mainCourse,
+            "DESSERT": key.dessert,
+            "ALCOHOL": key.alcohol,
+            "TIMESTAMP": key.timestamp
+          };
+          if (key.city) {
+            row["CITY"] = key.city.name;
+          }
+          if (key.games) {
+            row["GAMES"] = gamesName;
+          }
+          excelData.push(row);
+        });
+        Config.generateExcel("CustomPackages", excelData, res);
+      });
+  },
 
 };
