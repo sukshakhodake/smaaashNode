@@ -476,6 +476,23 @@ var models = {
       }
     });
   },
+  getFoodGallery: function (data, callback) {
+    this.find({
+      "_id": data._id,
+      "city": data.city,
+    }, {
+      gallery: 1
+    }).exec(function (err, found) {
+      if (err) {
+        console.log(err);
+        callback(err, null);
+      } else if (found && found.length > 0) {
+        callback(null, found);
+      } else {
+        callback(null, []);
+      }
+    });
+  },
   getAllForDropDown: function (data, callback) {
     this.find({}, {
       hometext: 1

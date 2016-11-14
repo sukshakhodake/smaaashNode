@@ -324,6 +324,23 @@ module.exports = {
       });
     }
   },
+  getFoodGallery: function (req, res) {
+    if (req.body) {
+      if (req.body._id && req.body._id !== "" && req.body.city && req.body.city !== "") {
+        ExploreSmash.getFoodGallery(req.body, res.callback);
+      } else {
+        res.json({
+          value: false,
+          data: "Please provide parameters"
+        });
+      }
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
   findLimitedPromotion: function (req, res) {
     if (req.body) {
       if (req.body.pagenumber && req.body.pagenumber !== "" && req.body.pagesize && req.body.pagesize !== "") {
