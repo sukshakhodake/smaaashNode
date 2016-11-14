@@ -477,10 +477,11 @@ var models = {
     });
   },
   getFoodGallery: function (data, callback) {
-    this.find({
+    this.findOne({
       "_id": data._id,
       "city": data.city,
     }, {
+      _id: 0,
       gallery: 1
     }).exec(function (err, found) {
       if (err) {
@@ -805,6 +806,21 @@ var models = {
             }
           })
           // callback(null, found);
+      } else {
+        callback(null, {});
+      }
+    });
+  },
+  getOneExploreSmaaash: function (data, callback) {
+    this.findOne({
+      "_id": data._id,
+      "city": data.city
+    }).exec(function (err, found) {
+      if (err) {
+        console.log(err);
+        callback(err, null);
+      } else if (found && Object.keys(found).length > 0) {
+        callback(null, found);
       } else {
         callback(null, {});
       }

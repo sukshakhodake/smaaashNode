@@ -113,6 +113,17 @@ module.exports = {
       });
     }
   },
+  getOneExploreSmaaash: function (req, res) {
+
+    if (req.body) {
+      ExploreSmash.getOneExploreSmaaash(req.body, res.callback);
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
 
   delete: function (req, res) {
     if (req.body) {
