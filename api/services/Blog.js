@@ -23,6 +23,23 @@ var schema = new Schema({
   description: {
     type: String,
     default: ""
+  },
+  like: [{
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      index: true
+    }
+  }],
+  timestamp: {
+    type: Date,
+    default: Date.now
+  },
+
+  //insert blog id in user
+  date: {
+    type: Date,
+    default: Date.now
   }
 
 });
