@@ -98,6 +98,7 @@ module.exports = {
             "MOBILE": key.mobile,
             "COMMENT": key.comment,
             "CITY": key.city.name,
+            "DOB": key.dob,
             "TIMESTAMP": key.timestamp,
           };
           excelData.push(row);

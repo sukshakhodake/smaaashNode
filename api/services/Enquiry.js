@@ -15,6 +15,10 @@ var schema = new Schema({
     type: String,
     default: ""
   },
+  dob: {
+    type: Date,
+    default: ""
+  },
   city: {
     type: Schema.Types.ObjectId,
     ref: 'City',
