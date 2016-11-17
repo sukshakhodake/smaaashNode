@@ -76,6 +76,23 @@ module.exports = {
         data: "Invalid Request"
       });
     }
+  },
+  findLimitedForBackend: function (req, res) {
+    if (req.body) {
+      if (req.body.pagenumber && req.body.pagenumber !== "" && req.body.pagesize && req.body.pagesize !== "") {
+        Blog.findLimitedForBackend(req.body, res.callback);
+      } else {
+        res.json({
+          value: false,
+          data: "Please provide parameters"
+        });
+      }
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
   }
 
 };

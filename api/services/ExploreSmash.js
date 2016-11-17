@@ -29,6 +29,10 @@ var schema = new Schema({
     type: String,
     default: ""
   },
+  showBuyNow: {
+    type: Boolean,
+    default: false
+  },
   mobileBanner: {
     type: String,
     default: ""

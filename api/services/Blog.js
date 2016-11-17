@@ -39,6 +39,11 @@ var schema = new Schema({
       index: true
     }
   }],
+  city: [{
+    type: Schema.Types.ObjectId,
+    ref: 'City',
+    index: true
+  }],
   comments: [{
     text: {
       type: String,
@@ -163,7 +168,8 @@ var models = {
           Blog.count({
             name: {
               '$regex': check
-            }
+            },
+            status: "true"
           }).exec(function (err, number) {
             if (err) {
               console.log(err);
@@ -181,8 +187,82 @@ var models = {
           Blog.find({
             name: {
               '$regex': check
+            },
+            status: "true"
+          }).sort({
+            order: 1
+          }).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).lean().exec(function (err, data2) {
+            console.log(data2);
+            if (err) {
+              console.log(err);
+              callback(err, null);
+            } else if (data2 && data2.length > 0) {
+              newreturns.data = data2;
+              _.each(newreturns.data, function (n) {
+                if (n.status == true) {
+                  n.status = "Enabled";
+                } else if (n.status == false) {
+                  n.status = "Disabled";
+                } else {
+                  n.status = "Disabled";
+                }
+              });
+              console.log(newreturns.data);
+              callback(null, newreturns);
+            } else {
+              callback(null, newreturns);
             }
-          }).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).populate("city", "_id  name", null, {}).lean().exec(function (err, data2) {
+          });
+        }
+      ],
+      function (err, data4) {
+        if (err) {
+          console.log(err);
+          callback(err, null);
+        } else if (data4) {
+          callback(null, newreturns);
+        } else {
+          callback(null, newreturns);
+        }
+      });
+  },
+  findLimitedForBackend: function (data, callback) {
+
+    var newreturns = {};
+    newreturns.data = [];
+    var check = new RegExp(data.search, "i");
+    data.pagenumber = parseInt(data.pagenumber);
+    data.pagesize = parseInt(data.pagesize);
+    var obj = {};
+
+    if (data._id && data._id !== '') {
+      obj = {
+        city: data._id
+      };
+    } else {
+      obj = {
+        name: {
+          '$regex': check
+        }
+      };
+    }
+    async.parallel([
+        function (callback) {
+          Blog.count(obj).exec(function (err, number) {
+            if (err) {
+              console.log(err);
+              callback(err, null);
+            } else if (number && number !== "") {
+              newreturns.total = number;
+              newreturns.totalpages = Math.ceil(number / data.pagesize);
+              callback(null, newreturns);
+            } else {
+              callback(null, newreturns);
+            }
+          });
+        },
+        function (callback) {
+          Blog.find(obj).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).lean().exec(function (err, data2) {
             console.log(data2);
             if (err) {
               console.log(err);
