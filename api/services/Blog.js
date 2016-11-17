@@ -20,6 +20,14 @@ var schema = new Schema({
     type: String,
     default: ""
   },
+  banner: {
+    type: String,
+    default: ""
+  },
+  mobileBanner: {
+    type: String,
+    default: ""
+  },
   description: {
     type: String,
     default: ""
@@ -31,12 +39,18 @@ var schema = new Schema({
       index: true
     }
   }],
+  comments: [{
+    text: {
+      type: String,
+      default: ""
+    }
+  }],
   timestamp: {
     type: Date,
     default: Date.now
   },
 
-  //insert blog id in user
+  //insert date and time together
   date: {
     type: Date,
     default: Date.now

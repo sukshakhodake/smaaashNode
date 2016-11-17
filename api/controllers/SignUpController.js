@@ -118,6 +118,43 @@ module.exports = {
       });
     }
   },
+
+
+
+  // mobile login 
+
+  mobileLogin: function (req, res) {
+    var callback = function (err, data) {
+      if (err || _.isEmpty(data)) {
+        res.json({
+          error: err,
+          value: false
+        });
+      } else {
+        res.json({
+          data: data,
+          value: true
+        });
+      }
+    };
+    if (req.body) {
+      if (req.body.name && req.body.name !== "" && req.body.mobile && req.body.mobile !== "") {
+        SignUp.mobileLogin(req.body, callback);
+      } else {
+        res.json({
+          data: "Please provide params",
+          value: true
+        });
+      }
+    } else {
+      res.json({
+        data: "Invalid Call",
+        value: true
+      });
+    }
+  },
+
+
   //cart
   addToCart: function (req, res) {
     if (req.body.user && req.body.user !== "" && req.body.cart && req.body.cart !== "") {

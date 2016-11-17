@@ -83,6 +83,10 @@ var schema = new Schema({
     type: String,
     default: ""
   },
+  otp: {
+    type: String,
+    default: ""
+  },
   avatar: {
     type: String,
     default: ""
@@ -140,6 +144,7 @@ var models = {
       });
     }
   },
+
   deleteData: function (data, callback) {
     this.findOneAndRemove({
       _id: data._id
@@ -417,6 +422,29 @@ var models = {
         callback(null, {});
       }
     });
+  },
+  mobileLogin: function (data, callback) {
+
+    //generate random Number
+    var randomNumber = Config.randomNumber();
+    // check first mobile number
+    SignUp.findOne({
+      "mobile": data.mobile
+    }).exec(function (err, found) {
+      if (err) {
+        console.log(err);
+        callback(err, null);
+      } else if (found) {
+
+        callback(null, found);
+      } else {
+        callback(null, {
+          message: "Number not Found"
+        });
+      }
+    });
+
+
   },
   findLimited: function (data, callback) {
     var obj = {};

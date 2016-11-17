@@ -28,6 +28,10 @@ module.exports = {
       });
     }
   },
+  randomNumber: function getRandom() {
+    var randomNumber = _.random(100000, 999999);
+    return randomNumber;
+  },
   uploadFile: function (filename, callback) {
 
     var id = mongoose.Types.ObjectId();
