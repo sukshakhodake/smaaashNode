@@ -1,4 +1,6 @@
 var redirect = "http://tingdom.in/smaaash";
+var request = require('request');
+var passport = require('passport');
 module.exports = {
 
   save: function (req, res) {

@@ -223,7 +223,8 @@ module.exports = {
     //         BranchID: "12"
     //     }
     // };
-    api = _.assign(api, req.body.data);
+    // console.log(req.body);
+    api = _.assign(api, req.body);
     console.log(api);
     request({
       url: "http://apismaaash.itspl.net/SMAAASHAPI.svc/" + req.body.name,

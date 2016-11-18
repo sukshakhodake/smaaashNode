@@ -105,6 +105,96 @@ var models = {
       }
     });
   },
+  getDetailBlog: function (data, callback) {
+    var blogId = data._id;
+    async.parallel({
+      blogDetail: function (callback) {
+        return Blog.findOne({
+          _id: blogId
+        }, function (err, result) {
+          if (err) {
+            callback(err, null);
+          } else if (result) {
+            callback(null, result);
+          } else {
+            callback(null, {
+              message: "No data found"
+            });
+          }
+        });
+      },
+      popularBlog: function (callback) {
+        return soloist.find({}, function (err, result) {
+          return callback(err, result);
+        });
+      },
+      blogLikes: function (callback) {
+        return Blog.findOne({
+          _id: blogId
+        }, function (err, result) {
+          if (err) {
+            callback(err, null);
+          } else if (result) {
+            // return likes array length
+            var likesArray = result.likes;
+            var likesArrayLength = likesArray.length;
+            callback(null, likesArrayLength);
+          } else {
+            callback(null, {
+              message: "No data found"
+            });
+          }
+        });
+      },
+      blogComments: function (callback) {
+        return Blog.findOne({
+          _id: blogId
+        }, function (err, result) {
+          if (err) {
+            callback(err, null);
+          } else if (result) {
+            // return likes array length
+            var commentArray = result.comments;
+            var commentArrayLength = commentArray.length;
+            var commentsarr = {};
+            commentsarr.commentArray = commentArray;
+            commentsarr.commentArrayLength = commentArrayLength;
+            callback(null, commentsarr);
+          } else {
+            callback(null, {
+              message: "No data found"
+            });
+          }
+        });
+      },
+
+      // {'post': {$ne : ""}}
+      previousNextBlog: function (callback) {
+        return Blog.find({
+          '_id': {
+            $ne: blogId
+          }
+        }, function (err, result) {
+          if (err) {
+            callback(err, null);
+          } else if (result) {
+            callback(null, result);
+          } else {
+            callback(null, {
+              message: "No data found"
+            });
+          }
+        });
+      },
+      youMayLikeBlog: function (callback) {
+        return chamber.find({}, function (err, result) {
+          return callback(err, result);
+        });
+      },
+    }, function (err, performers) {
+      return res.json(performers);
+    });
+  },
   getAllBlog: function (data, callback) {
     this.find({
       status: true
