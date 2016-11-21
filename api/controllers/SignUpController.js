@@ -1,6 +1,7 @@
 var redirect = "http://tingdom.in/smaaash";
 var request = require('request');
 var passport = require('passport');
+
 module.exports = {
 
   save: function (req, res) {
@@ -213,6 +214,107 @@ module.exports = {
   showWishList: function (req, res) {
     if (req.body.user && req.body.user !== "") {
       SignUp.showWishList(req.body, res.callback);
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
+  CustomerRegistration: function (req, res) {
+    if (req.body) {
+      var api = sails.api;
+      api = _.assign(api, req.body);
+      console.log(api);
+      request({
+        url: "http://apismaaash.itspl.net/SMAAASHAPI.svc/CustomerRegistration",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(api)
+      }, function (err, httpResponse, body) {
+        console.log(body);
+        var smaaashResponse = JSON.parse(JSON.parse(body));
+        console.log(smaaashResponse.Registration[0].Message);
+
+        if (smaaashResponse.Registration[0].Message === "Customer Allready Exists") {
+          res.json({
+            value: false,
+            data: "Customer Allready Exists"
+          });
+
+        } else {
+          SignUp.CustomerRegistration(req.body, api, smaaashResponse, res.callback);
+        }
+
+      });
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
+  VerifyCustomerLogin: function (req, res) {
+
+    //     {
+    //     "VerifyCustomerLogin": [
+    //         {
+    //             "Status": "0",
+    //             "Message": "User name or password Incorrect"
+    //         }
+    //     ]
+    // }
+
+    //     {
+    //     "VerifyCustomerLogin": [
+    //         {
+    //             "Status": 1,
+    //             "Message": "Get Customer Data",
+    //             "CustId": 75,
+    //             "CustName": "Testing Api2",
+    //             "CurrentRewardPoint": 0,
+    //             "CustEmail": "vinod1122211@wohlig.com",
+    //             "CustMobile": "8805123000",
+    //             "CustAdd1": "577f4d106b78e0bc03724800",
+    //             "CustPhone": ""
+    //         }
+    //     ]
+    // }
+    if (req.body) {
+      var api = sails.api;
+      api = _.assign(api, req.body);
+      request({
+        url: "http://apismaaash.itspl.net/SMAAASHAPI.svc/VerifyCustomerLogin",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(api)
+      }, function (err, httpResponse, body) {
+        var smaaashResponse = JSON.parse(JSON.parse(body));
+        console.log(smaaashResponse);
+
+        if (smaaashResponse.VerifyCustomerLogin[0].Message === "User name or password Incorrect") {
+          res.json({
+            value: false,
+            data: "User name or password Incorrect"
+          });
+
+        } else if (smaaashResponse.VerifyCustomerLogin[0].Message === "Get Customer Data") {
+          res.json({
+            value: true,
+            data: smaaashResponse
+          });
+        } else {
+          res.json({
+            value: false,
+            data: "Something went wrong"
+          });
+        }
+
+      });
     } else {
       res.json({
         value: false,

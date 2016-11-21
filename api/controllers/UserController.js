@@ -210,20 +210,6 @@ module.exports = {
     var api = {
       "APIKey": "afa35e6d32a54d64962a78ccf28c140017636054922421850805185"
     };
-    // res.body = {
-    //     name: "GetCompanyDetails",
-    //     // name:"GetCompanyDetails",
-    //     // name:"GetPackageList",
-    //     //   name:"GetPackageList",
-    //     data: {
-    //         // name:"GetAllBranch",
-    //         // name:"GetCompanyDetails",
-
-    //         Visitdate: "2016-09-23",
-    //         BranchID: "12"
-    //     }
-    // };
-    // console.log(req.body);
     api = _.assign(api, req.body);
     console.log(api);
     request({

@@ -54,6 +54,10 @@ var schema = new Schema({
     type: String,
     default: ""
   },
+  eventType: {
+    type: String,
+    enum: ["Event", "Tournament", "Challenges"]
+  },
   sublink: {
     type: String,
     default: ""
@@ -1892,6 +1896,48 @@ var models = {
         callback({
           message: "No data found"
         }, null);
+      }
+    });
+  },
+  getAllEventsForApp: function (data, callback) {
+    this.find({
+      eventType: "Event"
+    }).exec(function (err, found) {
+      if (err) {
+        console.log(err);
+        callback(err, null);
+      } else if (found && found.length > 0) {
+        callback(null, found);
+      } else {
+        callback(null, []);
+      }
+    });
+  },
+  getAllTournaments: function (data, callback) {
+    this.find({
+      eventType: "Tournament"
+    }).exec(function (err, found) {
+      if (err) {
+        console.log(err);
+        callback(err, null);
+      } else if (found && found.length > 0) {
+        callback(null, found);
+      } else {
+        callback(null, []);
+      }
+    });
+  },
+  getAllChallenges: function (data, callback) {
+    this.find({
+      eventType: "Challenges"
+    }).exec(function (err, found) {
+      if (err) {
+        console.log(err);
+        callback(err, null);
+      } else if (found && found.length > 0) {
+        callback(null, found);
+      } else {
+        callback(null, []);
       }
     });
   },

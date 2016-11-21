@@ -1,32 +1,35 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var objectid = require("mongodb").ObjectId;
-var uniqueValidator = require('mongoose-unique-validator');
 var SendGrid = require('sendgrid').SendGrid;
 var md5 = require('md5');
 var schema = new Schema({
-  name: {
-    type: String,
-    default: ""
-  },
-  email: {
-    type: String,
-    default: "",
-    unique: true
-  },
-  password: {
-    type: String,
-    default: ""
-  },
-  mobile: {
-    type: String,
-    default: ""
-  },
+  // name: {
+  //   type: String,
+  //   default: ""
+  // },
+  // email: {
+  //   type: String,
+  //   default: ""
+  // },
+  // password: {
+  //   type: String,
+  //   default: ""
+  // },
+  // mobile: {
+  //   type: String,
+  //   default: ""
+  // },
   city: {
     type: Schema.Types.ObjectId,
     ref: 'City',
     index: true
   },
+  // address: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: 'City',
+  //   index: true
+  // },
   cart: [{
     exploresmash: {
       type: Schema.Types.ObjectId,
@@ -63,10 +66,10 @@ var schema = new Schema({
     type: String,
     default: ""
   },
-  status: {
-    type: Boolean,
-    default: false
-  },
+  // status: {
+  //   type: Boolean,
+  //   default: false
+  // },
   pincode: {
     type: Number,
     default: ""
@@ -98,9 +101,37 @@ var schema = new Schema({
   oauthLogin: {
     socialId: String,
     socialProvider: String
-  }
+  },
+  CustomerName: {
+    type: String,
+    default: ""
+  },
+  CustomerEmail: {
+    type: String,
+    default: ""
+  },
+  CustomerMobile: {
+    type: Number,
+    default: ""
+  },
+  CustomerPhoneNo: {
+    type: Number,
+    default: ""
+  },
+  CustomerAddress: {
+    type: Schema.Types.ObjectId,
+    ref: 'City',
+    index: true
+  },
+  CustomerPassword: {
+    type: String,
+    default: ""
+  },
+  CustomerID: {
+    type: String,
+    default: ""
+  },
 });
-schema.plugin(uniqueValidator);
 
 module.exports = mongoose.model('SignUp', schema);
 var models = {
@@ -144,7 +175,26 @@ var models = {
       });
     }
   },
-
+  CustomerRegistration: function (data, api, smaaashResponse, callback) {
+    var signup = this(data);
+    signup.password = md5(signup.password);
+    signup.CustomerPassword = md5(signup.CustomerPassword);
+    signup.CustomerID = smaaashResponse.Registration[0].CustomerID;
+    console.log(signup);
+    signup.save(function (err, created) {
+      if (err) {
+        console.log("in err");
+        console.log(err);
+        callback(err, null);
+      } else if (created) {
+        delete created.password;
+        delete created.CustomerPassword;
+        callback(null, created);
+      } else {
+        callback(null, {});
+      }
+    });
+  },
   deleteData: function (data, callback) {
     this.findOneAndRemove({
       _id: data._id
@@ -398,6 +448,7 @@ var models = {
       }
     });
   },
+
 
   getOne: function (data, callback) {
     var arr = [];
