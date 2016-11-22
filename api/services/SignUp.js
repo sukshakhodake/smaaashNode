@@ -111,7 +111,7 @@ var schema = new Schema({
     default: ""
   },
   CustomerMobile: {
-    type: Number,
+    type: String,
     default: ""
   },
   CustomerPhoneNo: {
@@ -176,6 +176,7 @@ var models = {
     }
   },
   CustomerRegistration: function (data, api, smaaashResponse, callback) {
+    var foundObj = {};
     var signup = this(data);
     signup.password = md5(signup.password);
     signup.CustomerPassword = md5(signup.CustomerPassword);
@@ -187,9 +188,10 @@ var models = {
         console.log(err);
         callback(err, null);
       } else if (created) {
-        delete created.password;
-        delete created.CustomerPassword;
-        callback(null, created);
+        var foundObj = created.toObject();
+        delete foundObj.password;
+        delete foundObj.CustomerPassword;
+        callback(null, foundObj);
       } else {
         callback(null, {});
       }
@@ -400,6 +402,26 @@ var models = {
         callback(err, null);
       } else if (found && found.length > 0) {
         callback(null, found);
+      } else {
+        callback(null, []);
+      }
+    });
+  },
+  getUserDetails: function (data, callback) {
+    var foundObj = {};
+    SignUp.findOne({
+      CustomerMobile: data.VerifyCustomerLogin[0].CustMobile,
+      CustomerID: data.VerifyCustomerLogin[0].CustId
+    }).exec(function (err, found) {
+      if (err) {
+        console.log(err);
+        callback(err, null);
+      } else if (found) {
+        console.log(found);
+        var foundObj = found.toObject();
+        delete foundObj.password;
+        delete foundObj.CustomerPassword;
+        callback(null, foundObj);
       } else {
         callback(null, []);
       }

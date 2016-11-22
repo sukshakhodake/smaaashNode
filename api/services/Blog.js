@@ -16,6 +16,10 @@ var schema = new Schema({
     type: Boolean,
     default: false
   },
+  isPopular: {
+    type: Boolean,
+    default: false
+  },
   image: {
     type: String,
     default: ""
@@ -107,7 +111,9 @@ var models = {
   },
   getDetailBlog: function (data, callback) {
     var blogId = data._id;
+    var newreturns = {};
     async.parallel({
+      //detail blog
       blogDetail: function (callback) {
         return Blog.findOne({
           _id: blogId
@@ -115,6 +121,7 @@ var models = {
           if (err) {
             callback(err, null);
           } else if (result) {
+            newreturns.blogDetail = result;
             callback(null, result);
           } else {
             callback(null, {
@@ -124,8 +131,19 @@ var models = {
         });
       },
       popularBlog: function (callback) {
-        return soloist.find({}, function (err, result) {
-          return callback(err, result);
+        return Blog.find({
+          isPopular: true
+        }, function (err, result) {
+          if (err) {
+            callback(err, null);
+          } else if (result) {
+            newreturns.popularBlog = result;
+            callback(null, result);
+          } else {
+            callback(null, {
+              message: "No data found"
+            });
+          }
         });
       },
       blogLikes: function (callback) {
@@ -135,9 +153,11 @@ var models = {
           if (err) {
             callback(err, null);
           } else if (result) {
+            console.log(result);
             // return likes array length
-            var likesArray = result.likes;
+            var likesArray = result.like;
             var likesArrayLength = likesArray.length;
+            newreturns.blogLikes = likesArrayLength;
             callback(null, likesArrayLength);
           } else {
             callback(null, {
@@ -159,6 +179,7 @@ var models = {
             var commentsarr = {};
             commentsarr.commentArray = commentArray;
             commentsarr.commentArrayLength = commentArrayLength;
+            newreturns.blogComments = commentsarr;
             callback(null, commentsarr);
           } else {
             callback(null, {
@@ -178,6 +199,7 @@ var models = {
           if (err) {
             callback(err, null);
           } else if (result) {
+            newreturns.previousNextBlog = result;
             callback(null, result);
           } else {
             callback(null, {
@@ -186,13 +208,33 @@ var models = {
           }
         });
       },
-      youMayLikeBlog: function (callback) {
-        return chamber.find({}, function (err, result) {
-          return callback(err, result);
+      youMayLike: function (callback) {
+        return Blog.find({
+          '_id': {
+            $ne: blogId
+          }
+        }, function (err, result) {
+          if (err) {
+            callback(err, null);
+          } else if (result) {
+            newreturns.youMayLike = result;
+            callback(null, result);
+          } else {
+            callback(null, {
+              message: "No data found"
+            });
+          }
         });
       },
-    }, function (err, performers) {
-      return res.json(performers);
+    }, function (err, data4) {
+      if (err) {
+        console.log(err);
+        callback(err, null);
+      } else if (data4) {
+        callback(null, newreturns);
+      } else {
+        callback(null, newreturns);
+      }
     });
   },
   getAllBlog: function (data, callback) {

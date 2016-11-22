@@ -257,31 +257,6 @@ module.exports = {
     }
   },
   VerifyCustomerLogin: function (req, res) {
-
-    //     {
-    //     "VerifyCustomerLogin": [
-    //         {
-    //             "Status": "0",
-    //             "Message": "User name or password Incorrect"
-    //         }
-    //     ]
-    // }
-
-    //     {
-    //     "VerifyCustomerLogin": [
-    //         {
-    //             "Status": 1,
-    //             "Message": "Get Customer Data",
-    //             "CustId": 75,
-    //             "CustName": "Testing Api2",
-    //             "CurrentRewardPoint": 0,
-    //             "CustEmail": "vinod1122211@wohlig.com",
-    //             "CustMobile": "8805123000",
-    //             "CustAdd1": "577f4d106b78e0bc03724800",
-    //             "CustPhone": ""
-    //         }
-    //     ]
-    // }
     if (req.body) {
       var api = sails.api;
       api = _.assign(api, req.body);
@@ -294,7 +269,6 @@ module.exports = {
         body: JSON.stringify(api)
       }, function (err, httpResponse, body) {
         var smaaashResponse = JSON.parse(JSON.parse(body));
-        console.log(smaaashResponse);
 
         if (smaaashResponse.VerifyCustomerLogin[0].Message === "User name or password Incorrect") {
           res.json({
@@ -303,10 +277,21 @@ module.exports = {
           });
 
         } else if (smaaashResponse.VerifyCustomerLogin[0].Message === "Get Customer Data") {
-          res.json({
-            value: true,
-            data: smaaashResponse
-          });
+          // send here data from db also
+          function callback(err, response) {
+            if (err) {
+              res.json({
+                value: false,
+                data: err
+              });
+            } else {
+              res.json({
+                value: true,
+                data: response
+              });
+            }
+          }
+          SignUp.getUserDetails(smaaashResponse, callback);
         } else {
           res.json({
             value: false,
