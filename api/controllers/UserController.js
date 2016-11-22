@@ -220,11 +220,19 @@ module.exports = {
       },
       body: JSON.stringify(api)
     }, function (err, httpResponse, body) {
+      console.log(err);
+      console.log("err");
       console.log(body);
-      // console.log(err);
-      // console.log(httpResponse);
-      // console.log(body);
-      res.json(JSON.parse(JSON.parse(body)));
+      if (body !== "") {
+        console.log("In body");
+        res.json(JSON.parse(JSON.parse(body)));
+      } else {
+        console.log("In else");
+        res.json({
+          value: false
+        })
+      }
+      // res.json(JSON.parse(JSON.parse(body)));
     });
   },
 

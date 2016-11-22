@@ -19,6 +19,10 @@ var schema = new Schema({
     type: Date,
     default: ""
   },
+  type: {
+    type: String,
+    enum: ["Web", "App", "PaidSME"]
+  },
   city: {
     type: Schema.Types.ObjectId,
     ref: 'City',

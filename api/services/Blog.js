@@ -284,6 +284,31 @@ var models = {
       }
     });
   },
+  getOneBlog: function (data, callback) {
+    var newreturns = {};
+
+    Blog.findOne({
+      _id: data._id
+    }, function (err, detail) {
+      if (err) {
+        callback(err, null);
+      } else {
+        // newreturns.data = deleted;
+        // callback(null, deleted);
+        Blog.find({
+          isPopular: true
+        }, function (err, populardata) {
+          if (err) {
+            callback(err, null);
+          } else {
+            newreturns.detailBlog = detail;
+            newreturns.popularData = populardata;
+            callback(null, newreturns);
+          }
+        });
+      }
+    });
+  },
 
 
 

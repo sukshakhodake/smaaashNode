@@ -29,6 +29,10 @@ var schema = new Schema({
     type: String,
     default: ""
   },
+  BranchPackageID: {
+    type: Number,
+    default: 0
+  },
   showBuyNow: {
     type: Boolean,
     default: false

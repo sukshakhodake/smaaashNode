@@ -22,6 +22,17 @@ module.exports = {
       });
     }
   },
+  getOneBlog: function (req, res) {
+
+    if (req.body) {
+      Blog.getOneBlog(req.body, res.callback);
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
   getDetailBlog: function (req, res) {
 
     if (req.body) {
