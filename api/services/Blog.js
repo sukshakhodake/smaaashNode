@@ -110,13 +110,17 @@ var models = {
     });
   },
   getDetailBlog: function (data, callback) {
+    // if (data.search) {
+
+    // }
     var blogId = data._id;
     var newreturns = {};
     async.parallel({
       //detail blog
       blogDetail: function (callback) {
         return Blog.findOne({
-          _id: blogId
+          _id: blogId,
+          city: data.city
         }, function (err, result) {
           if (err) {
             callback(err, null);
@@ -284,36 +288,17 @@ var models = {
       }
     });
   },
-  getOneBlog: function (data, callback) {
-    var newreturns = {};
-
-    Blog.findOne({
-      _id: data._id
-    }, function (err, detail) {
+  getPopularBlog: function (data, callback) {
+    Blog.find({
+      isPopular: true
+    }, function (err, popularBlog) {
       if (err) {
         callback(err, null);
       } else {
-        // newreturns.data = deleted;
-        // callback(null, deleted);
-        Blog.find({
-          isPopular: true
-        }, function (err, populardata) {
-          if (err) {
-            callback(err, null);
-          } else {
-            newreturns.detailBlog = detail;
-            newreturns.popularData = populardata;
-            callback(null, newreturns);
-          }
-        });
+        callback(null, popularBlog);
       }
     });
   },
-
-
-
-
-
   findLimited: function (data, callback) {
     var newreturns = {};
     newreturns.data = [];
@@ -384,7 +369,6 @@ var models = {
       });
   },
   findLimitedForBackend: function (data, callback) {
-
     var newreturns = {};
     newreturns.data = [];
     var check = new RegExp(data.search, "i");
