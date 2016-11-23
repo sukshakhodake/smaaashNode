@@ -160,8 +160,49 @@ module.exports = {
 
   //cart
   addToCart: function (req, res) {
-    if (req.body.user && req.body.user !== "" && req.body.cart && req.body.cart !== "") {
-      SignUp.addToCart(req.body, res.callback);
+    if (req.body) {
+      var api = sails.api;
+      api = _.assign(api, req.body);
+      request({
+        url: "http://apismaaash.itspl.net/SMAAASHAPI.svc/AddToCartPackage",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(api)
+      }, function (err, httpResponse, body) {
+        var smaaashResponse = JSON.parse(JSON.parse(body));
+        //err
+        if (smaaashResponse.AddToCart[0].Status !== 1) {
+          res.json({
+            value: false,
+            data: "Something went wrong!"
+          });
+
+        } else if (smaaashResponse.AddToCart[0].Status === 1) {
+          // success
+          function callback(err, response) {
+            if (err) {
+              res.json({
+                value: false,
+                data: err
+              });
+            } else {
+              res.json({
+                value: true,
+                data: response
+              });
+            }
+          }
+          SignUp.addToCart(smaaashResponse, api, callback);
+        } else {
+          res.json({
+            value: false,
+            data: "Something went wrong"
+          });
+        }
+
+      });
     } else {
       res.json({
         value: false,
@@ -310,6 +351,94 @@ module.exports = {
   forgotPassword: function (req, res) {
     if (req.body.email && req.body.email !== "") {
       SignUp.forgotPassword(req.body, res.callback);
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
+  CustomerResetPassword: function (req, res) {
+    if (req.body) {
+      var api = sails.api;
+      api = _.assign(api, req.body);
+      request({
+        url: "http://apismaaash.itspl.net/SMAAASHAPI.svc/CustomerResetPassword",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(api)
+      }, function (err, httpResponse, body) {
+        var smaaashResponse = JSON.parse(JSON.parse(body));
+        if ((smaaashResponse.ResetPassword[0].Status == 1) && (smaaashResponse.ResetPassword[0].Message == "Password Reset Successfully")) {
+          res.json({
+            value: true,
+            data: "Password Reset Successful"
+          });
+
+        } else if ((smaaashResponse.ResetPassword[0].Status == 0) && (smaaashResponse.ResetPassword[0].Message == "Old Password Or Customer Details Not Currect")) {
+          res.json({
+            value: false,
+            data: "Incorrect Details"
+          });
+        } else {
+          res.json({
+            value: false,
+            data: "Something Went Wrong!"
+          });
+        }
+
+      });
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
+  CustomerForgetPassword: function (req, res) {
+    if (req.body) {
+      var api = sails.api2;
+      api = _.assign(api, req.body);
+      request({
+        url: "http://apismaaash.itspl.net/SMAAASHAPI.svc/CustomerForgetPassword",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(api)
+      }, function (err, httpResponse, body) {
+        var smaaashResponse = JSON.parse(JSON.parse(body));
+        console.log(smaaashResponse);
+
+        if (smaaashResponse.ForgetPassword) {
+          if (smaaashResponse.ForgetPassword[0].Status == 1) {
+            res.json({
+              value: true,
+              data: "Password Send Successfully"
+            });
+
+          } else {
+            res.json({
+              value: false,
+              data: "Something went wrong!"
+            });
+          }
+        } else if (smaaashResponse.ErrorStatus) {
+          if (smaaashResponse.ErrorStatus[0].Status == 0) {
+            res.json({
+              value: false,
+              data: "Incorrect details!"
+            });
+          } else {
+            res.json({
+              value: false,
+              data: "Something went wrong!"
+            });
+          }
+        }
+      });
     } else {
       res.json({
         value: false,

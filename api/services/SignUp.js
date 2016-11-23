@@ -210,26 +210,11 @@ var models = {
       }
     });
   },
-  demo: function (data, callback) {
-    sails.renderView('email/index', {
-      name: "Pooja",
-      lastname: "Thakre",
-      hobbies: ["cricket", "name", "email", "phone"]
-    }, function (err, res) {
-      if (err) {
-        callback(err, null);
-      } else if (res) {
-        callback(null, res);
-      } else {
-        callback(null, {});
-      }
-
-
-    });
-  },
-  addToCart: function (data, callback) {
+  addToCart: function (smaaashdata, apiData, callback) {
+    console.log(smaaashdata);
+    console.log(apiData);
     this.update({
-        _id: data.user
+        _id: data._id
       }, {
         $push: {
           cart: data.cart

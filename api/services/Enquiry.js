@@ -32,6 +32,10 @@ var schema = new Schema({
     type: String,
     default: ""
   },
+  noOfPeople: {
+    type: String,
+    default: ""
+  },
   timestamp: {
     type: Date,
     default: Date.now
