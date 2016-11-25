@@ -262,10 +262,31 @@ module.exports = {
       });
     }
   },
+  profile: function (req, res) {
+    if (req.body._id && req.body._id !== '') {
+      SignUp.profile(req.body, res.callback);
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
+  updateProfile: function (req, res) {
+    if (req.body._id && req.body._id !== '') {
+      SignUp.updateProfile(req.body, res.callback);
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
   CustomerRegistration: function (req, res) {
     if (req.body) {
       var api = sails.api;
       api = _.assign(api, req.body);
+      console.log("api");
       console.log(api);
       request({
         url: "http://apismaaash.itspl.net/SMAAASHAPI.svc/CustomerRegistration",
@@ -275,18 +296,72 @@ module.exports = {
         },
         body: JSON.stringify(api)
       }, function (err, httpResponse, body) {
-        console.log(body);
+        // console.log(body);
         var smaaashResponse = JSON.parse(JSON.parse(body));
-        console.log(smaaashResponse.Registration[0].Message);
+        console.log(smaaashResponse);
 
-        if (smaaashResponse.Registration[0].Message === "Customer Allready Exists") {
+        if (smaaashResponse.Registration[0].Status == 3) {
           res.json({
             value: false,
-            data: "Customer Allready Exists"
+            data: "Customer Already Exists"
           });
 
-        } else {
+        } else if (smaaashResponse.Registration[0].Status == 0) {
+          res.json({
+            value: false,
+            data: smaaashResponse
+          });
+        } else if (smaaashResponse.Registration[0].Status == 1) {
           SignUp.CustomerRegistration(req.body, api, smaaashResponse, res.callback);
+        } else if (smaaashResponse.ErrorStatus[0].Status == 0) {
+          res.json({
+            value: false,
+            data: smaaashResponse
+          });
+        } else {
+          res.json({
+            value: false,
+            data: "Something Went Wrong"
+          });
+        }
+
+      });
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
+  generateOtp: function (req, res) {
+    if (req.body.CustomerMobileNo && req.body.CustomerMobileNo !== "" && req.body.OTPFor && req.body.OTPFor !== "") {
+      var api = sails.api;
+      api = _.assign(api, req.body);
+      request({
+        url: "http://apismaaash.itspl.net/SMAAASHAPI.svc/GenerateOTP",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(api)
+      }, function (err, httpResponse, body) {
+        var smaaashResponse = JSON.parse(JSON.parse(body));
+        if (smaaashResponse.GenerateOTPTable[0].Status == 1) {
+          res.json({
+            value: true,
+            data: smaaashResponse
+          });
+
+        } else if (smaaashResponse.GenerateOTPTable[0].Status == 0) {
+          res.json({
+            value: false,
+            data: smaaashResponse
+          });
+        } else {
+          res.json({
+            value: false,
+            data: "Something went wrong"
+          });
         }
 
       });
@@ -298,7 +373,7 @@ module.exports = {
     }
   },
   VerifyCustomerLogin: function (req, res) {
-    if (req.body) {
+    if (req.body.OTP && req.body.OTP !== "" && req.body.UserName && req.body.UserName !== "") {
       var api = sails.api;
       api = _.assign(api, req.body);
       request({
@@ -310,7 +385,7 @@ module.exports = {
         body: JSON.stringify(api)
       }, function (err, httpResponse, body) {
         var smaaashResponse = JSON.parse(JSON.parse(body));
-
+        console.log(smaaashResponse);
         if (smaaashResponse.VerifyCustomerLogin[0].Message === "User name or password Incorrect") {
           res.json({
             value: false,
@@ -341,6 +416,16 @@ module.exports = {
         }
 
       });
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
+  VerifyCustomerLoginWeb: function (req, res) {
+    if (req.body.UserName && req.body.UserName !== "") {
+      SignUp.VerifyCustomerLoginWeb(req.body, res.callback);
     } else {
       res.json({
         value: false,

@@ -78,6 +78,10 @@ var schema = new Schema({
     type: Date,
     default: Date.now
   },
+  anniversary: {
+    type: Date,
+    default: ""
+  },
   timestamp: {
     type: Date,
     default: Date.now
@@ -207,6 +211,24 @@ var models = {
         callback(null, deleted);
       } else {
         callback(null, {});
+      }
+    });
+  },
+  VerifyCustomerLoginWeb: function (data, callback) {
+    this.findOne({
+      CustomerMobile: data.UserName,
+      CustomerPassword: md5(data.Password)
+    }, function (err, updated) {
+      if (err) {
+        callback(err, null);
+      } else if (updated) {
+        var newreturns = updated.toObject();
+        delete newreturns.CustomerPassword;
+        callback(null, newreturns);
+      } else {
+        callback({
+          message: "Incorrect credentials"
+        }, null);
       }
     });
   },
@@ -412,6 +434,48 @@ var models = {
       }
     });
   },
+  profile: function (data, callback) {
+    var foundObj = {};
+    SignUp.findOne({
+      _id: data._id
+    }).exec(function (err, found) {
+      if (err) {
+        console.log(err);
+        callback(err, null);
+      } else if (found) {
+        console.log(found);
+        var foundObj = found.toObject();
+        delete foundObj.password;
+        delete foundObj.CustomerPassword;
+        callback(null, foundObj);
+      } else {
+        callback(null, []);
+      }
+    });
+  },
+  updateProfile: function (data, callback) {
+    SignUp.findOneAndUpdate({
+      _id: data._id
+    }, {
+      dob: data.dob,
+      gender: data.gender,
+      pincode: data.pincode,
+      profilePic: data.profilePic
+    }, {
+      new: true
+    }, function (err, found) {
+      if (err) {
+        console.log(err);
+        callback(err, null);
+      } else {
+        console.log(found);
+        var foundObj = found.toObject();
+        delete foundObj.password;
+        delete foundObj.CustomerPassword;
+        callback(null, foundObj);
+      }
+    });
+  },
   forgotPassword: function (data, callback) {
     this.findOne({
       email: data.email
@@ -549,7 +613,9 @@ var models = {
           });
         },
         function (callback) {
-          SignUp.find(obj).populate('city').skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).exec(function (err, data2) {
+          SignUp.find(obj).populate('city').sort({
+            _id: -1
+          }).skip(data.pagesize * (data.pagenumber - 1)).limit(data.pagesize).exec(function (err, data2) {
             if (err) {
               console.log(err);
               callback(err, null);
