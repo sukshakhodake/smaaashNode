@@ -372,6 +372,46 @@ module.exports = {
       });
     }
   },
+  GetCustomerBookingDetails: function (req, res) {
+    if (req.body.CustID && req.body.CustID !== "") {
+      var api = sails.api;
+      api = _.assign(api, req.body);
+      request({
+        url: "http://apismaaash.itspl.net/SMAAASHAPI.svc/GetCustomerBookingDetails",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(api)
+      }, function (err, httpResponse, body) {
+        var smaaashResponse = JSON.parse(JSON.parse(body));
+        console.log(smaaashResponse);
+        if (smaaashResponse.GetCustomerBookingDetails.CustomerBooking[0].Status == 1) {
+          res.json({
+            value: true,
+            data: smaaashResponse
+          });
+
+        } else if (smaaashResponse.GetCustomerBookingDetails.CustomerBooking[0].Status == 0) {
+          res.json({
+            value: false,
+            data: smaaashResponse
+          });
+        } else {
+          res.json({
+            value: false,
+            data: "Something went wrong"
+          });
+        }
+
+      });
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
   VerifyCustomerLogin: function (req, res) {
     if (req.body.OTP && req.body.OTP !== "" && req.body.UserName && req.body.UserName !== "") {
       var api = sails.api;
@@ -443,10 +483,45 @@ module.exports = {
       });
     }
   },
+  RechargeCard: function (req, res) {
+    if (req.body.CustomerID && req.body.CustomerID !== "" && req.body.CustomerCardNo && req.body.CustomerCardNo !== "" && req.body.BranchID && req.body.BranchID !== "") {
+      var api = sails.api;
+      api = _.assign(api, req.body);
+      request({
+        url: "http://apismaaash.itspl.net/SMAAASHAPI.svc/RechargeCard",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(api)
+      }, function (err, httpResponse, body) {
+        var smaaashResponse = JSON.parse(JSON.parse(body));
+        if (smaaashResponse.RechargeCard[0].Status == 1) {
+          var link = smaaashResponse.RechargeCard[0].Link;
+          res.redirect(link);
+        } else {
+          res.json({
+            value: false,
+            data: smaaashResponse
+          });
+        }
+
+      });
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
+  returnUrlFunction: function (req, res) {
+    SignUp.returnUrlFunction(req.body, res.callback);
+  },
   CustomerResetPassword: function (req, res) {
     if (req.body) {
       var api = sails.api;
       api = _.assign(api, req.body);
+      console.log(api);
       request({
         url: "http://apismaaash.itspl.net/SMAAASHAPI.svc/CustomerResetPassword",
         method: "POST",
@@ -456,6 +531,7 @@ module.exports = {
         body: JSON.stringify(api)
       }, function (err, httpResponse, body) {
         var smaaashResponse = JSON.parse(JSON.parse(body));
+        console.log(smaaashResponse);
         if ((smaaashResponse.ResetPassword[0].Status == 1) && (smaaashResponse.ResetPassword[0].Message == "Password Reset Successfully")) {
           res.json({
             value: true,

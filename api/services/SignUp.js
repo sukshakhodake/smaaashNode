@@ -62,6 +62,10 @@ var schema = new Schema({
     type: String,
     enum: ["Male", "Female"]
   },
+  OrderNo: {
+    type: String,
+    default: ""
+  },
   K120K200: {
     type: String,
     default: ""
@@ -521,6 +525,7 @@ var models = {
   },
 
 
+
   getOne: function (data, callback) {
     var arr = [];
     var found = {};
@@ -544,6 +549,9 @@ var models = {
         callback(null, {});
       }
     });
+  },
+  returnUrlFunction: function (data, callback) {
+
   },
   mobileLogin: function (data, callback) {
 
