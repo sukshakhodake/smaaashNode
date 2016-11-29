@@ -480,52 +480,6 @@ var models = {
       }
     });
   },
-  forgotPassword: function (data, callback) {
-    this.findOne({
-      email: data.email
-    }).exec(function (err, found) {
-      if (err) {
-        console.log(err);
-        callback(err, null);
-      } else if (found) {
-        var obj = {};
-        obj.name = found.name;
-        obj.email = found.email;
-        obj.id = found._id;
-        obj.link = 'http://tingdom.in/smaaash/#/reset/' + obj.id;
-        Email.sendMailWithoutObj(obj, 'forgotPassword', function (err, res) {
-          // Email.sendMail(created, function (err, res) {
-          if (err) {
-            callback(err, null);
-          } else if (res) {
-            callback(null, res);
-          } else {
-            callback(null, {});
-          }
-        });
-        // callback(null, found);
-      } else {
-        callback(null, []);
-      }
-    });
-  },
-  forgotPasswordSubmit: function (data, callback) {
-    this.findOneAndUpdate({
-      _id: data._id
-    }, {
-      password: md5(data.password)
-    }, function (err, data5) {
-      if (err) {
-        console.log(err);
-        callback(err, null);
-      } else {
-        callback(null, data5);
-      }
-    });
-  },
-
-
-
   getOne: function (data, callback) {
     var arr = [];
     var found = {};
@@ -551,7 +505,7 @@ var models = {
     });
   },
   returnUrlFunction: function (data, callback) {
-
+    console.log(data);
   },
   mobileLogin: function (data, callback) {
 

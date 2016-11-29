@@ -374,7 +374,7 @@ module.exports = {
   },
   GetCustomerBookingDetails: function (req, res) {
     if (req.body.CustID && req.body.CustID !== "") {
-      var api = sails.api;
+      var api = sails.api2;
       api = _.assign(api, req.body);
       request({
         url: "http://apismaaash.itspl.net/SMAAASHAPI.svc/GetCustomerBookingDetails",
@@ -386,15 +386,14 @@ module.exports = {
       }, function (err, httpResponse, body) {
         var smaaashResponse = JSON.parse(JSON.parse(body));
         console.log(smaaashResponse);
-        if (smaaashResponse.GetCustomerBookingDetails.CustomerBooking[0].Status == 1) {
-          res.json({
-            value: true,
-            data: smaaashResponse
-          });
-
-        } else if (smaaashResponse.GetCustomerBookingDetails.CustomerBooking[0].Status == 0) {
+        if (smaaashResponse.CustomerBooking == [] || smaaashResponse.ErrorStatus[0].Status == 0) {
           res.json({
             value: false,
+            data: smaaashResponse
+          });
+        } else if (smaaashResponse.CustomerBooking) {
+          res.json({
+            value: true,
             data: smaaashResponse
           });
         } else {
@@ -413,69 +412,10 @@ module.exports = {
     }
   },
   VerifyCustomerLogin: function (req, res) {
-    if (req.body.OTP && req.body.OTP !== "" && req.body.UserName && req.body.UserName !== "") {
-      var api = sails.api;
-      api = _.assign(api, req.body);
-      request({
-        url: "http://apismaaash.itspl.net/SMAAASHAPI.svc/VerifyCustomerLogin",
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(api)
-      }, function (err, httpResponse, body) {
-        var smaaashResponse = JSON.parse(JSON.parse(body));
-        console.log(smaaashResponse);
-        if (smaaashResponse.VerifyCustomerLogin[0].Message === "User name or password Incorrect") {
-          res.json({
-            value: false,
-            data: "User name or password Incorrect"
-          });
-
-        } else if (smaaashResponse.VerifyCustomerLogin[0].Message === "Get Customer Data") {
-          // send here data from db also
-          function callback(err, response) {
-            if (err) {
-              res.json({
-                value: false,
-                data: err
-              });
-            } else {
-              res.json({
-                value: true,
-                data: response
-              });
-            }
-          }
-          SignUp.getUserDetails(smaaashResponse, callback);
-        } else {
-          res.json({
-            value: false,
-            data: "Something went wrong"
-          });
-        }
-
-      });
-    } else {
-      res.json({
-        value: false,
-        data: "Invalid Request"
-      });
-    }
-  },
-  VerifyCustomerLoginWeb: function (req, res) {
-    // if (req.body.UserName && req.body.UserName !== "") {
-    //   SignUp.VerifyCustomerLoginWeb(req.body, res.callback);
-    // } else {
-    //   res.json({
-    //     value: false,
-    //     data: "Invalid Request"
-    //   });
-    // }
-
     if (req.body.UserName && req.body.UserName !== "") {
       var api = sails.api;
       api = _.assign(api, req.body);
+      console.log(api);
       request({
         url: "http://apismaaash.itspl.net/SMAAASHAPI.svc/VerifyCustomerLogin",
         method: "POST",
@@ -516,16 +456,6 @@ module.exports = {
         }
 
       });
-    } else {
-      res.json({
-        value: false,
-        data: "Invalid Request"
-      });
-    }
-  },
-  forgotPassword: function (req, res) {
-    if (req.body.email && req.body.email !== "") {
-      SignUp.forgotPassword(req.body, res.callback);
     } else {
       res.json({
         value: false,
@@ -546,8 +476,8 @@ module.exports = {
         body: JSON.stringify(api)
       }, function (err, httpResponse, body) {
         var smaaashResponse = JSON.parse(JSON.parse(body));
-        if (smaaashResponse.RechargeCard[0].Status == 1) {
-          var link = smaaashResponse.RechargeCard[0].Link;
+        if (smaaashResponse.RechargeCard.RechargeCard[0].Status == 1) {
+          var link = smaaashResponse.RechargeCard.RechargeCard[0].Link;
           res.redirect(link);
         } else {
           res.json({
@@ -650,31 +580,6 @@ module.exports = {
           }
         }
       });
-    } else {
-      res.json({
-        value: false,
-        data: "Invalid Request"
-      });
-    }
-  },
-  forgotPasswordSubmit: function (req, res) {
-    function callback(err, data) {
-      if (data) {
-        res.json({
-          value: true,
-          data: {
-            message: "Password Updated"
-          }
-        });
-      } else {
-        res.json({
-          value: false,
-          data: err
-        });
-      }
-    }
-    if (req.body.password && req.body.password !== "" && req.body._id && req.body._id !== "") {
-      SignUp.forgotPasswordSubmit(req.body, callback);
     } else {
       res.json({
         value: false,
