@@ -464,8 +464,58 @@ module.exports = {
     }
   },
   VerifyCustomerLoginWeb: function (req, res) {
+    // if (req.body.UserName && req.body.UserName !== "") {
+    //   SignUp.VerifyCustomerLoginWeb(req.body, res.callback);
+    // } else {
+    //   res.json({
+    //     value: false,
+    //     data: "Invalid Request"
+    //   });
+    // }
+
     if (req.body.UserName && req.body.UserName !== "") {
-      SignUp.VerifyCustomerLoginWeb(req.body, res.callback);
+      var api = sails.api;
+      api = _.assign(api, req.body);
+      request({
+        url: "http://apismaaash.itspl.net/SMAAASHAPI.svc/VerifyCustomerLogin",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(api)
+      }, function (err, httpResponse, body) {
+        var smaaashResponse = JSON.parse(JSON.parse(body));
+        console.log(smaaashResponse);
+        if (smaaashResponse.VerifyCustomerLogin[0].Message === "User name or password Incorrect") {
+          res.json({
+            value: false,
+            data: "User name or password Incorrect"
+          });
+
+        } else if (smaaashResponse.VerifyCustomerLogin[0].Message === "Get Customer Data") {
+          // send here data from db also
+          function callback(err, response) {
+            if (err) {
+              res.json({
+                value: false,
+                data: err
+              });
+            } else {
+              res.json({
+                value: true,
+                data: response
+              });
+            }
+          }
+          SignUp.getUserDetails(smaaashResponse, callback);
+        } else {
+          res.json({
+            value: false,
+            data: "Something went wrong"
+          });
+        }
+
+      });
     } else {
       res.json({
         value: false,
