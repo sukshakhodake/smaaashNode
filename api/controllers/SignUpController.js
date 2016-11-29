@@ -568,7 +568,7 @@ module.exports = {
     SignUp.returnUrlFunction(req.body, res.callback);
   },
   CustomerResetPassword: function (req, res) {
-    if (req.body) {
+    if (req.body.CustomerID && req.body.CustomerID !== '' && req.body.OldPassword && req.body.OldPassword !== '' && req.body.NewPassword && req.body.NewPassword !== '') {
       var api = sails.api;
       api = _.assign(api, req.body);
       console.log(api);
