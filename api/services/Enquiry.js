@@ -39,9 +39,16 @@ var schema = new Schema({
   timestamp: {
     type: Date,
     default: Date.now
+  },
+  companyName: {
+    type: String,
+    default: ""
+  },
+  hostAPartyType: {
+    type: Schema.Types.ObjectId,
+    ref: 'HostType',
+    index: true
   }
-
-
 });
 
 module.exports = mongoose.model('Enquiry', schema);
@@ -142,6 +149,18 @@ var models = {
         "$lte": toDate
       }
     }
+
+    if (data._id) {
+      obj = {
+        hostAPartyType: data._id
+      }
+    }
+    if (data._id1) {
+      obj = {
+        city: data._id1
+      }
+    }
+    console.log(obj);
     async.parallel([
         function (callback) {
           Enquiry.count(obj).exec(function (err, number) {
