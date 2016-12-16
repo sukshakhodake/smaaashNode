@@ -18,8 +18,8 @@ var schema = new Schema({
     index: true
   }],
   order: {
-    type: String,
-    default: ""
+    type: Number,
+    default: 0
   },
   text: {
     type: String,
@@ -592,6 +592,8 @@ var models = {
     this.find({
       isHome: true,
       city: data.city
+    }).sort({
+      order: -1
     }).populate('type').exec(function (err, found) {
       if (err) {
         console.log(err);

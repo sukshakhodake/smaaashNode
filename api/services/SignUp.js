@@ -98,6 +98,11 @@ var schema = new Schema({
     type: String,
     default: ""
   },
+  notification: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Notification',
+    index: true
+  }],
   avatar: {
     type: String,
     default: ""
@@ -186,8 +191,8 @@ var models = {
   CustomerRegistration: function (data, api, smaaashResponse, callback) {
     var foundObj = {};
     var signup = this(data);
-    signup.password = md5(signup.password);
-    signup.CustomerPassword = md5(signup.CustomerPassword);
+    // signup.password = md5(signup.password);
+    // signup.CustomerPassword = md5(signup.CustomerPassword);
     signup.CustomerID = smaaashResponse.Registration[0].CustomerID;
     console.log(signup);
     signup.save(function (err, created) {
@@ -215,6 +220,22 @@ var models = {
         callback(null, deleted);
       } else {
         callback(null, {});
+      }
+    });
+  },
+  getUserNotification: function (data, callback) {
+    this.findOne({
+      _id: data.userid
+    }, {
+      notification: 1
+    }).populate('notification').limit(5).exec(function (err, found) {
+      if (err) {
+        console.log(err);
+        callback(err, null);
+      } else if (found) {
+        callback(null, found);
+      } else {
+        callback(null, []);
       }
     });
   },

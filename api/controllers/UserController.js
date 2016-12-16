@@ -286,40 +286,4 @@ module.exports = {
     });
   },
 
-
-
-  test: function (req, res) {
-
-    var api = {
-      "Authorization": "gLnJ7OqpiEgIOgOz9oTshhXCK56X5fHlkBEeEeNQ"
-    };
-    // var api = sails.api;
-    api = _.assign(api, req.body);
-    console.log(api);
-    request({
-      url: "http://tech197.vamaship.com/api/dom/quote",
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(api)
-    }, function (err, httpResponse, body) {
-      console.log(err);
-      console.log("err");
-      console.log(body);
-      console.log("http response");
-      // console.log(httpResponse);
-      if (body !== "") {
-        console.log("In body");
-        // res.json(JSON.parse(JSON.parse(body)));
-      } else {
-        console.log("In else");
-        res.json({
-          value: false
-        })
-      }
-      // res.json(JSON.parse(JSON.parse(body)));
-    });
-  },
-
 };

@@ -32,6 +32,11 @@ var schema = new Schema({
     type: String,
     default: ""
   },
+  hostAPartyType: {
+    type: Schema.Types.ObjectId,
+    ref: 'HostType',
+    index: true
+  },
   noOfPeople: {
     type: String,
     default: ""
@@ -43,12 +48,9 @@ var schema = new Schema({
   companyName: {
     type: String,
     default: ""
-  },
-  hostAPartyType: {
-    type: Schema.Types.ObjectId,
-    ref: 'HostType',
-    index: true
   }
+
+
 });
 
 module.exports = mongoose.model('Enquiry', schema);
@@ -131,6 +133,17 @@ var models = {
     var status = data.status;
     var fromDate = data.fromDate;
     var toDate = data.toDate;
+    if (data._id && data._id !== '') {
+      obj._id = {
+        "hostAPartyType": data._id
+      }
+    }
+    // if (data.status && data.status !== "") {
+    //   obj._id = {
+    //     "hostAPartyType": data._id
+    //   }
+    // }
+
     if (check != "/(?:)/i") {
       obj = {
         $or: [{
@@ -149,18 +162,6 @@ var models = {
         "$lte": toDate
       }
     }
-
-    if (data._id) {
-      obj = {
-        hostAPartyType: data._id
-      }
-    }
-    if (data._id1) {
-      obj = {
-        city: data._id1
-      }
-    }
-    console.log(obj);
     async.parallel([
         function (callback) {
           Enquiry.count(obj).exec(function (err, number) {

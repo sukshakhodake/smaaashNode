@@ -36,7 +36,7 @@
     "rc": "1.0.1",
     "sails": "~0.12.3",
     "sails-disk": "~0.10.9",
-    "sendgrid": "^4.4.0"
+    "sendgrid": "^4.7.1"
   },
   "scripts": {
     "debug": "node debug app.js",

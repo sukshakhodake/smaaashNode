@@ -171,30 +171,22 @@ module.exports = {
         },
         body: JSON.stringify(api)
       }, function (err, httpResponse, body) {
+        console.log(api);
+
         var smaaashResponse = JSON.parse(JSON.parse(body));
+        console.log(smaaashResponse);
         //err
-        if (smaaashResponse.AddToCart[0].Status !== 1) {
+        if (smaaashResponse.AddToCart[0].Status == 0) {
           res.json({
-            value: false,
-            data: "Something went wrong!"
+            value: true,
+            data: smaaashResponse
           });
 
         } else if (smaaashResponse.AddToCart[0].Status === 1) {
-          // success
-          function callback(err, response) {
-            if (err) {
-              res.json({
-                value: false,
-                data: err
-              });
-            } else {
-              res.json({
-                value: true,
-                data: response
-              });
-            }
-          }
-          SignUp.addToCart(smaaashResponse, api, callback);
+          res.json({
+            value: true,
+            data: smaaashResponse
+          });
         } else {
           res.json({
             value: false,
@@ -220,9 +212,80 @@ module.exports = {
       });
     }
   },
-  deleteCart: function (req, res) {
-    if (req.body.user && req.body.user !== "" && req.body._id && req.body._id !== "") {
-      SignUp.deleteCart(req.body, res.callback);
+  RemoveCartPackage: function (req, res) {
+    if (req.body.CustomerMobileNo && req.body.CustomerMobileNo !== '' && req.body.CustomerID && req.body.CustomerID !== '' && req.body.CartItemID && req.body.CartItemID !== '') {
+      var api = sails.api;
+      api = _.assign(api, req.body);
+      request({
+        url: "http://apismaaash.itspl.net/SMAAASHAPI.svc/RemoveCartPackage",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(api)
+      }, function (err, httpResponse, body) {
+        console.log(api);
+
+        var smaaashResponse = JSON.parse(JSON.parse(body));
+        console.log(smaaashResponse);
+        //err
+        if (smaaashResponse.RemoveFromCart[0].Status == 1) {
+          res.json({
+            value: true,
+            data: smaaashResponse
+          });
+
+        } else if (smaaashResponse.RemoveFromCart[0].Status == 0) {
+          res.json({
+            value: false,
+            data: smaaashResponse
+          });
+        } else {
+          res.json({
+            value: false,
+            data: "Something went wrong!"
+          });
+        }
+
+      });
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
+  SelectCartPackage: function (req, res) {
+    if (req.body.CustomerMobileNo && req.body.CustomerMobileNo !== '' && req.body.CustomerID && req.body.CustomerID !== '') {
+      var api = sails.api;
+      api = _.assign(api, req.body);
+      request({
+        url: "http://apismaaash.itspl.net/SMAAASHAPI.svc/SelectCartPackage",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(api)
+      }, function (err, httpResponse, body) {
+        console.log(api);
+
+        var smaaashResponse = JSON.parse(JSON.parse(body));
+        console.log(smaaashResponse);
+        //err
+        if (smaaashResponse.CustomerCartItem) {
+          res.json({
+            value: true,
+            data: smaaashResponse
+          });
+
+        } else {
+          res.json({
+            value: false,
+            data: smaaashResponse
+          });
+        }
+
+      });
     } else {
       res.json({
         value: false,
@@ -411,6 +474,45 @@ module.exports = {
       });
     }
   },
+  GetCustomerBalance: function (req, res) {
+    if (req.body.MobileNo && req.body.MobileNo !== "" && req.body.CardNo && req.body.CardNo !== "") {
+      var api = sails.api1;
+      api = _.assign(api, req.body);
+      request({
+        url: "http://apismaaash.itspl.net/SMAAASHAPI.svc/GetCustomerBalance",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(api)
+      }, function (err, httpResponse, body) {
+        var smaaashResponse = JSON.parse(JSON.parse(body));
+        console.log(smaaashResponse);
+        if (smaaashResponse.CustomerBalance[0].Status == 1) {
+          res.json({
+            value: true,
+            data: smaaashResponse
+          });
+        } else if (smaaashResponse.CustomerBalance[0].Status == 0) {
+          res.json({
+            value: false,
+            data: smaaashResponse
+          });
+        } else {
+          res.json({
+            value: false,
+            data: "Something went wrong"
+          });
+        }
+
+      });
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
   VerifyCustomerLogin: function (req, res) {
     if (req.body.UserName && req.body.UserName !== "") {
       var api = sails.api;
@@ -475,10 +577,28 @@ module.exports = {
         },
         body: JSON.stringify(api)
       }, function (err, httpResponse, body) {
+        console.log(api);
         var smaaashResponse = JSON.parse(JSON.parse(body));
-        if (smaaashResponse.RechargeCard.RechargeCard[0].Status == 1) {
-          var link = smaaashResponse.RechargeCard.RechargeCard[0].Link;
-          res.redirect(link);
+        console.log(smaaashResponse);
+        if (smaaashResponse.RechargeCard[0].Status == 1) {
+          var Orders = {};
+          Orders.customerID = req.body.CustomerID;
+          Orders.orderno = smaaashResponse.RechargeCard[0].OrderNo;
+          // call save api
+          function callback(err, newdata) {
+            if (err) {
+              res.json({
+                value: false,
+                data: err
+              });
+            } else {
+              res.json({
+                value: true,
+                data: smaaashResponse
+              });
+            }
+          }
+          Order.saveData(Orders, callback);
         } else {
           res.json({
             value: false,
@@ -495,7 +615,63 @@ module.exports = {
     }
   },
   returnUrlFunction: function (req, res) {
-    SignUp.returnUrlFunction(req.body, res.callback);
+    if (req.body.Status == 1) {
+      var successUrl = "http://tingdom.in/smaaashusa/#/thankyou?orderno=" + req.body.OrderNo + "&cnrno=" + req.body.CNR_No + "&amount=" + req.body.PayAmount + "&paymentfor=" + PaymentFor;
+      res.redirect(successUrl);
+    } else {
+      var failureUrl = "http://tingdom.in/smaaashusa/#/sorry?orderno=" + req.body.OrderNo + "&cnrno=" + req.body.CNR_No + "&amount=" + req.body.PayAmount + "&paymentfor=" + PaymentFor;
+      res.redirect(failureUrl);
+    }
+  },
+  getOrderDetails: function (req, res) {
+    if (req.body.orderid) {
+      Order.getOrderDetails(req.body, res.callback);
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
+  returnUrlFunctionForMobile: function (req, res) {
+    if (req.body) {
+      Order.findOneAndUpdate({
+        orderno: req.body.OrderNo
+      }, {
+        cnrno: req.body.CNR_No,
+        amount: req.body.PayAmount,
+        status: req.body.Status
+      }, {
+        new: true
+      }, function (err, found) {
+        if (err) {
+          console.log(err);
+          callback(err, null);
+        } else {
+          if (req.body.Status == 1) {
+            var successUrl = "http://wohlig.co.in/paisoapk/success.html?orderid=" + req.body.OrderNo;
+            res.redirect(successUrl);
+          } else {
+            var failureUrl = "http://wohlig.co.in/paisoapk/fail.html?orderid=" + req.body.OrderNo;
+            res.redirect(failureUrl);
+          }
+
+        }
+      });
+    } else {
+      var failureUrl = "http://wohlig.co.in/paisoapk/fail.html?orderid=0";
+      res.redirect(failureUrl);
+    }
+  },
+  getUserNotification: function (req, res) {
+    if (req.body.userid && req.body.userid !== '') {
+      SignUp.getUserNotification(req.body, res.callback);
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
   },
   CustomerResetPassword: function (req, res) {
     if (req.body.CustomerID && req.body.CustomerID !== '' && req.body.OldPassword && req.body.OldPassword !== '' && req.body.NewPassword && req.body.NewPassword !== '') {
