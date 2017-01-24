@@ -41,7 +41,7 @@ var schema = new Schema({
 link: {
     type: String,
     default: ""
-  },
+  }
 });
 
 module.exports = mongoose.model('MediaGallery', schema);
