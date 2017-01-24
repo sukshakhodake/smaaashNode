@@ -45,6 +45,14 @@ var schema = new Schema({
   pdf: {
     type: String,
     default: ""
+  },
+  weekdays: {
+    type: String,
+    default: ""
+  },
+  weekend: {
+    type: String,
+    default: ""
   }
 
 });
