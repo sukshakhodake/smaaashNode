@@ -38,7 +38,10 @@ var schema = new Schema({
     type: String,
     default: ""
   },
-
+link: {
+    type: String,
+    default: ""
+  },
 });
 
 module.exports = mongoose.model('MediaGallery', schema);
