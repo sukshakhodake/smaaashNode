@@ -831,15 +831,30 @@ module.exports = {
       });
   },
   EditCartPackage: function (req, res) {
-    SignUp.showCartAPI(req, function (data) {
-      if (data.value) {
-        res.json(data);
-      } else {
+    if (req.body) {
+      var api = sails.api;
+      api = _.assign(api, req.body);
+      request({
+        url: "http://apismaaash.itspl.net/SMAAASHAPI.svc/EditCartPackage",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(api)
+      }, function (err, httpResponse, body) {
+        var smaaashResponse = JSON.parse(JSON.parse(body));
+        console.log(smaaashResponse);
+        //err
         res.json({
-          value: false,
-          data: data.data
+          value: true,
+          data: smaaashResponse
         });
-      }
-    });
+      });
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Format"
+      });
+    }
   }
 };
