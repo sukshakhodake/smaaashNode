@@ -256,7 +256,9 @@ module.exports = {
     }
   },
   SelectCartPackage: function (req, res) {
-    SignUp.showCartAPI(req, res.json);
+    SignUp.showCartAPI(req, function (data) {
+      res.json(data);
+    });
   },
   totalCart: function (req, res) {
     if (req.body.user && req.body.user !== "") {

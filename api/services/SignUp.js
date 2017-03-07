@@ -708,22 +708,20 @@ var models = {
         if (smaaashResponse.CustomerCartItem) {
           async.each(smaaashResponse.CustomerCartItem, function (obj, callback) {
             ExploreSmash.findOne().lean().exec(function (err, data) {
-              console.log("data");
-              console.log(data);
               if (data) {
                 obj.details = data;
               }
               returnVal.push(obj);
               callback(null, data);
             });
-          }, function () {
+          }, function (err) {
+            console.log(err);
+            console.log(callback);
             callback({
               value: true,
               data: returnVal
             });
           });
-
-
         } else {
           callback({
             value: false,
