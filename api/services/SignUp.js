@@ -3,6 +3,8 @@ var Schema = mongoose.Schema;
 var objectid = require("mongodb").ObjectId;
 var SendGrid = require('sendgrid').SendGrid;
 var md5 = require('md5');
+var request = require('request');
+var async = require("async");
 var schema = new Schema({
   // name: {
   //   type: String,
@@ -700,16 +702,27 @@ var models = {
         },
         body: JSON.stringify(api)
       }, function (err, httpResponse, body) {
-        console.log(api);
-
         var smaaashResponse = JSON.parse(JSON.parse(body));
-        console.log(smaaashResponse);
+        var returnVal = [];
         //err
         if (smaaashResponse.CustomerCartItem) {
-          callback({
-            value: true,
-            data: smaaashResponse
+          async.each(smaaashResponse.CustomerCartItem, function (obj, callback) {
+            ExploreSmash.findOne().lean().exec(function (err, data) {
+              console.log("data");
+              console.log(data);
+              if (data) {
+                obj.details = data;
+              }
+              returnVal.push(obj);
+              callback(null, data);
+            });
+          }, function () {
+            callback({
+              value: true,
+              data: returnVal
+            });
           });
+
 
         } else {
           callback({

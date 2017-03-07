@@ -256,42 +256,7 @@ module.exports = {
     }
   },
   SelectCartPackage: function (req, res) {
-    if (req.body.CustomerMobileNo && req.body.CustomerMobileNo !== '' && req.body.CustomerID && req.body.CustomerID !== '') {
-      var api = sails.api;
-      api = _.assign(api, req.body);
-      request({
-        url: "http://apismaaash.itspl.net/SMAAASHAPI.svc/SelectCartPackage",
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(api)
-      }, function (err, httpResponse, body) {
-        console.log(api);
-
-        var smaaashResponse = JSON.parse(JSON.parse(body));
-        console.log(smaaashResponse);
-        //err
-        if (smaaashResponse.CustomerCartItem) {
-          res.json({
-            value: true,
-            data: smaaashResponse
-          });
-
-        } else {
-          res.json({
-            value: false,
-            data: smaaashResponse
-          });
-        }
-
-      });
-    } else {
-      res.json({
-        value: false,
-        data: "Invalid Request"
-      });
-    }
+    SignUp.showCartAPI(req, res.json);
   },
   totalCart: function (req, res) {
     if (req.body.user && req.body.user !== "") {
@@ -866,6 +831,15 @@ module.exports = {
       });
   },
   EditCartPackage: function (req, res) {
-
+    SignUp.showCartAPI(req, function (data) {
+      if (data.value) {
+        res.json(data);
+      } else {
+        res.json({
+          value: false,
+          data: data.data
+        });
+      }
+    });
   }
 };
