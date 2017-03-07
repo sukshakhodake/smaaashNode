@@ -686,6 +686,48 @@ var models = {
       }
     });
   },
+
+
+  showCartAPI: function (req, callback) {
+    if (req.body.CustomerMobileNo && req.body.CustomerMobileNo !== '' && req.body.CustomerID && req.body.CustomerID !== '') {
+      var api = sails.api;
+      api = _.assign(api, req.body);
+      request({
+        url: "http://apismaaash.itspl.net/SMAAASHAPI.svc/SelectCartPackage",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(api)
+      }, function (err, httpResponse, body) {
+        console.log(api);
+
+        var smaaashResponse = JSON.parse(JSON.parse(body));
+        console.log(smaaashResponse);
+        //err
+        if (smaaashResponse.CustomerCartItem) {
+          callback({
+            value: true,
+            data: smaaashResponse
+          });
+
+        } else {
+          callback({
+            value: false,
+            data: smaaashResponse
+          });
+        }
+
+      });
+    } else {
+      callback({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  }
+
+
 };
 
 module.exports = _.assign(module.exports, models);
