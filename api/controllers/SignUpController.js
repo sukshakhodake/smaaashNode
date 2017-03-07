@@ -856,5 +856,37 @@ module.exports = {
         data: "Invalid Format"
       });
     }
+  },
+  CheckOut: function (req, res) {
+    if (req.body) {
+      var api = sails.api;
+      api = _.assign(api, req.body);
+      var returnUrl = {
+        PGReturnURL: "http://wohlig.co.in/smaaash/#/thankyou"
+      };
+      api = _.assign(api, returnUrl);
+
+      request({
+        url: "http://apismaaash.itspl.net/SMAAASHAPI.svc/CheckOutCartPackage",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(api)
+      }, function (err, httpResponse, body) {
+        var smaaashResponse = JSON.parse(JSON.parse(body));
+        console.log(smaaashResponse);
+        //err
+        res.json({
+          value: true,
+          data: smaaashResponse
+        });
+      });
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Format"
+      });
+    }
   }
 };
