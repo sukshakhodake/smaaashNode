@@ -858,6 +858,9 @@ module.exports = {
         PGReturnURL: "http://104.154.79.188:82/signup/CheckOutComplete"
       };
       api = _.assign(api, returnUrl);
+      api.CouponCode = "";
+      api.Remarks = "";
+      console.log(api);
 
       request({
         url: "http://apismaaash.itspl.net/SMAAASHAPI.svc/CheckOutCartPackage",
