@@ -851,6 +851,7 @@ module.exports = {
     }
   },
   CheckOut: function (req, res) {
+    console.log("---------------CHECK THIS ONE-----------------------");
     if (req.body) {
       var api = sails.api;
       api = _.assign(api, req.body);
