@@ -176,23 +176,10 @@ module.exports = {
         var smaaashResponse = JSON.parse(JSON.parse(body));
         console.log(smaaashResponse);
         //err
-        if (smaaashResponse.AddToCart[0].Status == 0) {
-          res.json({
-            value: true,
-            data: smaaashResponse
-          });
-
-        } else if (smaaashResponse.AddToCart[0].Status === 1) {
-          res.json({
-            value: true,
-            data: smaaashResponse
-          });
-        } else {
-          res.json({
-            value: false,
-            data: "Something went wrong"
-          });
-        }
+        res.json({
+          value: true,
+          data: smaaashResponse
+        });
 
       });
     } else {
