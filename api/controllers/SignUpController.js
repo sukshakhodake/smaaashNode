@@ -864,7 +864,7 @@ module.exports = {
       var api = sails.api;
       api = _.assign(api, req.body);
       var returnUrl = {
-        PGReturnURL: "http://wohlig.co.in/smaaash/#/thankyou"
+        PGReturnURL: "http://104.154.79.188:82/SignUp/CheckOutComplete"
       };
       api = _.assign(api, returnUrl);
 
@@ -890,5 +890,16 @@ module.exports = {
         data: "Invalid Format"
       });
     }
+  },
+  CheckOutComplete: function (req, res) {
+    console.log("REQ BODY");
+    console.log(req.body);
+    console.log("----------------------------");
+    console.log("REQ Params");
+    console.log(req.params);
+    console.log("----------------------------");
+    console.log("REQ query");
+    console.log(req.query);
+    console.log("----------------------------");
   }
 };
