@@ -163,6 +163,10 @@ module.exports = {
     if (req.body) {
       var api = sails.api;
       api = _.assign(api, req.body);
+      api.NoOfChild = 0;
+      api.NoOfSenior = 0;
+      api.AddonIDs = "";
+      api.AddonQuantities = "";
       request({
         url: "http://apismaaash.itspl.net/SMAAASHAPI.svc/AddToCartPackage",
         method: "POST",
