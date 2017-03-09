@@ -707,7 +707,9 @@ var models = {
         //err
         if (smaaashResponse.CustomerCartItem) {
           async.each(smaaashResponse.CustomerCartItem, function (obj, callback) {
-            ExploreSmash.findOne().lean().exec(function (err, data) {
+            ExploreSmash.findOne({
+              BranchPackageID: obj.BranchPackageID
+            }).lean().exec(function (err, data) {
               if (data) {
                 obj.details = data;
               }
