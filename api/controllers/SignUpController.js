@@ -855,12 +855,12 @@ module.exports = {
     if (req.body) {
       var api = sails.api;
       api = _.assign(api, req.body);
+      console.log(req.body);
+      console.log(api);
       var returnUrl = {
         PGReturnURL: "http://104.154.79.188:82/signup/CheckOutComplete"
       };
       api = _.assign(api, returnUrl);
-      api.CouponCode = "";
-      api.Remarks = "";
       console.log(api);
 
       request({
