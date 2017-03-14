@@ -887,7 +887,8 @@ module.exports = {
     }
   },
   CheckOutComplete: function (req, res) {
-    var siteurl = "http://wohlig.co.in/smaaash/"
+    var siteurl = "http://wohlig.co.in/smaaash/";
+    console.log(req.body);
     if (req.body.Status != "0") {
       res.redirect(siteurl + "#/thankyou");
     } else {
