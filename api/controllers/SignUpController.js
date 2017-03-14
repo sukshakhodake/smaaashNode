@@ -889,9 +889,9 @@ module.exports = {
   CheckOutComplete: function (req, res) {
     var siteurl = "http://wohlig.co.in/smaaash/"
     if (req.body.Status != "0") {
-      req.redirect(siteurl + "#/thankyou");
+      res.redirect(siteurl + "#/thankyou");
     } else {
-      req.redirect(siteurl + "#/sorry");
+      res.redirect(siteurl + "#/sorry");
     }
   }
 };
