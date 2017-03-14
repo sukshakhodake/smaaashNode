@@ -887,19 +887,11 @@ module.exports = {
     }
   },
   CheckOutComplete: function (req, res) {
-    console.log("REQ BODY");
-    console.log(req.body);
-    console.log("----------------------------");
-    console.log("REQ Params");
-    console.log(req.params);
-    console.log("----------------------------");
-    console.log("REQ query");
-    console.log(req.query);
-    console.log("----------------------------");
-    res.json({
-      body: req.body,
-      params: req.params,
-      query: req.query
-    });
+    var siteurl = "http://wohlig.co.in/smaaash/"
+    if (res.body.Status != "0") {
+      res.redirect(siteurl + "#/thankyou");
+    } else {
+      res.redirect(siteurl + "#/sorry");
+    }
   }
 };
