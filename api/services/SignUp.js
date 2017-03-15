@@ -702,7 +702,7 @@ var models = {
         },
         body: JSON.stringify(api)
       }, function (err, httpResponse, body) {
-        var smaaashResponse = JSON.parse(JSON.parse(body));
+        var smaaashResponse = JSON.parse(body);
         var returnVal = [];
         //err
         if (smaaashResponse.CustomerCartItem) {
