@@ -702,6 +702,7 @@ var models = {
         },
         body: JSON.stringify(api)
       }, function (err, httpResponse, body) {
+        console.log(body);
         var smaaashResponse = JSON.parse(body);
         var returnVal = [];
         //err
