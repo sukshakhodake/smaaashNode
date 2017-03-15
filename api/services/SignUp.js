@@ -694,6 +694,7 @@ var models = {
     if (req.body.CustomerMobileNo && req.body.CustomerMobileNo !== '' && req.body.CustomerID && req.body.CustomerID !== '') {
       var api = sails.api;
       api = _.assign(api, req.body);
+      console.log(api);
       request({
         url: "http://apismaaash.itspl.net/SMAAASHAPI.svc/SelectCartPackage",
         method: "POST",
@@ -702,7 +703,7 @@ var models = {
         },
         body: JSON.stringify(api)
       }, function (err, httpResponse, body) {
-        console.log(httpResponse);
+
         console.log(body);
         var smaaashResponse = JSON.parse(JSON.parse(body));
         var returnVal = [];
