@@ -15,6 +15,10 @@ var schema = new Schema({
     type: String,
     default: ""
   },
+   mobileImage: {
+    type: String,
+    default: ""
+  },
   type: {
     type: String,
     default: ""

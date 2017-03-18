@@ -155,6 +155,10 @@ var schema = new Schema({
     type: String,
     default: ""
   },
+   mobileImage: {
+    type: String,
+    default: ""
+  },
   multipleattraction: [{
     icon: {
       type: String,
@@ -1947,6 +1951,7 @@ var models = {
       }
     });
   },
+  
 };
 
 module.exports = _.assign(module.exports, models);
