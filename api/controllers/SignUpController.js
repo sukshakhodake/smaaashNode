@@ -407,23 +407,10 @@ module.exports = {
       }, function (err, httpResponse, body) {
         var smaaashResponse = JSON.parse(JSON.parse(body));
         console.log(smaaashResponse);
-        if (smaaashResponse.CustomerBooking == [] || smaaashResponse.ErrorStatus[0].Status == 0) {
-          res.json({
-            value: false,
-            data: smaaashResponse
-          });
-        } else if (smaaashResponse.CustomerBooking) {
-          res.json({
-            value: true,
-            data: smaaashResponse
-          });
-        } else {
-          res.json({
-            value: false,
-            data: "Something went wrong"
-          });
-        }
-
+        res.json({
+          value: true,
+          data: smaaashResponse
+        });
       });
     } else {
       res.json({
