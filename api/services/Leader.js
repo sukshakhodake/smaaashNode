@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var objectid = require("mongodb").ObjectId;
+URLSlugs = require('mongoose-url-slugs');
 
 var schema = new Schema({
 
@@ -35,7 +36,7 @@ var schema = new Schema({
   }],
 
 });
-
+schema.plugin(URLSlugs('name', {field: 'myslug'}));
 module.exports = mongoose.model('Leader', schema);
 var models = {
   saveData: function(data, callback) {
@@ -117,7 +118,20 @@ var models = {
       }
     });
   },
-
+ getByUrl: function (data, callback) {
+    this.findOne({
+      "myslug": data.myslug
+    }).exec(function (err, found) {
+      if (err) {
+        console.log(err);
+        callback(err, null);
+      } else if (found && Object.keys(found).length > 0) {
+        callback(null, found);
+      } else {
+        callback(null, {});
+      }
+    });
+  },
 
 
 

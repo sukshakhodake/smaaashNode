@@ -103,7 +103,17 @@ module.exports = {
         }
     },
 
+ getByUrl: function (req, res) {
 
+    if (req.body) {
+      Type.getByUrl(req.body, res.callback);
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
 
     deleteAll: function(req, res) {
         if (req.body) {

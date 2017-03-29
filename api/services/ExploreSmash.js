@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var objectid = require("mongodb").ObjectId;
+URLSlugs = require('mongoose-url-slugs');
 
 var schema = new Schema({
 
@@ -155,7 +156,7 @@ var schema = new Schema({
     type: String,
     default: ""
   },
-   mobileImage: {
+  mobileImage: {
     type: String,
     default: ""
   },
@@ -204,6 +205,9 @@ var schema = new Schema({
     default: ""
   }
 });
+schema.plugin(URLSlugs('hometext', {
+  field: 'myslug'
+}));
 
 module.exports = mongoose.model('ExploreSmash', schema);
 var models = {
@@ -578,6 +582,43 @@ var models = {
       }
     });
   },
+  getSingleExploreSmaaashByUrl: function (data, callback) {
+    var checkobj = {};
+    Type.findOne({
+      "myslug": data.myslug
+    }, function (err, type) {
+      if (err) {
+        callback(err, null);
+      } else {
+        checkobj.type = type._id;
+        checkobj.city = data.city;
+        if (data.search && data.search !== '') {
+          var check = new RegExp(data.search, "i");
+          checkobj.hometext = {
+            '$regex': check
+          };
+        }
+        if (data.gameFor && data.gameFor !== '') {
+          checkobj.gamefor = data.gameFor;
+        }
+        if (data.gameType && data.gameType !== '') {
+          checkobj.gameType = data.gameType;
+        }
+        ExploreSmash.find(checkobj).exec(function (err, found) {
+          if (err) {
+            console.log(err);
+            callback(err, null);
+          } else if (found && found.length > 0) {
+            callback(null, found);
+          } else {
+            callback(null, []);
+          }
+        });
+      }
+    });
+
+  },
+
   getAllExploreSmashByCity: function (data, callback) {
     this.find({
       city: data._id
@@ -803,6 +844,20 @@ var models = {
       }
     });
   },
+  getByUrl: function (data, callback) {
+    this.findOne({
+      "myslug": data.myslug
+    }).exec(function (err, found) {
+      if (err) {
+        console.log(err);
+        callback(err, null);
+      } else if (found && Object.keys(found).length > 0) {
+        callback(null, found);
+      } else {
+        callback(null, {});
+      }
+    });
+  },
   getDetailExploreSmaaash: function (data, callback) {
     this.findOne({
       "_id": data._id,
@@ -814,16 +869,42 @@ var models = {
       } else if (found && Object.keys(found).length > 0) {
         console.log(found);
         ExploreSmash.populate(found, {
-            path: 'multipleattraction.attraction'
-          }, function (err, response) {
-            if (err) {
-              callback(err, null);
-            } else {
-              callback(null, response);
+          path: 'multipleattraction.attraction'
+        }, function (err, response) {
+          if (err) {
+            callback(err, null);
+          } else {
+            callback(null, response);
 
-            }
-          })
-          // callback(null, found);
+          }
+        })
+        // callback(null, found);
+      } else {
+        callback(null, {});
+      }
+    });
+  },
+  getDetailExploreSmaaashByUrl: function (data, callback) {
+    this.findOne({
+      "myslug": data.myslug,
+      "city": data.city
+    }).exec(function (err, found) {
+      if (err) {
+        console.log(err);
+        callback(err, null);
+      } else if (found && Object.keys(found).length > 0) {
+        console.log(found);
+        ExploreSmash.populate(found, {
+          path: 'multipleattraction.attraction'
+        }, function (err, response) {
+          if (err) {
+            callback(err, null);
+          } else {
+            callback(null, response);
+
+          }
+        })
+        // callback(null, found);
       } else {
         callback(null, {});
       }
@@ -1951,7 +2032,7 @@ var models = {
       }
     });
   },
-  
+
 };
 
 module.exports = _.assign(module.exports, models);

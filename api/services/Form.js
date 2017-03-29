@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+URLSlugs = require('mongoose-url-slugs');
 var schema = new Schema({
 
   name: {
@@ -24,6 +25,9 @@ var schema = new Schema({
 
 });
 
+schema.plugin(URLSlugs('name', {
+  field: 'myslug'
+}));
 module.exports = mongoose.model('Form', schema);
 var models = {
 
@@ -90,7 +94,20 @@ var models = {
         }
       });
   },
-
+  getByUrl: function (data, callback) {
+    this.findOne({
+      "myslug": data.myslug
+    }).exec(function (err, found) {
+      if (err) {
+        console.log(err);
+        callback(err, null);
+      } else if (found && Object.keys(found).length > 0) {
+        callback(null, found);
+      } else {
+        callback(null, {});
+      }
+    });
+  },
 
 };
 module.exports = _.assign(module.exports, models);

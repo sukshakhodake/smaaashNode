@@ -102,10 +102,32 @@ module.exports = {
       });
     }
   },
+  getByUrl: function (req, res) {
+
+    if (req.body) {
+      ExploreSmash.getByUrl(req.body, res.callback);
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
   getDetailExploreSmaaash: function (req, res) {
 
     if (req.body) {
       ExploreSmash.getDetailExploreSmaaash(req.body, res.callback);
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
+  getDetailExploreSmaaashByUrl: function (req, res) {
+
+    if (req.body) {
+      ExploreSmash.getDetailExploreSmaaashByUrl(req.body, res.callback);
     } else {
       res.json({
         value: false,
@@ -559,7 +581,16 @@ module.exports = {
       });
     }
   },
-
+  getSingleExploreSmaaashByUrl: function (req, res) {
+    if (req.body.city && req.body.city != '') {
+      ExploreSmash.getSingleExploreSmaaashByUrl(req.body, res.callback);
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
   deleteGallery: function (req, res) {
     if (req.body) {
       if (req.body._id && req.body._id !== "") {

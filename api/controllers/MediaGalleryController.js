@@ -22,7 +22,17 @@ module.exports = {
       });
     }
   },
+ getByUrl: function (req, res) {
 
+    if (req.body) {
+      MediaGallery.getByUrl(req.body, res.callback);
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
   delete: function(req, res) {
     if (req.body) {
       MediaGallery.deleteData(req.body, res.callback);
