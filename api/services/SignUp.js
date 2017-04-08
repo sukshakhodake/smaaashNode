@@ -146,6 +146,10 @@ var schema = new Schema({
     type: String,
     default: ""
   },
+  CardNo: {
+    type: String,
+    default: ""
+  }
 });
 
 module.exports = mongoose.model('SignUp', schema);
