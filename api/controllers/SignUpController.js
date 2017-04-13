@@ -124,7 +124,7 @@ module.exports = {
 
 
 
-  // mobile login 
+  // mobile login
 
   mobileLogin: function (req, res) {
     var callback = function (err, data) {
@@ -603,10 +603,10 @@ module.exports = {
   },
   returnUrlFunction: function (req, res) {
     if (req.body.Status == 1) {
-      var successUrl = "http://test.smaaash.in/#/thankyou?orderno=" + req.body.OrderNo + "&cnrno=" + req.body.CNR_No + "&amount=" + req.body.PayAmount + "&paymentfor=" + PaymentFor;
+      var successUrl = "http://test.smaaash.in/#thankyou?orderno=" + req.body.OrderNo + "&cnrno=" + req.body.CNR_No + "&amount=" + req.body.PayAmount + "&paymentfor=" + PaymentFor;
       res.redirect(successUrl);
     } else {
-      var failureUrl = "http://test.smaaash.in/#/sorry?orderno=" + req.body.OrderNo + "&cnrno=" + req.body.CNR_No + "&amount=" + req.body.PayAmount + "&paymentfor=" + PaymentFor;
+      var failureUrl = "http://test.smaaash.in/#sorry?orderno=" + req.body.OrderNo + "&cnrno=" + req.body.CNR_No + "&amount=" + req.body.PayAmount + "&paymentfor=" + PaymentFor;
       res.redirect(failureUrl);
     }
   },
