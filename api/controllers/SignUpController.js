@@ -603,10 +603,10 @@ module.exports = {
   },
   returnUrlFunction: function (req, res) {
     if (req.body.Status == 1) {
-      var successUrl = "http://tingdom.in/smaaashusa/#/thankyou?orderno=" + req.body.OrderNo + "&cnrno=" + req.body.CNR_No + "&amount=" + req.body.PayAmount + "&paymentfor=" + PaymentFor;
+      var successUrl = "http://test.smaaash.in/#/thankyou?orderno=" + req.body.OrderNo + "&cnrno=" + req.body.CNR_No + "&amount=" + req.body.PayAmount + "&paymentfor=" + PaymentFor;
       res.redirect(successUrl);
     } else {
-      var failureUrl = "http://tingdom.in/smaaashusa/#/sorry?orderno=" + req.body.OrderNo + "&cnrno=" + req.body.CNR_No + "&amount=" + req.body.PayAmount + "&paymentfor=" + PaymentFor;
+      var failureUrl = "http://test.smaaash.in/#/sorry?orderno=" + req.body.OrderNo + "&cnrno=" + req.body.CNR_No + "&amount=" + req.body.PayAmount + "&paymentfor=" + PaymentFor;
       res.redirect(failureUrl);
     }
   },
@@ -636,17 +636,17 @@ module.exports = {
           callback(err, null);
         } else {
           if (req.body.Status == 1) {
-            var successUrl = "http://wohlig.co.in/paisoapk/success.html?orderid=" + req.body.OrderNo;
+            var successUrl = "http://test.smaaash.in/paisoapk/success.html?orderid=" + req.body.OrderNo;
             res.redirect(successUrl);
           } else {
-            var failureUrl = "http://wohlig.co.in/paisoapk/fail.html?orderid=" + req.body.OrderNo;
+            var failureUrl = "http://test.smaaash.in/paisoapk/fail.html?orderid=" + req.body.OrderNo;
             res.redirect(failureUrl);
           }
 
         }
       });
     } else {
-      var failureUrl = "http://wohlig.co.in/paisoapk/fail.html?orderid=0";
+      var failureUrl = "http://test.smaaash.in/paisoapk/fail.html?orderid=0";
       res.redirect(failureUrl);
     }
   },
