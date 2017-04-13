@@ -491,6 +491,7 @@ var models = {
       dob: data.dob,
       gender: data.gender,
       pincode: data.pincode,
+      CardNo: data.CardNo,
       profilePic: data.profilePic
     }, {
       new: true

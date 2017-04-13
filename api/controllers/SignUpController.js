@@ -294,14 +294,55 @@ module.exports = {
     }
   },
   updateProfile: function (req, res) {
-    if (req.body._id && req.body._id !== '') {
-      SignUp.updateProfile(req.body, res.callback);
+ if (req.body._id && req.body._id !== '') {
+      var api = sails.api;
+      api = _.assign(api, req.body);
+      console.log("api");
+      console.log(api);
+      request({
+        url: "http://apismaaash.itspl.net/SMAAASHAPI.svc/EditCustomerDetails",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(api)
+      }, function (err, httpResponse, body) {
+        // console.log(body);
+        var smaaashResponse = JSON.parse(JSON.parse(body));
+        console.log("smaaashResponse",smaaashResponse);
+
+        if (smaaashResponse.EditCustomerDetails[0].Status == 0) {
+          res.json({
+            value: false,
+            data: smaaashResponse
+          });
+        } else if (smaaashResponse.EditCustomerDetails[0].Status == 1) {
+          req.body.CustomerAddress=req.body.CustomerAddressId
+          SignUp.updateProfile(req.body, res.callback);
+        } else {
+          res.json({
+            value: false,
+            data: "Something Went Wrong"
+          });
+        }
+
+      });
     } else {
       res.json({
         value: false,
         data: "Invalid Request"
       });
     }
+
+    /////////////////////////////////////////////commented by nargis while integrating their api in ours
+    // if (req.body._id && req.body._id !== '') {
+    //   SignUp.updateProfile(req.body, res.callback);
+    // } else {
+    //   res.json({
+    //     value: false,
+    //     data: "Invalid Request"
+    //   });
+    // }
   },
   CustomerRegistration: function (req, res) {
     if (req.body) {
@@ -333,6 +374,7 @@ module.exports = {
             data: smaaashResponse
           });
         } else if (smaaashResponse.Registration[0].Status == 1) {
+          req.body.CustomerAddress=req.body.CustomerAddressId
           SignUp.CustomerRegistration(req.body, api, smaaashResponse, res.callback);
         } else if (smaaashResponse.ErrorStatus[0].Status == 0) {
           res.json({
@@ -372,7 +414,7 @@ module.exports = {
             value: true,
             data: smaaashResponse
           });
-
+          console.log("smaaashResponse",smaaashResponse);
         } else if (smaaashResponse.GenerateOTPTable[0].Status == 0) {
           res.json({
             value: false,
