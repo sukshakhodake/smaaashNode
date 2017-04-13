@@ -311,12 +311,12 @@ module.exports = {
         var smaaashResponse = JSON.parse(JSON.parse(body));
         console.log("smaaashResponse",smaaashResponse);
 
-        if (smaaashResponse.EditCustomerDetails[0].Status == 0) {
+        if (smaaashResponse.EditCustomer[0].Status == 0) {
           res.json({
             value: false,
             data: smaaashResponse
           });
-        } else if (smaaashResponse.EditCustomerDetails[0].Status == 1) {
+        } else if (smaaashResponse.EditCustomer[0].Status == 1) {
           req.body.CustomerAddress=req.body.CustomerAddressId
           SignUp.updateProfile(req.body, res.callback);
         } else {
