@@ -294,7 +294,7 @@ module.exports = {
     }
   },
   updateProfile: function (req, res) {
- if (req.body._id && req.body._id !== '') {
+    if (req.body._id && req.body._id !== '') {
       var api = sails.api;
       api = _.assign(api, req.body);
       console.log("api");
@@ -309,7 +309,7 @@ module.exports = {
       }, function (err, httpResponse, body) {
         // console.log(body);
         var smaaashResponse = JSON.parse(JSON.parse(body));
-        console.log("smaaashResponse",smaaashResponse);
+        console.log("smaaashResponse", smaaashResponse);
 
         if (smaaashResponse.EditCustomer[0].Status == 0) {
           res.json({
@@ -317,7 +317,7 @@ module.exports = {
             data: smaaashResponse
           });
         } else if (smaaashResponse.EditCustomer[0].Status == 1) {
-          req.body.CustomerAddress=req.body.CustomerAddressId
+          req.body.CustomerAddress = req.body.CustomerAddressId
           SignUp.updateProfile(req.body, res.callback);
         } else {
           res.json({
@@ -374,7 +374,7 @@ module.exports = {
             data: smaaashResponse
           });
         } else if (smaaashResponse.Registration[0].Status == 1) {
-          req.body.CustomerAddress=req.body.CustomerAddressId
+          req.body.CustomerAddress = req.body.CustomerAddressId
           SignUp.CustomerRegistration(req.body, api, smaaashResponse, res.callback);
         } else if (smaaashResponse.ErrorStatus[0].Status == 0) {
           res.json({
@@ -414,7 +414,7 @@ module.exports = {
             value: true,
             data: smaaashResponse
           });
-          console.log("smaaashResponse",smaaashResponse);
+          console.log("smaaashResponse", smaaashResponse);
         } else if (smaaashResponse.GenerateOTPTable[0].Status == 0) {
           res.json({
             value: false,
@@ -603,10 +603,10 @@ module.exports = {
   },
   returnUrlFunction: function (req, res) {
     if (req.body.Status == 1) {
-      var successUrl = "http://test.smaaash.in/#thankyou?orderno=" + req.body.OrderNo + "&cnrno=" + req.body.CNR_No + "&amount=" + req.body.PayAmount + "&paymentfor=" + PaymentFor;
+      var successUrl = "http://test.smaaash.in/#paymentsuccess/" + req.body.OrderNo + "/" + req.body.CNR_No + "/" + req.body.PayAmount + "/" + PaymentFor;
       res.redirect(successUrl);
     } else {
-      var failureUrl = "http://test.smaaash.in/#sorry?orderno=" + req.body.OrderNo + "&cnrno=" + req.body.CNR_No + "&amount=" + req.body.PayAmount + "&paymentfor=" + PaymentFor;
+      var failureUrl = "http://test.smaaash.in/#paymentfail/" + req.body.OrderNo + "/" + req.body.CNR_No + "/" + req.body.PayAmount + "/" + PaymentFor;
       res.redirect(failureUrl);
     }
   },
@@ -916,13 +916,13 @@ module.exports = {
     }
   },
   CheckOutComplete: function (req, res) {
-    var siteurl = "http://wohlig.co.in/smaaash/";
+    var siteurl = "http://test.smaaash.in/";
     console.log(req.body);
     // res.json(req.body);
     if (req.body.Status != "0") {
-      res.redirect(siteurl + "#/thankyou/" + req.body.OrderNo);
+      res.redirect(siteurl + "#thankyou/" + req.body.OrderNo);
     } else {
-      res.redirect(siteurl + "#/sorry/" + req.body.OrderNo);
+      res.redirect(siteurl + "#sorry/" + req.body.OrderNo);
     }
   }
 };
