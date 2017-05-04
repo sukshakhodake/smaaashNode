@@ -44,7 +44,7 @@ link: {
     default: ""
   }
 });
-schema.plugin(URLSlugs('name', {field: 'myslug'}));
+schema.plugin(URLSlugs('title', {field: 'myslug'}));
 module.exports = mongoose.model('MediaGallery', schema);
 var models = {
   saveData: function (data, callback) {

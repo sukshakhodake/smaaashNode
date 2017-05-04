@@ -43,7 +43,7 @@ var schema = new Schema({
   }
 
 });
-schema.plugin(URLSlugs('name', {field: 'myslug'}));
+schema.plugin(URLSlugs('title', {field: 'myslug'}));
 module.exports = mongoose.model('Slider', schema);
 var models = {
   saveData: function (data, callback) {
