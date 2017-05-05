@@ -607,10 +607,10 @@ module.exports = {
   },
   returnUrlFunction: function (req, res) {
     if (req.body.Status == 1) {
-      var successUrl = "http://test.smaaash.in/#paymentsuccess/" + req.body.OrderNo + "/" + req.body.CNR_No + "/" + req.body.PayAmount + "/" + PaymentFor;
+      var successUrl = "http://test.smaaash.in/#paymentsuccess/" + req.body.OrderNo + "/" + req.body.CNR_No + "/" + req.body.PayAmount + "/" + req.body.PaymentFor;
       res.redirect(successUrl);
     } else {
-      var failureUrl = "http://test.smaaash.in/#paymentfail/" + req.body.OrderNo + "/" + req.body.CNR_No + "/" + req.body.PayAmount + "/" + PaymentFor;
+      var failureUrl = "http://test.smaaash.in/#paymentfail/" + req.body.OrderNo + "/" + req.body.CNR_No + "/" + req.body.PayAmount + "/" + req.body.PaymentFor;
       res.redirect(failureUrl);
     }
   },
