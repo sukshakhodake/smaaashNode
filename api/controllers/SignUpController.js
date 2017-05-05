@@ -887,7 +887,7 @@ module.exports = {
       console.log(req.body);
       console.log(api);
       var returnUrl = {
-        PGReturnURL: "http://104.154.79.188:82/signup/CheckOutComplete"
+        PGReturnURL: "http://test.smaaash.in/signup/CheckOutComplete"
       };
       api = _.assign(api, returnUrl);
       console.log(api);
