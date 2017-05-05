@@ -557,7 +557,7 @@ module.exports = {
       var api = sails.api;
       api = _.assign(api, req.body);
       var returnUrl = {
-        PGReturnURL: "http://104.154.79.188:82/signup/CheckOutComplete"
+        PGReturnURL: "http://104.154.79.188:82/signup/returnUrlFunction"
       };
       api = _.assign(api, returnUrl);
       request({
