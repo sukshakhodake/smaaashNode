@@ -556,6 +556,10 @@ module.exports = {
     if (req.body.CustomerID && req.body.CustomerID !== "" && req.body.CustomerCardNo && req.body.CustomerCardNo !== "" && req.body.BranchID && req.body.BranchID !== "") {
       var api = sails.api;
       api = _.assign(api, req.body);
+      var returnUrl = {
+        PGReturnURL: "http://104.154.79.188:82/signup/CheckOutComplete"
+      };
+      api = _.assign(api, returnUrl);
       request({
         url: "http://apismaaash.itspl.net/SMAAASHAPI.svc/RechargeCard",
         method: "POST",
