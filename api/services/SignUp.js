@@ -532,9 +532,6 @@ var models = {
       }
     });
   },
-  returnUrlFunction: function (data, callback) {
-    console.log(data);
-  },
   mobileLogin: function (data, callback) {
 
     //generate random Number
