@@ -607,10 +607,10 @@ module.exports = {
   },
   returnUrlFunction: function (req, res) {
     if (req.body.Status == 1) {
-      var successUrl = "http://test.smaaash.in/#paymentsuccess/" + req.body.OrderNo + "/" + req.body.CNR_No + "/" + req.body.PayAmount + "/" + req.body.PaymentFor;
+      var successUrl = "http://smaaash.in/#paymentsuccess/" + req.body.OrderNo + "/" + req.body.CNR_No + "/" + req.body.PayAmount + "/" + req.body.PaymentFor;
       res.redirect(successUrl);
     } else {
-      var failureUrl = "http://test.smaaash.in/#paymentfail/" + req.body.OrderNo + "/" + req.body.CNR_No + "/" + req.body.PayAmount + "/" + req.body.PaymentFor;
+      var failureUrl = "http://smaaash.in/#paymentfail/" + req.body.OrderNo + "/" + req.body.CNR_No + "/" + req.body.PayAmount + "/" + req.body.PaymentFor;
       res.redirect(failureUrl);
     }
   },
@@ -640,17 +640,17 @@ module.exports = {
           callback(err, null);
         } else {
           if (req.body.Status == 1) {
-            var successUrl = "http://test.smaaash.in/paisoapk/success.html?orderid=" + req.body.OrderNo;
+            var successUrl = "http://smaaash.in/paisoapk/success.html?orderid=" + req.body.OrderNo;
             res.redirect(successUrl);
           } else {
-            var failureUrl = "http://test.smaaash.in/paisoapk/fail.html?orderid=" + req.body.OrderNo;
+            var failureUrl = "http://smaaash.in/paisoapk/fail.html?orderid=" + req.body.OrderNo;
             res.redirect(failureUrl);
           }
 
         }
       });
     } else {
-      var failureUrl = "http://test.smaaash.in/paisoapk/fail.html?orderid=0";
+      var failureUrl = "http://smaaash.in/paisoapk/fail.html?orderid=0";
       res.redirect(failureUrl);
     }
   },
@@ -920,7 +920,7 @@ module.exports = {
     }
   },
   CheckOutComplete: function (req, res) {
-    var siteurl = "http://test.smaaash.in/";
+    var siteurl = "http://smaaash.in/";
     console.log(req.body);
     // res.json(req.body);
     if (req.body.Status != "0") {
