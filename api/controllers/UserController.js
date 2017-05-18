@@ -524,46 +524,82 @@ module.exports = {
     }
 
 
-    addUrl("/home");
-    addUrl("/wedding");
-    addUrl("/attractions");
+    // addUrl("/home");
+    // addUrl("/wedding");
+    // addUrl("/attractions");
 
 
 
     City.find().lean().exec(function (err, cities) {
+      // getting all cities
+      _.each(cities, function (city) {
+        addUrl("/" + city.name + "/leader");
+      });
+
       if (err) {
         res.callback(err);
       } else {
         if (_.isEmpty(cities)) {
           res.callback();
         } else {
+          Type.find().lean().exec(function (err, types) {
+            if (err) {
+              res.callback(err);
+            } else {
+              if (_.isEmpty(types)) {
+                res.callback();
+              } else {
 
-          aysnc.parallel({
-            attractions: function () {
+                async.each(types, function (type, callback) {
+                    //getting all types
+                    _.each(cities, function (city) {
+                      addUrl("/" + city.name + "/" + type.myslug);
+                    });
 
-            },
-            events: function () {
 
-            },
-            deals: function () {
 
-            },
-            food: function () {
 
-            },
-            party: function () {
 
+                    ExploreSmash.find({
+                      type: type._id
+                    }).populate("city").lean().exec(function (err, explores) {
+                      if (err) {
+                        callback(err);
+                      } else {
+                        if (_.isEmpty(types)) {
+                          callback();
+                        } else {
+                          // getting all explores as per types in Type
+                          _.each(explores, function (explore) {
+                            console.log(explore.city);
+                            _.each(explore.city, function (city2) {
+                              addUrl("/" + city2.name + "/" + type.myslug + "/" + explore.myslug);
+                            });
+                          });
+                          callback(null, explores);
+                        }
+
+                      }
+                    });
+                  },
+                  function (err, data) {
+                    if (err) {
+                      res.callback(err, data);
+                    } else {
+                      generate();
+                    }
+
+
+                  });
+
+              }
             }
-          }, function (err, data) {
-            generate();
           });
         }
       }
-
     });
 
 
+
   }
-
-
 };
