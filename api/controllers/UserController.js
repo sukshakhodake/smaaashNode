@@ -503,7 +503,7 @@ module.exports = {
 
     function addUrl(route) {
       siteMapArr.push({
-        url: "/" + route,
+        url: route,
         changefreq: 'weekly',
         priority: 1
       });
@@ -520,7 +520,9 @@ module.exports = {
     }
 
 
-    addUrl("home");
+    addUrl("/home");
+    addUrl("/wedding");
+    addUrl("/attractions");
     generate();
     res.json({
       value: true,
