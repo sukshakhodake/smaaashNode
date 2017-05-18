@@ -517,17 +517,52 @@ module.exports = {
         urls: siteMapArr
       });
       fs.writeFileSync("./.tmp/public/sitemap.xml", sitemap.toString());
+      res.json({
+        value: true,
+        description: "Sitemap Generated"
+      });
     }
 
 
     addUrl("/home");
     addUrl("/wedding");
     addUrl("/attractions");
-    generate();
-    res.json({
-      value: true,
-      description: "Sitemap Generated"
+
+
+
+    City.find().lean().exec(function (err, cities) {
+      if (err) {
+        res.callback(err);
+      } else {
+        if (_.isEmpty(cities)) {
+          res.callback();
+        } else {
+
+          aysnc.parallel({
+            attractions: function () {
+
+            },
+            events: function () {
+
+            },
+            deals: function () {
+
+            },
+            food: function () {
+
+            },
+            party: function () {
+
+            }
+          }, function (err, data) {
+            generate();
+          });
+        }
+      }
+
     });
+
+
   }
 
 
