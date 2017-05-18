@@ -22,7 +22,7 @@ module.exports = {
       });
     }
   },
- getByUrl: function (req, res) {
+  getByUrl: function (req, res) {
 
     if (req.body) {
       User.getByUrl(req.body, res.callback);
@@ -295,206 +295,238 @@ module.exports = {
       res.json(JSON.parse(JSON.parse(body)));
     });
   },
-   updateAllType: function (req, res) {
-      Type.find({}).exec(function (err, data) {
-          if(err) {
-            res.callback(err);
-          } else {
-            async.each(data,function(n,callback) {
-              n.myslug = _.kebabCase(n.name);
-              n.save(callback);
-            },function(err,data) {
-                res.callback(err,data);
-            });
-          }
-       });
-   },
-   updateAllBlog: function (req, res) {
-      Blog.find({}).exec(function (err, data) {
-          if(err) {
-            res.callback(err);
-          } else {
-            async.each(data,function(n,callback) {
-              n.myslug = _.kebabCase(n.name);
-              n.save(callback);
-            },function(err,data) {
-                res.callback(err,data);
-            });
-          }
-       });
-   },
-   updateAllCity: function (req, res) {
-      City.find({}).exec(function (err, data) {
-          if(err) {
-            res.callback(err);
-          } else {
-            async.each(data,function(n,callback) {
-              n.myslug = _.kebabCase(n.name);
-              n.save(callback);
-            },function(err,data) {
-                res.callback(err,data);
-            });
-          }
-       });
-   },
-   updateAllContact: function (req, res) {
-      Contact.find({}).exec(function (err, data) {
-          if(err) {
-            res.callback(err);
-          } else {
-            async.each(data,function(n,callback) {
-              n.myslug = _.kebabCase(n.name);
-              n.save(callback);
-            },function(err,data) {
-                res.callback(err,data);
-            });
-          }
-       });
-   },
-  
-    updateAllExploreSmash: function (req, res) {
-      ExploreSmash.find({}).exec(function (err, data) {
-          if(err) {
-            res.callback(err);
-          } else {
-            async.each(data,function(n,callback) {
-              n.myslug = _.kebabCase(n.hometext);
-              n.save(callback);
-            },function(err,data) {
-                res.callback(err,data);
-            });
-          }
-       });
-   },
-    updateAllEnquiry: function (req, res) {
-      Enquiry.find({}).exec(function (err, data) {
-          if(err) {
-            res.callback(err);
-          } else {
-            async.each(data,function(n,callback) {
-              n.myslug = _.kebabCase(n.name);
-              n.save(callback);
-            },function(err,data) {
-                res.callback(err,data);
-            });
-          }
-       });
-   },
-    updateAllHostType: function (req, res) {
-      HostType.find({}).exec(function (err, data) {
-          if(err) {
-            res.callback(err);
-          } else {
-            async.each(data,function(n,callback) {
-              n.myslug = _.kebabCase(n.name);
-              n.save(callback);
-            },function(err,data) {
-                res.callback(err,data);
-            });
-          }
-       });
-   },
-    updateAllLeader: function (req, res) {
-      Leader.find({}).exec(function (err, data) {
-          if(err) {
-            res.callback(err);
-          } else {
-            async.each(data,function(n,callback) {
-              n.myslug = _.kebabCase(n.name);
-              n.save(callback);
-            },function(err,data) {
-                res.callback(err,data);
-            });
-          }
-       });
-   },
- updateAllMediaGallery: function (req, res) {
-      MediaGallery.find({}).exec(function (err, data) {
-          if(err) {
-            res.callback(err);
-          } else {
-            async.each(data,function(n,callback) {
-              n.myslug = _.kebabCase(n.name);
-              n.save(callback);
-            },function(err,data) {
-                res.callback(err,data);
-            });
-          }
-       });
-   },
-   
-     updateAllSponsor: function (req, res) {
-      Sponsor.find({}).exec(function (err, data) {
-          if(err) {
-            res.callback(err);
-          } else {
-            async.each(data,function(n,callback) {
-              n.myslug = _.kebabCase(n.name);
-              n.save(callback);
-            },function(err,data) {
-                res.callback(err,data);
-            });
-          }
-       });
-   },
-     updateAllUser: function (req, res) {
-      User.find({}).exec(function (err, data) {
-          if(err) {
-            res.callback(err);
-          } else {
-            async.each(data,function(n,callback) {
-              n.myslug = _.kebabCase(n.name);
-              n.save(callback);
-            },function(err,data) {
-                res.callback(err,data);
-            });
-          }
-       });
-   },
+  updateAllType: function (req, res) {
+    Type.find({}).exec(function (err, data) {
+      if (err) {
+        res.callback(err);
+      } else {
+        async.each(data, function (n, callback) {
+          n.myslug = _.kebabCase(n.name);
+          n.save(callback);
+        }, function (err, data) {
+          res.callback(err, data);
+        });
+      }
+    });
+  },
+  updateAllBlog: function (req, res) {
+    Blog.find({}).exec(function (err, data) {
+      if (err) {
+        res.callback(err);
+      } else {
+        async.each(data, function (n, callback) {
+          n.myslug = _.kebabCase(n.name);
+          n.save(callback);
+        }, function (err, data) {
+          res.callback(err, data);
+        });
+      }
+    });
+  },
+  updateAllCity: function (req, res) {
+    City.find({}).exec(function (err, data) {
+      if (err) {
+        res.callback(err);
+      } else {
+        async.each(data, function (n, callback) {
+          n.myslug = _.kebabCase(n.name);
+          n.save(callback);
+        }, function (err, data) {
+          res.callback(err, data);
+        });
+      }
+    });
+  },
+  updateAllContact: function (req, res) {
+    Contact.find({}).exec(function (err, data) {
+      if (err) {
+        res.callback(err);
+      } else {
+        async.each(data, function (n, callback) {
+          n.myslug = _.kebabCase(n.name);
+          n.save(callback);
+        }, function (err, data) {
+          res.callback(err, data);
+        });
+      }
+    });
+  },
+
+  updateAllExploreSmash: function (req, res) {
+    ExploreSmash.find({}).exec(function (err, data) {
+      if (err) {
+        res.callback(err);
+      } else {
+        async.each(data, function (n, callback) {
+          n.myslug = _.kebabCase(n.hometext);
+          n.save(callback);
+        }, function (err, data) {
+          res.callback(err, data);
+        });
+      }
+    });
+  },
+  updateAllEnquiry: function (req, res) {
+    Enquiry.find({}).exec(function (err, data) {
+      if (err) {
+        res.callback(err);
+      } else {
+        async.each(data, function (n, callback) {
+          n.myslug = _.kebabCase(n.name);
+          n.save(callback);
+        }, function (err, data) {
+          res.callback(err, data);
+        });
+      }
+    });
+  },
+  updateAllHostType: function (req, res) {
+    HostType.find({}).exec(function (err, data) {
+      if (err) {
+        res.callback(err);
+      } else {
+        async.each(data, function (n, callback) {
+          n.myslug = _.kebabCase(n.name);
+          n.save(callback);
+        }, function (err, data) {
+          res.callback(err, data);
+        });
+      }
+    });
+  },
+  updateAllLeader: function (req, res) {
+    Leader.find({}).exec(function (err, data) {
+      if (err) {
+        res.callback(err);
+      } else {
+        async.each(data, function (n, callback) {
+          n.myslug = _.kebabCase(n.name);
+          n.save(callback);
+        }, function (err, data) {
+          res.callback(err, data);
+        });
+      }
+    });
+  },
+  updateAllMediaGallery: function (req, res) {
+    MediaGallery.find({}).exec(function (err, data) {
+      if (err) {
+        res.callback(err);
+      } else {
+        async.each(data, function (n, callback) {
+          n.myslug = _.kebabCase(n.name);
+          n.save(callback);
+        }, function (err, data) {
+          res.callback(err, data);
+        });
+      }
+    });
+  },
+
+  updateAllSponsor: function (req, res) {
+    Sponsor.find({}).exec(function (err, data) {
+      if (err) {
+        res.callback(err);
+      } else {
+        async.each(data, function (n, callback) {
+          n.myslug = _.kebabCase(n.name);
+          n.save(callback);
+        }, function (err, data) {
+          res.callback(err, data);
+        });
+      }
+    });
+  },
+  updateAllUser: function (req, res) {
+    User.find({}).exec(function (err, data) {
+      if (err) {
+        res.callback(err);
+      } else {
+        async.each(data, function (n, callback) {
+          n.myslug = _.kebabCase(n.name);
+          n.save(callback);
+        }, function (err, data) {
+          res.callback(err, data);
+        });
+      }
+    });
+  },
   backupDatabase: function (req, res) {
-        var request = require('request');
-        var mongoose = require('mongoose');
-        var fs = require('fs');
-        var exec = require('child_process').exec;
-        res.connection.setTimeout(200000000);
-        req.connection.setTimeout(200000000);
-        var q = req.host.search("127.0.0.1");
-        var database = "dharma";
-        if (true) {
-            var jagz = _.map(mongoose.models, function (Model, key) {
-                var name = Model.collection.collectionName;
-                return {
-                    key: key,
-                    name: name
-                };
-            });
-            jagz.push({
-                "key": "fs.chunks",
-                "name": "fs.chunks"
-            }, {
-                "key": "fs.files",
-                "name": "fs.files"
-            });
-            var isBackup = fs.existsSync("./backup");
-            if (!isBackup) {
-                fs.mkdirSync("./backup");
-            }
-            var mom = moment();
-            var folderName = "./backup/" + mom.format("ddd-Do-MMM-YYYY-HH-mm-SSSSS");
-            var retVal = [];
-            fs.mkdirSync(folderName);
-            async.eachSeries(jagz, function (obj, callback) {
-                exec("mongoexport --db " + database + " --collection " + obj.name + " --out " + folderName + "/" + obj.name + ".json", function (data1, data2, data3) {
-                    retVal.push(data3 + " VALUES OF " + obj.name + " MODEL NAME " + obj.key);
-                    callback();
-                });
-            }, function () {
-                res.json(retVal);
-            });
-        } else {
-            res.callback("Access Denied for Database Backup");
-        }
+    var request = require('request');
+    var mongoose = require('mongoose');
+    var fs = require('fs');
+    var exec = require('child_process').exec;
+    res.connection.setTimeout(200000000);
+    req.connection.setTimeout(200000000);
+    var q = req.host.search("127.0.0.1");
+    var database = "dharma";
+    if (true) {
+      var jagz = _.map(mongoose.models, function (Model, key) {
+        var name = Model.collection.collectionName;
+        return {
+          key: key,
+          name: name
+        };
+      });
+      jagz.push({
+        "key": "fs.chunks",
+        "name": "fs.chunks"
+      }, {
+        "key": "fs.files",
+        "name": "fs.files"
+      });
+      var isBackup = fs.existsSync("./backup");
+      if (!isBackup) {
+        fs.mkdirSync("./backup");
+      }
+      var mom = moment();
+      var folderName = "./backup/" + mom.format("ddd-Do-MMM-YYYY-HH-mm-SSSSS");
+      var retVal = [];
+      fs.mkdirSync(folderName);
+      async.eachSeries(jagz, function (obj, callback) {
+        exec("mongoexport --db " + database + " --collection " + obj.name + " --out " + folderName + "/" + obj.name + ".json", function (data1, data2, data3) {
+          retVal.push(data3 + " VALUES OF " + obj.name + " MODEL NAME " + obj.key);
+          callback();
+        });
+      }, function () {
+        res.json(retVal);
+      });
+    } else {
+      res.callback("Access Denied for Database Backup");
     }
+  },
+  generateSitemap: function (req, res) {
+    var sm = require('sitemap'),
+      fs = require('fs');
+
+    var siteMapArr = [];
+
+    function addUrl(route) {
+      siteMapArr.push({
+        url: "/" + route,
+        changefreq: 'weekly',
+        priority: 1
+      });
+    }
+
+
+    function generate() {
+      var sitemap = sm.createSitemap({
+        hostname: 'https://smaaash.in',
+        cacheTime: 600000, //600 sec (10 min) cache purge period 
+        urls: siteMapArr
+      });
+      fs.writeFileSync("./.tmp/public/sitemap.xml", sitemap.toString());
+    }
+
+
+    addUrl("home");
+    generate();
+    res.json({
+      value: true,
+      description: "Sitemap Generated"
+    });
+  }
 
 
 };

@@ -261,5 +261,28 @@ module.exports = {
       readstream.pipe(res);
     }
     //error handling, e.g. file does not exist
+  },
+  var sm = require('sitemap'),
+    fs = require('fs');
+
+  var siteMapArr = [];
+
+  function addUrl(route) {
+    siteMapArr.push({
+      url: "/" + route,
+      changefreq: 'weekly',
+      priority: 1
+    });
   }
+
+  function generate() {
+    var sitemap = sm.createSitemap({
+      hostname: 'https://smaaash.in',
+      cacheTime: 600000, //600 sec (10 min) cache purge period 
+      urls: siteMapArr
+    });
+    fs.writeFileSync("./.tmp/public/sitemap.xml", sitemap.toString());
+  }
+
+
 };
