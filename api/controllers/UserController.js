@@ -530,7 +530,7 @@ module.exports = {
       addUrl("/"+"/security");
        addUrl("/"+"/policy");
         addUrl("/"+"/terms");
-
+ addUrl("/");
 
 
     City.find().lean().exec(function (err, cities) {
