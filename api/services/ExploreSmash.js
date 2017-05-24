@@ -203,6 +203,10 @@ var schema = new Schema({
   schedule: {
     type: String,
     default: ""
+  },
+   termsAndCondition: {
+    type: String,
+    default: ""
   }
 });
 schema.plugin(URLSlugs('hometext', {
