@@ -905,7 +905,9 @@ module.exports = {
         body: JSON.stringify(api)
       }, function (err, httpResponse, body) {
         var smaaashResponse = JSON.parse(JSON.parse(body));
+        console.log("************ response ***************");
         console.log(smaaashResponse);
+          console.log("************ response ***************");
         //err
         res.json({
           value: true,
@@ -921,7 +923,7 @@ module.exports = {
   },
   CheckOutComplete: function (req, res) {
     var siteurl = "http://smaaash.in/";
-    console.log(req.body);
+    console.log("req.body----",req.body);
     // res.json(req.body);
     if (req.body.Status != "0") {
       res.redirect(siteurl + "#thankyou/" + req.body.OrderNo);
