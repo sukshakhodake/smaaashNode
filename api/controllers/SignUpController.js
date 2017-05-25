@@ -926,9 +926,9 @@ module.exports = {
     console.log("req.body----",req.body);
     // res.json(req.body);
     if (req.body.Status != "0") {
-      res.redirect(siteurl + "#thankyou/" + req.body.OrderNo);
+      res.redirect(siteurl + "#thankyou/" + req.body.OrderNo + "/" + req.body.CNR_No + "/" + req.body.PayAmount + "/" + req.body.PaymentFor);
     } else {
-      res.redirect(siteurl + "#sorry/" + req.body.OrderNo);
+      res.redirect(siteurl + "#sorry/" + req.body.OrderNo + "/" + req.body.CNR_No + "/" + req.body.PayAmount + "/" + req.body.PaymentFor);
     }
   }
 };
