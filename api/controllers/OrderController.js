@@ -1,6 +1,6 @@
 module.exports = {
 
-  save: function(req, res) {
+  save: function (req, res) {
     if (req.body) {
       Order.saveData(req.body, res.callback);
     } else {
@@ -11,7 +11,7 @@ module.exports = {
     }
   },
 
-  getOne: function(req, res) {
+  getOne: function (req, res) {
 
     if (req.body) {
       Order.getOne(req.body, res.callback);
@@ -23,7 +23,19 @@ module.exports = {
     }
   },
 
-  delete: function(req, res) {
+  getOrderDetails: function (req, res) {
+
+    if (req.body) {
+      Order.getOrderDetails(req.body, res.callback);
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
+
+  delete: function (req, res) {
     if (req.body) {
       Order.deleteData(req.body, res.callback);
     } else {
@@ -34,7 +46,7 @@ module.exports = {
     }
   },
 
-  getAll: function(req, res) {
+  getAll: function (req, res) {
     function callback(err, data) {
       Global.response(err, data, res);
     }
@@ -48,7 +60,7 @@ module.exports = {
     }
   },
 
-  findLimited: function(req, res) {
+  findLimited: function (req, res) {
     if (req.body) {
       if (req.body.pagenumber && req.body.pagenumber !== "" && req.body.pagesize && req.body.pagesize !== "") {
         Order.findLimited(req.body, res.callback);
@@ -65,7 +77,7 @@ module.exports = {
       });
     }
   },
-  findLimitedForBackend: function(req, res) {
+  findLimitedForBackend: function (req, res) {
     if (req.body) {
       if (req.body.pagenumber && req.body.pagenumber !== "" && req.body.pagesize && req.body.pagesize !== "") {
         Order.findLimitedForBackend(req.body, res.callback);
