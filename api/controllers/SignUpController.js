@@ -175,7 +175,7 @@ module.exports = {
         },
         body: JSON.stringify(api)
       }, function (err, httpResponse, body) {
-        console.log(api);
+        console.log(body);
 
         var smaaashResponse = JSON.parse(JSON.parse(body));
         console.log(smaaashResponse);
@@ -907,7 +907,7 @@ module.exports = {
         var smaaashResponse = JSON.parse(JSON.parse(body));
         console.log("************ response ***************");
         console.log(smaaashResponse);
-          console.log("************ response ***************");
+        console.log("************ response ***************");
         //err
         res.json({
           value: true,
@@ -923,7 +923,7 @@ module.exports = {
   },
   CheckOutComplete: function (req, res) {
     var siteurl = "http://smaaash.in/";
-    console.log("req.body----",req.body);
+    console.log("req.body----", req.body);
     // res.json(req.body);
     if (req.body.Status != "0") {
       res.redirect(siteurl + "#thankyou/" + req.body.OrderNo + "/" + req.body.CNR_No + "/" + req.body.PayAmount + "/" + req.body.PaymentFor);
