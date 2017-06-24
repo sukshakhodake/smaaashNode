@@ -1,6 +1,6 @@
 apps:
   - script: "app.js"
-    name: "Smaaash"
+    name: "Smaaash - 82"
     watch: true
     args: "--prod"
     exec_mode: "cluster"

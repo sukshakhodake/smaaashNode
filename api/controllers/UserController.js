@@ -527,24 +527,24 @@ module.exports = {
     // addUrl("/home");
     // addUrl("/wedding");
     // addUrl("/attractions");
-      addUrl("/"+"/security");
-       addUrl("/"+"/policy");
-        addUrl("/"+"/terms");
- addUrl("/");
+    addUrl("/" + "/security");
+    addUrl("/" + "/policy");
+    addUrl("/" + "/terms");
+    addUrl("/");
 
 
     City.find().lean().exec(function (err, cities) {
       // getting all cities
       _.each(cities, function (city) {
         addUrl("/" + city.name + "/leader");
-         addUrl("/" + city.name + "/media");
-          addUrl("/" + city.name + "/sponsor");
-           addUrl("/" + city.name + "/about");
-            addUrl("/" + city.name + "/gallery");
-              addUrl("/" + city.name + "/benefit"); 
-              addUrl("/" + city.name + "/career");
-              addUrl("/" + city.name + "/contact");
-              addUrl("/" + city.name + "/customizepackage");
+        addUrl("/" + city.name + "/media");
+        addUrl("/" + city.name + "/sponsor");
+        addUrl("/" + city.name + "/about");
+        addUrl("/" + city.name + "/gallery");
+        addUrl("/" + city.name + "/benefit");
+        addUrl("/" + city.name + "/career");
+        addUrl("/" + city.name + "/contact");
+        addUrl("/" + city.name + "/customizepackage");
       });
 
       if (err) {
