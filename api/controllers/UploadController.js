@@ -16,6 +16,8 @@ module.exports = {
     }, function (err, uploadedFile) {
 
       if (uploadedFile && uploadedFile.length > 0) {
+        console.log(uploadedFile);
+
         async.each(uploadedFile, function (n, callback) {
           if (n.filename) {
             var splitVal = n.filename.split(".");
