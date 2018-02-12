@@ -204,8 +204,12 @@ var schema = new Schema({
     type: String,
     default: ""
   },
-   termsAndCondition: {
+  termsAndCondition: {
     type: String,
+    default: ""
+  },
+  timesPrime: {
+    type: Boolean,
     default: ""
   }
 });
@@ -2036,7 +2040,22 @@ var models = {
       }
     });
   },
-
+  //get all Times Prime Deals
+  getTimesPrimeDeal: function (data, callback) {
+    this.find({
+      "timesPrime": true
+    }).exec(function (err, found) {
+      if (err) {
+        console.log(err);
+        callback(err, null);
+      } else if (found && found.length > 0) {
+        console.log("getAll prime deals", found)
+        callback(null, found);
+      } else {
+        callback(null, []);
+      }
+    });
+  },
 };
 
 module.exports = _.assign(module.exports, models);

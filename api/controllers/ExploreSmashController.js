@@ -736,6 +736,29 @@ module.exports = {
       });
     }
   },
+  // getAll: function (req, res) {
+  //   function callback(err, data) {
+  //     Global.response(err, data, res);
+  //   }
+  //   if (req.body) {
+  //     ExploreSmash.getAll(req.body, res.callback);
+  //   } else {
+  //     res.json({
+  //       value: false,
+  //       data: "Invalid Request"
+  //     });
+  //   }
+  // },
 
+  getTimesPrimeDeal: function (req, res) {
+    if (req.body) {
+      ExploreSmash.getTimesPrimeDeal(req.body, res.callback);
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  },
 
 };
