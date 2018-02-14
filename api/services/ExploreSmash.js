@@ -2043,7 +2043,8 @@ var models = {
   //get all Times Prime Deals
   getTimesPrimeDeal: function (data, callback) {
     this.find({
-      "timesPrime": true
+      "timesPrime": true,
+      "city": data.city
     }).exec(function (err, found) {
       if (err) {
         console.log(err);
