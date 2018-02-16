@@ -1,3 +1,4 @@
+var request = require('request');
 module.exports = {
 
   save: function (req, res) {
@@ -750,6 +751,7 @@ module.exports = {
   //   }
   // },
 
+  //get timesPrime deal acc city
   getTimesPrimeDeal: function (req, res) {
     if (req.body) {
       ExploreSmash.getTimesPrimeDeal(req.body, res.callback);
@@ -760,5 +762,36 @@ module.exports = {
       });
     }
   },
+  //check mobile no. validations
+  checkValidMobile: function (req, res) {
+    if (req.body) {
+      var api = sails.api;
+      api = _.assign(api, req.body);
+      request({
+        url: "http://apismaaash.itspl.net/SMAAASHAPI.svc/TimesPrime_CheckStatus",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(api)
+      }, function (err, httpResponse, body) {
+        console.log(body);
+
+        var smaaashResponse = JSON.parse(JSON.parse(body));
+        console.log(smaaashResponse);
+        //err
+        res.json({
+          value: true,
+          data: smaaashResponse
+        });
+
+      });
+    } else {
+      res.json({
+        value: false,
+        data: "Invalid Request"
+      });
+    }
+  }
 
 };
