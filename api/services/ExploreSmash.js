@@ -210,7 +210,7 @@ var schema = new Schema({
   },
   timesPrime: {
     type: Boolean,
-    default: ""
+    default: "false"
   }
 });
 schema.plugin(URLSlugs('hometext', {
@@ -2050,7 +2050,6 @@ var models = {
         console.log(err);
         callback(err, null);
       } else if (found && found.length > 0) {
-        console.log("getAll prime deals", found)
         callback(null, found);
       } else {
         callback(null, []);
