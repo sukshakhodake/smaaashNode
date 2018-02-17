@@ -777,6 +777,7 @@ module.exports = {
       }, function (err, httpResponse, body) {
         console.log(body);
 
+
         var smaaashResponse = JSON.parse(JSON.parse(body));
         console.log(smaaashResponse);
         //err
