@@ -600,6 +600,9 @@ var models = {
       } else {
         checkobj.type = type._id;
         checkobj.city = data.city;
+        checkobj.timesPrime = {
+          $ne: true
+        };
         if (data.search && data.search !== '') {
           var check = new RegExp(data.search, "i");
           checkobj.hometext = {
