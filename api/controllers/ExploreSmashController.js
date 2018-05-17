@@ -767,9 +767,8 @@ module.exports = {
     if (req.body) {
       var api = sails.api;
       api = _.assign(api, req.body);
-      // url: "http://apismaaash.itspl.net/SMAAASHAPI.svc/TimesPrime_CheckStatus",
       request({
-        url: "https://subscription.timesprime.com/til/subscription/external/checkStatus",
+        url: "http://apismaaash.itspl.net/SMAAASHAPI.svc/TimesPrime_CheckStatus",
         method: "POST",
         headers: {
           "Content-Type": "application/json"
