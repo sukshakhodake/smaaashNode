@@ -895,9 +895,9 @@ module.exports = {
       };
       api = _.assign(api, returnUrl);
       console.log(api);
-
+      // url: "http://apismaaash.itspl.net/SMAAASHAPI.svc/CheckOutCartPackage",
       request({
-        url: "http://apismaaash.itspl.net/SMAAASHAPI.svc/CheckOutCartPackage",
+        url: "http://apismaaash.itspl.net/SMAAASHAPI.svc/TimesPrime_Redeem",
         method: "POST",
         headers: {
           "Content-Type": "application/json"
